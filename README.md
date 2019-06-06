@@ -1,10 +1,9 @@
 # NodeFPGA :sound:
 Why buy a iCE40UP5k breakout when it is possible to make one?
-```
 <p align="center">
   <img width="50%" src="images/NodeFPGA_cad.jpg">
 </p>
-```
+
 ## What is  this?
 This aims to be another FPGA breakout board. What makes this board special is the
 usage of a cheap CH551 microcontroller as the bridge between the USB and 
