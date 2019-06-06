@@ -89,23 +89,6 @@ GenerateClassCluster=0
 DocumentUniqueId=FPTSJSSJ
 
 [Document4]
-DocumentPath=sch\NodeFPGA.SchDoc
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=SXUVNETG
-
-[Document5]
 DocumentPath=pcb\panel.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -122,7 +105,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ARPISOTW
 
-[Document6]
+[Document5]
 DocumentPath=outputJobs\panel.OutJob
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -139,153 +122,73 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[GeneratedDocument1]
-DocumentPath=Project Outputs for NodeFPGA\Design Rule Check - NodeFPGA.html
+[Document6]
+DocumentPath=sch\01_FPGA_FlashMem.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
 DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=DVXIXXCK
 
-[GeneratedDocument2]
-DocumentPath=Project Outputs for Free Documents\NC Drill\panel.DRR
+[Document7]
+DocumentPath=sch\02_USB_MCU.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
 DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=ZDWKZWXA
 
-[GeneratedDocument3]
-DocumentPath=Project Outputs for NodeFPGA\GERBER\panel.DRR
+[Document8]
+DocumentPath=sch\03_Power_IO.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
 DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=BGJKAIZI
 
-[GeneratedDocument4]
-DocumentPath=Project Outputs for NodeFPGA\NC Drill\panel.DRR
+[Document9]
+DocumentPath=sch\04_AudioCodec.SchDoc
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
 DItemRevisionGUID=
-
-[GeneratedDocument5]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument6]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument7]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument8]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument9]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GBO
-DItemRevisionGUID=
-
-[GeneratedDocument10]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GBO
-DItemRevisionGUID=
-
-[GeneratedDocument11]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GBP
-DItemRevisionGUID=
-
-[GeneratedDocument12]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GBP
-DItemRevisionGUID=
-
-[GeneratedDocument13]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument14]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument15]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GKO
-DItemRevisionGUID=
-
-[GeneratedDocument16]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GM6
-DItemRevisionGUID=
-
-[GeneratedDocument17]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GM6
-DItemRevisionGUID=
-
-[GeneratedDocument18]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GM7
-DItemRevisionGUID=
-
-[GeneratedDocument19]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GM7
-DItemRevisionGUID=
-
-[GeneratedDocument20]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument21]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument22]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument23]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument24]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument25]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument26]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument27]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument28]
-DocumentPath=Project Outputs for Free Documents\NC Drill\panel.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument29]
-DocumentPath=Project Outputs for NodeFPGA\GERBER\panel.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument30]
-DocumentPath=Project Outputs for NodeFPGA\NC Drill\panel.LDP
-DItemRevisionGUID=
-
-[GeneratedDocument31]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.REP
-DItemRevisionGUID=
-
-[GeneratedDocument32]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.REP
-DItemRevisionGUID=
-
-[GeneratedDocument33]
-DocumentPath=Project Outputs for Free Documents\Gerber\panel.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument34]
-DocumentPath=Project Outputs for NodeFPGA\Gerber\panel.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument35]
-DocumentPath=Project Outputs for Free Documents\NC Drill\panel.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument36]
-DocumentPath=Project Outputs for NodeFPGA\GERBER\panel.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument37]
-DocumentPath=Project Outputs for NodeFPGA\NC Drill\panel.TXT
-DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=XOBSSAPT
 
 [Configuration1]
 Name=Sources
@@ -406,7 +309,7 @@ OutputDefault20=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=Microsoft Print to PDF
+TargetPrinter=Epson AL-C1100
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintJobKind=1|PrintWhat=1
 
 [OutputGroup3]
@@ -824,6 +727,11 @@ OutputName6=Footprint Comparison Report
 OutputDocumentPath6=
 OutputVariantName6=
 OutputDefault6=0
+OutputType7=BOM_Violations
+OutputName7=BOM Checks Report
+OutputDocumentPath7=
+OutputVariantName7=
+OutputDefault7=0
 
 [OutputGroup9]
 Name=Export Outputs
@@ -1004,6 +912,7 @@ Type113=1
 Type114=1
 Type115=1
 Type116=1
+Type117=1
 
 [Difference Levels]
 Type1=1
@@ -1071,6 +980,7 @@ Type62=1
 Type63=1
 Type64=1
 Type65=1
+Type66=1
 
 [Electrical Rules Check]
 Type1=1
