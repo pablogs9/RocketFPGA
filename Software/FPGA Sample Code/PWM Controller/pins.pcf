@@ -1,0 +1,16 @@
+set_io clk_i 27
+set_io nrst_i 31
+
+set_io spi_mosi_i 13
+set_io spi_ncs_i 14
+set_io spi_clk_i 15
+set_io spi_miso_o 12
+
+set_io pwm_o[0] 26
+set_io pwm_o[1] 1
+set_io pwm_o[2] 2
+set_io pwm_o[3] 22
+set_io pwm_o[4] 5
+set_io pwm_o[5] 8
+set_io pwm_o[6] 7
+set_io pwm_o[7] 32
