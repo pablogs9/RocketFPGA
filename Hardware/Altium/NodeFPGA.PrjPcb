@@ -1524,6 +1524,42 @@ SelectedOnly=0
 UpdateVariants=1
 PartTypes=0
 
+[NetInfos]
+Net1=NetName=NetC32_1|NetColor=$00007EC5
+Net2=NetName=NetC24_1|NetColor=$00FF99CF
+Net3=NetName=CDC_ADCLRC|NetColor=clYellow
+Net4=NetName=FLASH_MEM_SS|NetColor=$0000BE00
+Net5=NetName=SPI_MOSI|NetColor=$0000BE00
+Net6=NetName=SPI_MISO|NetColor=$0000BE00
+Net7=NetName=NetC26_2|NetColor=$00FF6EFF
+Net8=NetName=CDC_DACDAT|NetColor=clYellow
+Net9=NetName=CDC_BCLK|NetColor=clYellow
+Net10=NetName=CDC_MCLK|NetColor=clYellow
+Net11=NetName=NetR16_3|NetColor=$000083FD
+Net12=NetName=NetC26_1|NetColor=$00FF6EFF
+Net13=NetName=SPI_SCK|NetColor=$0000BE00
+Net14=NetName=2V5|NetColor=$00FFFF6E
+Net15=NetName=NetR15_3|NetColor=$000083FD
+Net16=NetName=NetC25_2|NetColor=$00FF99CF
+Net17=NetName=NetJ2_3|NetColor=$00FF6EFF
+Net18=NetName=NetC29_2|NetColor=$00FF6EFF
+Net19=NetName=NetC31_2|NetColor=$000083FD
+Net20=NetName=NetC29_1|NetColor=$00FF6EFF
+Net21=NetName=NetJ3_2|NetColor=$007F0311
+Net22=NetName=NetC24_2|NetColor=$00FF99CF
+Net23=NetName=3V3|NetColor=$00FFFF6E
+Net24=NetName=NetC32_2|NetColor=$00007EC5
+Net25=NetName=CDC_ADCDAT|NetColor=clYellow
+Net26=NetName=NetC25_1|NetColor=$00FF99CF
+Net27=NetName=1V2|NetColor=$00FFFF6E
+Net28=NetName=NetJ3_3|NetColor=$007F0311
+Net29=NetName=NetC28_1|NetColor=$000083FD
+Net30=NetName=MICIN|NetColor=$00007EC5
+Net31=NetName=CDC_DACLRC|NetColor=clYellow
+Net32=NetName=NetC28_2|NetColor=$000083FD
+Net33=NetName=NetC31_1|NetColor=$000083FD
+Net34=NetName=NetJ2_2|NetColor=$00FF6EFF
+
 [Comparison Options]
 ComparisonOptions0=Kind=Net|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
 ComparisonOptions1=Kind=Net Class|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
