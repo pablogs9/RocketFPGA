@@ -224,10 +224,6 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[GeneratedDocument1]
-DocumentPath=Project Outputs for NodeFPGA\Design Rule Check - NodeFPGA.html
-DItemRevisionGUID=
-
 [Configuration1]
 Name=Sources
 ParameterCount=0
@@ -350,7 +346,7 @@ OutputDefault20=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=Epson AL-C1100
+TargetPrinter=Microsoft Print to PDF
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintJobKind=1|PrintWhat=1
 
 [OutputGroup3]
@@ -768,11 +764,6 @@ OutputName6=Footprint Comparison Report
 OutputDocumentPath6=
 OutputVariantName6=
 OutputDefault6=0
-OutputType7=BOM_Violations
-OutputName7=BOM Checks Report
-OutputDocumentPath7=
-OutputVariantName7=
-OutputDefault7=0
 
 [OutputGroup9]
 Name=Export Outputs
@@ -953,7 +944,6 @@ Type113=1
 Type114=1
 Type115=1
 Type116=1
-Type117=1
 
 [Difference Levels]
 Type1=1
@@ -1021,7 +1011,6 @@ Type62=1
 Type63=1
 Type64=1
 Type65=1
-Type66=1
 
 [Electrical Rules Check]
 Type1=1
@@ -1525,7 +1514,7 @@ UpdateVariants=1
 PartTypes=0
 
 [NetInfos]
-Net1=NetName=NetC32_1|NetColor=$00007EC5
+Net1=NetName=NetJ2_2|NetColor=$00FF6EFF
 Net2=NetName=NetC24_1|NetColor=$00FF99CF
 Net3=NetName=CDC_ADCLRC|NetColor=clYellow
 Net4=NetName=FLASH_MEM_SS|NetColor=$0000BE00
@@ -1558,7 +1547,7 @@ Net30=NetName=MICIN|NetColor=$00007EC5
 Net31=NetName=CDC_DACLRC|NetColor=clYellow
 Net32=NetName=NetC28_2|NetColor=$000083FD
 Net33=NetName=NetC31_1|NetColor=$000083FD
-Net34=NetName=NetJ2_2|NetColor=$00FF6EFF
+Net34=NetName=NetC32_1|NetColor=$00007EC5
 
 [Comparison Options]
 ComparisonOptions0=Kind=Net|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
