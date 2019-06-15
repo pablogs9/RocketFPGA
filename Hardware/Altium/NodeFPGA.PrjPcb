@@ -224,6 +224,10 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for NodeFPGA\Design Rule Check - NodeFPGA.html
+DItemRevisionGUID=
+
 [Configuration1]
 Name=Sources
 ParameterCount=0
@@ -346,7 +350,7 @@ OutputDefault20=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=Microsoft Print to PDF
+TargetPrinter=Epson AL-C1100
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintJobKind=1|PrintWhat=1
 
 [OutputGroup3]
@@ -764,6 +768,11 @@ OutputName6=Footprint Comparison Report
 OutputDocumentPath6=
 OutputVariantName6=
 OutputDefault6=0
+OutputType7=BOM_Violations
+OutputName7=BOM Checks Report
+OutputDocumentPath7=
+OutputVariantName7=
+OutputDefault7=0
 
 [OutputGroup9]
 Name=Export Outputs
@@ -944,6 +953,7 @@ Type113=1
 Type114=1
 Type115=1
 Type116=1
+Type117=1
 
 [Difference Levels]
 Type1=1
@@ -1011,6 +1021,7 @@ Type62=1
 Type63=1
 Type64=1
 Type65=1
+Type66=1
 
 [Electrical Rules Check]
 Type1=1
@@ -1179,6 +1190,150 @@ NetClassSeparateForBusSections=0
 SelectedOnly=0
 UpdateVariants=1
 PartTypes=0
+ComponentLibIdentifierKind0=Any
+ComponentLibraryIdentifier0=
+ComponentDesignItemID0=Capacitor Electrolitic
+ComponentSymbolReference0=Capacitor Electrolitic
+ComponentUpdate0=1
+ComponentIsDeviceSheet0=0
+ComponentLibIdentifierKind1=Library Name And Type
+ComponentLibraryIdentifier1=ADCS.SCHLIB
+ComponentDesignItemID1=ICE40UP5K-SG48ITR
+ComponentSymbolReference1=ICE40UP5K-SG48ITR
+ComponentUpdate1=1
+ComponentIsDeviceSheet1=0
+ComponentLibIdentifierKind2=Library Name And Type
+ComponentLibraryIdentifier2=GSATFPGA.SCHLIB
+ComponentDesignItemID2=629105136821
+ComponentSymbolReference2=629105136821
+ComponentUpdate2=1
+ComponentIsDeviceSheet2=0
+ComponentLibIdentifierKind3=Library Name And Type
+ComponentLibraryIdentifier3=GSATFPGA.SCHLIB
+ComponentDesignItemID3=Canned Oscilator
+ComponentSymbolReference3=Canned Oscilator
+ComponentUpdate3=1
+ComponentIsDeviceSheet3=0
+ComponentLibIdentifierKind4=Library Name And Type
+ComponentLibraryIdentifier4=GSATFPGA.SCHLIB
+ComponentDesignItemID4=Capacitor_0805
+ComponentSymbolReference4=Capacitor_0805
+ComponentUpdate4=1
+ComponentIsDeviceSheet4=0
+ComponentLibIdentifierKind5=Library Name And Type
+ComponentLibraryIdentifier5=GSATFPGA.SCHLIB
+ComponentDesignItemID5=Capacitor_1206
+ComponentSymbolReference5=Capacitor_1206
+ComponentUpdate5=1
+ComponentIsDeviceSheet5=0
+ComponentLibIdentifierKind6=Library Name And Type
+ComponentLibraryIdentifier6=GSATFPGA.SCHLIB
+ComponentDesignItemID6=CH551G
+ComponentSymbolReference6=CH551G
+ComponentUpdate6=1
+ComponentIsDeviceSheet6=0
+ComponentLibIdentifierKind7=Library Name And Type
+ComponentLibraryIdentifier7=GSATFPGA.SCHLIB
+ComponentDesignItemID7=LED_SMD
+ComponentSymbolReference7=LED_SMD
+ComponentUpdate7=1
+ComponentIsDeviceSheet7=0
+ComponentLibIdentifierKind8=Library Name And Type
+ComponentLibraryIdentifier8=GSATFPGA.SCHLIB
+ComponentDesignItemID8=LM1117IMP
+ComponentSymbolReference8=LM1117IMP
+ComponentUpdate8=1
+ComponentIsDeviceSheet8=0
+ComponentLibIdentifierKind9=Library Name And Type
+ComponentLibraryIdentifier9=GSATFPGA.SCHLIB
+ComponentDesignItemID9=TLV7111225DSER
+ComponentSymbolReference9=TLV7111225DSER
+ComponentUpdate9=1
+ComponentIsDeviceSheet9=0
+ComponentLibIdentifierKind10=Library Name And Type
+ComponentLibraryIdentifier10=GSATFPGA.SCHLIB
+ComponentDesignItemID10=W25Q32JV
+ComponentSymbolReference10=W25Q32JV
+ComponentUpdate10=1
+ComponentIsDeviceSheet10=0
+ComponentLibIdentifierKind11=Library Name And Type
+ComponentLibraryIdentifier11=HeimdalLimiter.SchLib
+ComponentDesignItemID11=Capacitor
+ComponentSymbolReference11=Capacitor
+ComponentUpdate11=1
+ComponentIsDeviceSheet11=0
+ComponentLibIdentifierKind12=Library Name And Type
+ComponentLibraryIdentifier12=Miscellaneous Connectors.IntLib
+ComponentDesignItemID12=Header 16
+ComponentSymbolReference12=Header 16
+ComponentUpdate12=1
+ComponentIsDeviceSheet12=0
+ComponentLibIdentifierKind13=Library Name And Type
+ComponentLibraryIdentifier13=Miscellaneous Connectors.IntLib
+ComponentDesignItemID13=Header 3X2
+ComponentSymbolReference13=Header 3X2
+ComponentUpdate13=1
+ComponentIsDeviceSheet13=0
+ComponentLibIdentifierKind14=Library Name And Type
+ComponentLibraryIdentifier14=NodeFPGA.SCHLIB
+ComponentDesignItemID14=Bridge
+ComponentSymbolReference14=Bridge
+ComponentUpdate14=1
+ComponentIsDeviceSheet14=0
+ComponentLibIdentifierKind15=Library Name And Type
+ComponentLibraryIdentifier15=NodeFPGA.SCHLIB
+ComponentDesignItemID15=Capacitor
+ComponentSymbolReference15=Capacitor
+ComponentUpdate15=1
+ComponentIsDeviceSheet15=0
+ComponentLibIdentifierKind16=Library Name And Type
+ComponentLibraryIdentifier16=NodeFPGA.SCHLIB
+ComponentDesignItemID16=Resistor
+ComponentSymbolReference16=Resistor
+ComponentUpdate16=1
+ComponentIsDeviceSheet16=0
+ComponentLibIdentifierKind17=Library Name And Type
+ComponentLibraryIdentifier17=NodeFPGA.SCHLIB
+ComponentDesignItemID17=ResistorArray_4
+ComponentSymbolReference17=ResistorArray_4
+ComponentUpdate17=1
+ComponentIsDeviceSheet17=0
+ComponentLibIdentifierKind18=Library Name And Type
+ComponentLibraryIdentifier18=NodeFPGA.SCHLIB
+ComponentDesignItemID18=SelectionResistor
+ComponentSymbolReference18=SelectionResistor
+ComponentUpdate18=1
+ComponentIsDeviceSheet18=0
+ComponentLibIdentifierKind19=Library Name And Type
+ComponentLibraryIdentifier19=NodeFPGA.SCHLIB
+ComponentDesignItemID19=SJ-3523-SMT-TR
+ComponentSymbolReference19=SJ-3523-SMT-TR
+ComponentUpdate19=1
+ComponentIsDeviceSheet19=0
+ComponentLibIdentifierKind20=Library Name And Type
+ComponentLibraryIdentifier20=NodeFPGA.SCHLIB
+ComponentDesignItemID20=TH_Microphone
+ComponentSymbolReference20=TH_Microphone
+ComponentUpdate20=1
+ComponentIsDeviceSheet20=0
+ComponentLibIdentifierKind21=Library Name And Type
+ComponentLibraryIdentifier21=NodeFPGA.SCHLIB
+ComponentDesignItemID21=WM8731
+ComponentSymbolReference21=WM8731
+ComponentUpdate21=1
+ComponentIsDeviceSheet21=0
+ComponentLibIdentifierKind22=Library Name And Type
+ComponentLibraryIdentifier22=OpenFPGA.SCHLIB
+ComponentDesignItemID22=FSM6JH
+ComponentSymbolReference22=FSM6JH
+ComponentUpdate22=1
+ComponentIsDeviceSheet22=0
+ComponentLibIdentifierKind23=Library Name And Type
+ComponentLibraryIdentifier23=OpenFPGA.SCHLIB
+ComponentDesignItemID23=Resistor
+ComponentSymbolReference23=Resistor
+ComponentUpdate23=1
+ComponentIsDeviceSheet23=0
 FullReplace=1
 UpdateDesignatorLock=1
 UpdatePartIDLock=1
@@ -1192,11 +1347,218 @@ RemoveParameters=0
 AddModels=1
 RemoveModels=1
 UpdateCurrentModels=1
+ParameterName0=Author
+ParameterUpdate0=1
+ParameterName1=Comment
+ParameterUpdate1=1
+ParameterName2=Component Kind
+ParameterUpdate2=1
+ParameterName3=ComponentLink1Description
+ParameterUpdate3=1
+ParameterName4=ComponentLink1URL
+ParameterUpdate4=1
+ParameterName5=ComponentLink2Description
+ParameterUpdate5=1
+ParameterName6=ComponentLink2URL
+ParameterUpdate6=1
+ParameterName7=Datasheet Link
+ParameterUpdate7=1
+ParameterName8=Date
+ParameterUpdate8=1
+ParameterName9=Description
+ParameterUpdate9=1
+ParameterName10=Gender
+ParameterUpdate10=1
+ParameterName11=Geometry.Height
+ParameterUpdate11=1
+ParameterName12=Interface Type
+ParameterUpdate12=1
+ParameterName13=LatestRevisionDate
+ParameterUpdate13=1
+ParameterName14=LatestRevisionNote
+ParameterUpdate14=1
+ParameterName15=Library Reference
+ParameterUpdate15=1
+ParameterName16=ManualRef
+ParameterUpdate16=1
+ParameterName17=Manufacturer_Name
+ParameterUpdate17=1
+ParameterName18=Manufacturer_Part_Number
+ParameterUpdate18=1
+ParameterName19=Mounting Technology
+ParameterUpdate19=1
+ParameterName20=Mouser Part Number
+ParameterUpdate20=1
+ParameterName21=Operating Temperature
+ParameterUpdate21=1
+ParameterName22=Orientation
+ParameterUpdate22=1
+ParameterName23=Package
+ParameterUpdate23=1
+ParameterName24=Packaging
+ParameterUpdate24=1
+ParameterName25=Part Number
+ParameterUpdate25=1
+ParameterName26=Published Date
+ParameterUpdate26=1
+ParameterName27=Publisher
+ParameterUpdate27=1
+ParameterName28=Rated Current
+ParameterUpdate28=1
+ParameterName29=Supplier 1
+ParameterUpdate29=1
+ParameterName30=Supplier Part Number 1
+ParameterUpdate30=1
+ParameterName31=Value
+ParameterUpdate31=1
+ParameterName32=Voltage Rating
+ParameterUpdate32=1
+ModelTypeGroup0=PCBLIB
+ModelTypeUpdate0=1
+ModelType0=PCBLIB
+ModelName0=*CUI_SJ-3523-SMT-TR
+ModelUpdate0=1
+ModelType1=PCBLIB
+ModelName1=0805
+ModelUpdate1=1
+ModelType2=PCBLIB
+ModelName2=0805 + TH
+ModelUpdate2=1
+ModelType3=PCBLIB
+ModelName3=0805_L
+ModelUpdate3=1
+ModelType4=PCBLIB
+ModelName4=0805_N
+ModelUpdate4=1
+ModelType5=PCBLIB
+ModelName5=629105136821
+ModelUpdate5=1
+ModelType6=PCBLIB
+ModelName6=AXIAL-0.3
+ModelUpdate6=1
+ModelType7=PCBLIB
+ModelName7=AXIAL-0.4
+ModelUpdate7=1
+ModelType8=PCBLIB
+ModelName8=AXIAL-0.5
+ModelUpdate8=1
+ModelType9=PCBLIB
+ModelName9=AXIAL-0.6
+ModelUpdate9=1
+ModelType10=PCBLIB
+ModelName10=AXIAL-0.7
+ModelUpdate10=1
+ModelType11=PCBLIB
+ModelName11=AXIAL-0.8
+ModelUpdate11=1
+ModelType12=PCBLIB
+ModelName12=AXIAL-0.9
+ModelUpdate12=1
+ModelType13=PCBLIB
+ModelName13=AXIAL-1.0
+ModelUpdate13=1
+ModelType14=PCBLIB
+ModelName14=Canned Oscilator
+ModelUpdate14=1
+ModelType15=PCBLIB
+ModelName15=CAPAE-G 10mmx10mm
+ModelUpdate15=1
+ModelType16=PCBLIB
+ModelName16=CAPAE-G B CASE
+ModelUpdate16=1
+ModelType17=PCBLIB
+ModelName17=CH551
+ModelUpdate17=1
+ModelType18=PCBLIB
+ModelName18=DSE 6
+ModelUpdate18=1
+ModelType19=PCBLIB
+ModelName19=HDR1X16
+ModelUpdate19=1
+ModelType20=PCBLIB
+ModelName20=HDR2X3
+ModelUpdate20=1
+ModelType21=PCBLIB
+ModelName21=QFN50P700X700X100-49N-D
+ModelUpdate21=1
+ModelType22=PCBLIB
+ModelName22=RAD-0.3
+ModelUpdate22=1
+ModelType23=PCBLIB
+ModelName23=Resistencia 0603
+ModelUpdate23=1
+ModelType24=PCBLIB
+ModelName24=SMD_PUSHBUTTON_3x6x2mm5
+ModelUpdate24=1
+ModelType25=PCBLIB
+ModelName25=SOT-223
+ModelUpdate25=1
+ModelType26=PCBLIB
+ModelName26=SW-Button
+ModelUpdate26=1
+ModelType27=PCBLIB
+ModelName27=W25Q32
+ModelUpdate27=1
+ModelTypeGroup1=SI
+ModelTypeUpdate1=1
+ModelType28=SI
+ModelName28=Cap
+ModelUpdate28=1
+ModelType29=SI
+ModelName29=Connector
+ModelUpdate29=1
+ModelType30=SI
+ModelName30=Res
+ModelUpdate30=1
+ModelTypeGroup2=SIM
+ModelTypeUpdate2=1
+ModelType31=SIM
+ModelName31=CAP
+ModelUpdate31=1
+ModelType32=SIM
+ModelName32=RESISTOR
+ModelUpdate32=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0
 UpdateVariants=1
 PartTypes=0
+
+[NetInfos]
+Net1=NetName=NetC32_1|NetColor=$00007EC5
+Net2=NetName=NetC24_1|NetColor=$00FF99CF
+Net3=NetName=CDC_ADCLRC|NetColor=clYellow
+Net4=NetName=FLASH_MEM_SS|NetColor=$0000BE00
+Net5=NetName=SPI_MOSI|NetColor=$0000BE00
+Net6=NetName=SPI_MISO|NetColor=$0000BE00
+Net7=NetName=NetC26_2|NetColor=$00FF6EFF
+Net8=NetName=CDC_DACDAT|NetColor=clYellow
+Net9=NetName=CDC_BCLK|NetColor=clYellow
+Net10=NetName=CDC_MCLK|NetColor=clYellow
+Net11=NetName=NetR16_3|NetColor=$000083FD
+Net12=NetName=NetC26_1|NetColor=$00FF6EFF
+Net13=NetName=SPI_SCK|NetColor=$0000BE00
+Net14=NetName=2V5|NetColor=$00FFFF6E
+Net15=NetName=NetR15_3|NetColor=$000083FD
+Net16=NetName=NetC25_2|NetColor=$00FF99CF
+Net17=NetName=NetJ2_3|NetColor=$00FF6EFF
+Net18=NetName=NetC29_2|NetColor=$00FF6EFF
+Net19=NetName=NetC31_2|NetColor=$000083FD
+Net20=NetName=NetC29_1|NetColor=$00FF6EFF
+Net21=NetName=NetJ3_2|NetColor=$007F0311
+Net22=NetName=NetC24_2|NetColor=$00FF99CF
+Net23=NetName=3V3|NetColor=$00FFFF6E
+Net24=NetName=NetC32_2|NetColor=$00007EC5
+Net25=NetName=CDC_ADCDAT|NetColor=clYellow
+Net26=NetName=NetC25_1|NetColor=$00FF99CF
+Net27=NetName=1V2|NetColor=$00FFFF6E
+Net28=NetName=NetJ3_3|NetColor=$007F0311
+Net29=NetName=NetC28_1|NetColor=$000083FD
+Net30=NetName=MICIN|NetColor=$00007EC5
+Net31=NetName=CDC_DACLRC|NetColor=clYellow
+Net32=NetName=NetC28_2|NetColor=$000083FD
+Net33=NetName=NetC31_1|NetColor=$000083FD
+Net34=NetName=NetJ2_2|NetColor=$00FF6EFF
 
 [Comparison Options]
 ComparisonOptions0=Kind=Net|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0
