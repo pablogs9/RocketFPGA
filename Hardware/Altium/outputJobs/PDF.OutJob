@@ -171,11 +171,13 @@ Configuration6_Item1=CaptionAsName
 Configuration6_Name2=General
 Configuration6_Item2=OpenExported=False|AddToProject=False|ReportBOMViolationsInMessages=False|ForceFit=False|NotFitted=False|Database=False|DatabasePriority=False|IncludePcbData=False|IncludeVaultData=False|IncludeCloudData=False|IncludeDocumentData=True|IncludeAlternatives=False|ShowExportOptions=True|TemplateFilename=|TemplateVaultGuid=|TemplateRevisionGuid=|BatchMode=2|FormWidth=1512|FormHeight=975|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=USD|SolutionsPerItem=1|SuppliersPerSolution=1|ViewType=0|UseDirectApi=False|BomSetName=
 Configuration6_Name3=GroupOrder
-Configuration6_Item3=Comment=True|Footprint=True
+Configuration6_Item3=Comment=True|Footprint=True|Value=True
 Configuration6_Name4=SortOrder
 Configuration6_Item4=Designator=Up|Comment=Up|Footprint=Up
 Configuration6_Name5=VisibleOrder
-Configuration6_Item5=Comment=120|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
+Configuration6_Item5=Comment=120|DesignItemId=100|ManufacturerReference=232|Value=183|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
+Configuration6_Name6=VisibleOrder_Flat
+Configuration6_Item6=Comment=120|DesignItemId=100|ManufacturerReference=232|Value=183|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
 
 [PublishSettings]
 OutputFilePath2=PDF\NodeFPGA_documentation.PDF
@@ -205,7 +207,7 @@ ShowComponentParameters2=1
 GlobalBookmarks2=0
 PDFACompliance2=Disabled
 PDFVersion2=Default
-OutputFilePath3=
+OutputFilePath3=D:\GranaSat\NodeFPGA\Hardware\Altium\Project Outputs for NodeFPGA\
 ReleaseManaged3=1
 OutputBasePath3=Project Outputs for NodeFPGA
 OutputPathMedia3=
@@ -259,7 +261,7 @@ WmvQuality4=80
 [GeneratedFilesSettings]
 RelativeOutputPath2=PDF\NodeFPGA_documentation.PDF
 OpenOutputs2=1
-RelativeOutputPath3=
+RelativeOutputPath3=D:\GranaSat\NodeFPGA\Hardware\Altium\Project Outputs for NodeFPGA\
 OpenOutputs3=1
 AddToProject3=1
 TimestampFolder3=0
