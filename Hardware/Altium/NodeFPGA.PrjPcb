@@ -55,23 +55,6 @@ GenerateClassCluster=0
 DocumentUniqueId=DPNPNUWT
 
 [Document2]
-DocumentPath=lib\NodeFPGA.SCHLIB
-AnnotationEnabled=1
-AnnotateStartValue=1
-AnnotationIndexControlEnabled=0
-AnnotateSuffix=
-AnnotateScope=All
-AnnotateOrder=-1
-DoLibraryUpdate=1
-DoDatabaseUpdate=1
-ClassGenCCAutoEnabled=1
-ClassGenCCAutoRoomEnabled=1
-ClassGenNCAutoScope=None
-DItemRevisionGUID=
-GenerateClassCluster=0
-DocumentUniqueId=ATVOCYSW
-
-[Document3]
 DocumentPath=pcb\NodeFPGA.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -88,7 +71,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=FPTSJSSJ
 
-[Document4]
+[Document3]
 DocumentPath=pcb\panel.PcbDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -105,7 +88,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ARPISOTW
 
-[Document5]
+[Document4]
 DocumentPath=outputJobs\panel.OutJob
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -122,7 +105,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document6]
+[Document5]
 DocumentPath=sch\01_FPGA_FlashMem.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -130,7 +113,7 @@ AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
 AnnotateOrder=0
-DoLibraryUpdate=0
+DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
@@ -139,7 +122,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=DVXIXXCK
 
-[Document7]
+[Document6]
 DocumentPath=sch\02_USB_MCU.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -147,7 +130,7 @@ AnnotationIndexControlEnabled=0
 AnnotateSuffix=
 AnnotateScope=All
 AnnotateOrder=1
-DoLibraryUpdate=0
+DoLibraryUpdate=1
 DoDatabaseUpdate=1
 ClassGenCCAutoEnabled=1
 ClassGenCCAutoRoomEnabled=1
@@ -156,7 +139,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=ZDWKZWXA
 
-[Document8]
+[Document7]
 DocumentPath=sch\03_Power_IO.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -173,7 +156,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=BGJKAIZI
 
-[Document9]
+[Document8]
 DocumentPath=sch\04_AudioCodec.SchDoc
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -190,7 +173,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=XOBSSAPT
 
-[Document10]
+[Document9]
 DocumentPath=NodeFPGA.PCBDwf
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -207,7 +190,7 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
-[Document11]
+[Document10]
 DocumentPath=outputJobs\PDF.OutJob
 AnnotationEnabled=1
 AnnotateStartValue=1
@@ -224,7 +207,28 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=
 
+[Document11]
+DocumentPath=lib\NodeFPGA.SCHLIB
+AnnotationEnabled=1
+AnnotateStartValue=1
+AnnotationIndexControlEnabled=0
+AnnotateSuffix=
+AnnotateScope=All
+AnnotateOrder=-1
+DoLibraryUpdate=1
+DoDatabaseUpdate=1
+ClassGenCCAutoEnabled=1
+ClassGenCCAutoRoomEnabled=1
+ClassGenNCAutoScope=None
+DItemRevisionGUID=
+GenerateClassCluster=0
+DocumentUniqueId=UISIDIBL
+
 [GeneratedDocument1]
+DocumentPath=Project Outputs for NodeFPGA\BOM\Bill of Materials-NodeFPGA.xls
+DItemRevisionGUID=
+
+[GeneratedDocument2]
 DocumentPath=Project Outputs for NodeFPGA\Design Rule Check - NodeFPGA.html
 DItemRevisionGUID=
 
@@ -350,7 +354,7 @@ OutputDefault20=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=Epson AL-C1100
+TargetPrinter=Microsoft Print to PDF
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintJobKind=1|PrintWhat=1
 
 [OutputGroup3]
@@ -768,11 +772,6 @@ OutputName6=Footprint Comparison Report
 OutputDocumentPath6=
 OutputVariantName6=
 OutputDefault6=0
-OutputType7=BOM_Violations
-OutputName7=BOM Checks Report
-OutputDocumentPath7=
-OutputVariantName7=
-OutputDefault7=0
 
 [OutputGroup9]
 Name=Export Outputs
@@ -953,7 +952,6 @@ Type113=1
 Type114=1
 Type115=1
 Type116=1
-Type117=1
 
 [Difference Levels]
 Type1=1
@@ -1021,7 +1019,6 @@ Type62=1
 Type63=1
 Type64=1
 Type65=1
-Type66=1
 
 [Electrical Rules Check]
 Type1=1
@@ -1228,100 +1225,88 @@ ComponentUpdate5=1
 ComponentIsDeviceSheet5=0
 ComponentLibIdentifierKind6=Library Name And Type
 ComponentLibraryIdentifier6=GSATFPGA.SCHLIB
-ComponentDesignItemID6=LM1117IMP
-ComponentSymbolReference6=LM1117IMP
+ComponentDesignItemID6=TLV7111225DSER
+ComponentSymbolReference6=TLV7111225DSER
 ComponentUpdate6=1
 ComponentIsDeviceSheet6=0
 ComponentLibIdentifierKind7=Library Name And Type
-ComponentLibraryIdentifier7=GSATFPGA.SCHLIB
-ComponentDesignItemID7=TLV7111225DSER
-ComponentSymbolReference7=TLV7111225DSER
+ComponentLibraryIdentifier7=NodeFPGA.SCHLIB
+ComponentDesignItemID7=Bridge
+ComponentSymbolReference7=Bridge
 ComponentUpdate7=1
 ComponentIsDeviceSheet7=0
 ComponentLibIdentifierKind8=Library Name And Type
-ComponentLibraryIdentifier8=GSATFPGA.SCHLIB
-ComponentDesignItemID8=W25Q32JV
-ComponentSymbolReference8=W25Q32JV
-ComponentUpdate8=1
+ComponentLibraryIdentifier8=NodeFPGA.SCHLIB
+ComponentDesignItemID8=Capacitor
+ComponentSymbolReference8=Capacitor
+ComponentUpdate8=0
 ComponentIsDeviceSheet8=0
 ComponentLibIdentifierKind9=Library Name And Type
 ComponentLibraryIdentifier9=NodeFPGA.SCHLIB
-ComponentDesignItemID9=Bridge
-ComponentSymbolReference9=Bridge
+ComponentDesignItemID9=Header 11_1
+ComponentSymbolReference9=Header 11_1
 ComponentUpdate9=1
 ComponentIsDeviceSheet9=0
 ComponentLibIdentifierKind10=Library Name And Type
 ComponentLibraryIdentifier10=NodeFPGA.SCHLIB
-ComponentDesignItemID10=Capacitor
-ComponentSymbolReference10=Capacitor
+ComponentDesignItemID10=KIA1117-3.3
+ComponentSymbolReference10=KIA1117-3.3
 ComponentUpdate10=1
 ComponentIsDeviceSheet10=0
 ComponentLibIdentifierKind11=Library Name And Type
 ComponentLibraryIdentifier11=NodeFPGA.SCHLIB
-ComponentDesignItemID11=Capacitor_0805
-ComponentSymbolReference11=Capacitor_0805
-ComponentUpdate11=1
+ComponentDesignItemID11=Resistor
+ComponentSymbolReference11=Resistor
+ComponentUpdate11=0
 ComponentIsDeviceSheet11=0
 ComponentLibIdentifierKind12=Library Name And Type
 ComponentLibraryIdentifier12=NodeFPGA.SCHLIB
-ComponentDesignItemID12=Capacitor_1206
-ComponentSymbolReference12=Capacitor_1206
+ComponentDesignItemID12=ResistorArray_4
+ComponentSymbolReference12=ResistorArray_4
 ComponentUpdate12=1
 ComponentIsDeviceSheet12=0
 ComponentLibIdentifierKind13=Library Name And Type
 ComponentLibraryIdentifier13=NodeFPGA.SCHLIB
-ComponentDesignItemID13=Header 11_1
-ComponentSymbolReference13=Header 11_1
+ComponentDesignItemID13=SelectionResistor
+ComponentSymbolReference13=SelectionResistor
 ComponentUpdate13=1
 ComponentIsDeviceSheet13=0
 ComponentLibIdentifierKind14=Library Name And Type
 ComponentLibraryIdentifier14=NodeFPGA.SCHLIB
-ComponentDesignItemID14=Resistor
-ComponentSymbolReference14=Resistor
+ComponentDesignItemID14=SJ-3523-SMT-TR
+ComponentSymbolReference14=SJ-3523-SMT-TR
 ComponentUpdate14=1
 ComponentIsDeviceSheet14=0
 ComponentLibIdentifierKind15=Library Name And Type
 ComponentLibraryIdentifier15=NodeFPGA.SCHLIB
-ComponentDesignItemID15=ResistorArray_4
-ComponentSymbolReference15=ResistorArray_4
+ComponentDesignItemID15=SPU0410LR5H-1
+ComponentSymbolReference15=SPU0410LR5H-1
 ComponentUpdate15=1
 ComponentIsDeviceSheet15=0
 ComponentLibIdentifierKind16=Library Name And Type
 ComponentLibraryIdentifier16=NodeFPGA.SCHLIB
-ComponentDesignItemID16=SelectionResistor
-ComponentSymbolReference16=SelectionResistor
+ComponentDesignItemID16=W25Q32JV
+ComponentSymbolReference16=W25Q32JV
 ComponentUpdate16=1
 ComponentIsDeviceSheet16=0
 ComponentLibIdentifierKind17=Library Name And Type
 ComponentLibraryIdentifier17=NodeFPGA.SCHLIB
-ComponentDesignItemID17=SJ-3523-SMT-TR
-ComponentSymbolReference17=SJ-3523-SMT-TR
+ComponentDesignItemID17=WM8731
+ComponentSymbolReference17=WM8731
 ComponentUpdate17=1
 ComponentIsDeviceSheet17=0
 ComponentLibIdentifierKind18=Library Name And Type
-ComponentLibraryIdentifier18=NodeFPGA.SCHLIB
-ComponentDesignItemID18=SPU0410LR5H-1
-ComponentSymbolReference18=SPU0410LR5H-1
+ComponentLibraryIdentifier18=OpenFPGA.SCHLIB
+ComponentDesignItemID18=FSM6JH
+ComponentSymbolReference18=FSM6JH
 ComponentUpdate18=1
 ComponentIsDeviceSheet18=0
 ComponentLibIdentifierKind19=Library Name And Type
-ComponentLibraryIdentifier19=NodeFPGA.SCHLIB
-ComponentDesignItemID19=WM8731
-ComponentSymbolReference19=WM8731
-ComponentUpdate19=1
+ComponentLibraryIdentifier19=OpenFPGA.SCHLIB
+ComponentDesignItemID19=Resistor
+ComponentSymbolReference19=Resistor
+ComponentUpdate19=0
 ComponentIsDeviceSheet19=0
-ComponentLibIdentifierKind20=Library Name And Type
-ComponentLibraryIdentifier20=OpenFPGA.SCHLIB
-ComponentDesignItemID20=FSM6JH
-ComponentSymbolReference20=FSM6JH
-ComponentUpdate20=1
-ComponentIsDeviceSheet20=0
-ComponentLibIdentifierKind21=Library Name And Type
-ComponentLibraryIdentifier21=OpenFPGA.SCHLIB
-ComponentDesignItemID21=Resistor
-ComponentSymbolReference21=Resistor
-ComponentUpdate21=1
-ComponentIsDeviceSheet21=0
 FullReplace=1
 UpdateDesignatorLock=1
 UpdatePartIDLock=1
@@ -1367,29 +1352,29 @@ ParameterName14=LatestRevisionNote
 ParameterUpdate14=1
 ParameterName15=Library Reference
 ParameterUpdate15=1
-ParameterName16=link
+ParameterName16=ManualRef
 ParameterUpdate16=1
-ParameterName17=ManualRef
+ParameterName17=Manufacturer_Name
 ParameterUpdate17=1
-ParameterName18=Manufacturer_Name
+ParameterName18=Manufacturer_Part_Number
 ParameterUpdate18=1
-ParameterName19=Manufacturer_Part_Number
+ParameterName19=ManufacturerReference
 ParameterUpdate19=1
-ParameterName20=ManufacturerReference
+ParameterName20=Mounting Technology
 ParameterUpdate20=1
-ParameterName21=Mounting Technology
+ParameterName21=Mouser Part Number
 ParameterUpdate21=1
-ParameterName22=Mouser Part Number
+ParameterName22=Operating Temperature
 ParameterUpdate22=1
-ParameterName23=Operating Temperature
+ParameterName23=Orientation
 ParameterUpdate23=1
-ParameterName24=Orientation
+ParameterName24=Package
 ParameterUpdate24=1
-ParameterName25=Package
+ParameterName25=Packaging
 ParameterUpdate25=1
-ParameterName26=Packaging
+ParameterName26=Part Number
 ParameterUpdate26=1
-ParameterName27=Part Number
+ParameterName27=price
 ParameterUpdate27=1
 ParameterName28=Published Date
 ParameterUpdate28=1
@@ -1403,137 +1388,129 @@ ParameterName32=Supplier Part Number 1
 ParameterUpdate32=1
 ParameterName33=Value
 ParameterUpdate33=1
-ParameterName34=Voltage Rating
+ParameterName34=vendor
 ParameterUpdate34=1
+ParameterName35=vendorID
+ParameterUpdate35=1
+ParameterName36=Voltage Rating
+ParameterUpdate36=1
 ModelTypeGroup0=PCBLIB
 ModelTypeUpdate0=1
 ModelType0=PCBLIB
-ModelName0=0603 CAP
+ModelName0=*CUI_SJ-3523-SMT-TR
 ModelUpdate0=1
 ModelType1=PCBLIB
-ModelName1=0805
+ModelName1=0603 CAP
 ModelUpdate1=1
 ModelType2=PCBLIB
-ModelName2=0805 + TH
+ModelName2=0805
 ModelUpdate2=1
 ModelType3=PCBLIB
-ModelName3=0805_L
+ModelName3=0805 + TH
 ModelUpdate3=1
 ModelType4=PCBLIB
-ModelName4=0805_N
+ModelName4=0805_L
 ModelUpdate4=1
 ModelType5=PCBLIB
-ModelName5=629105136821
+ModelName5=0805_N
 ModelUpdate5=1
 ModelType6=PCBLIB
-ModelName6=AXIAL-0.3
+ModelName6=629105136821
 ModelUpdate6=1
 ModelType7=PCBLIB
-ModelName7=AXIAL-0.4
+ModelName7=AXIAL-0.3
 ModelUpdate7=1
 ModelType8=PCBLIB
-ModelName8=AXIAL-0.5
+ModelName8=AXIAL-0.4
 ModelUpdate8=1
 ModelType9=PCBLIB
-ModelName9=AXIAL-0.6
+ModelName9=AXIAL-0.5
 ModelUpdate9=1
 ModelType10=PCBLIB
-ModelName10=AXIAL-0.7
+ModelName10=AXIAL-0.6
 ModelUpdate10=1
 ModelType11=PCBLIB
-ModelName11=AXIAL-0.8
+ModelName11=AXIAL-0.7
 ModelUpdate11=1
 ModelType12=PCBLIB
-ModelName12=AXIAL-0.9
+ModelName12=AXIAL-0.8
 ModelUpdate12=1
 ModelType13=PCBLIB
-ModelName13=AXIAL-1.0
+ModelName13=AXIAL-0.9
 ModelUpdate13=1
 ModelType14=PCBLIB
-ModelName14=Canned Oscilator
+ModelName14=AXIAL-1.0
 ModelUpdate14=1
 ModelType15=PCBLIB
-ModelName15=CAPAE5953X58L
+ModelName15=Bridge
 ModelUpdate15=1
 ModelType16=PCBLIB
-ModelName16=CAPAE-G 10mmx10mm
+ModelName16=Canned Oscilator
 ModelUpdate16=1
 ModelType17=PCBLIB
-ModelName17=CAPAE-G B CASE
+ModelName17=CAPAE-G 10mmx10mm
 ModelUpdate17=1
 ModelType18=PCBLIB
-ModelName18=CAPCP3216X16N
+ModelName18=CAPAE-G B CASE
 ModelUpdate18=1
 ModelType19=PCBLIB
-ModelName19=CH551
+ModelName19=CAPCP3216X16N
 ModelUpdate19=1
 ModelType20=PCBLIB
-ModelName20=CUI_SJ-3523-SMT-TR
+ModelName20=CH551
 ModelUpdate20=1
 ModelType21=PCBLIB
 ModelName21=DSE 6
 ModelUpdate21=1
 ModelType22=PCBLIB
-ModelName22=GND_BRIDGE
+ModelName22=HDR1X11
 ModelUpdate22=1
 ModelType23=PCBLIB
-ModelName23=HDR1X11
+ModelName23=QFN50P700X700X100-49N-D
 ModelUpdate23=1
 ModelType24=PCBLIB
-ModelName24=QFN50P700X700X100-49N-D
+ModelName24=RAD-0.3
 ModelUpdate24=1
 ModelType25=PCBLIB
-ModelName25=RAD-0.3
+ModelName25=Resistencia 0603
 ModelUpdate25=1
 ModelType26=PCBLIB
-ModelName26=Resistencia 0603
+ModelName26=SMD_PUSHBUTTON_3x6x2mm5
 ModelUpdate26=1
 ModelType27=PCBLIB
-ModelName27=ResistorArray_0804
+ModelName27=SOT-223
 ModelUpdate27=1
 ModelType28=PCBLIB
-ModelName28=SelectionResistor
+ModelName28=SPU0410LR5H-1
 ModelUpdate28=1
 ModelType29=PCBLIB
-ModelName29=SMD_PUSHBUTTON_3x6x2mm5
+ModelName29=SW-Button
 ModelUpdate29=1
 ModelType30=PCBLIB
-ModelName30=SOT-223
+ModelName30=W25Q32J
 ModelUpdate30=1
 ModelType31=PCBLIB
-ModelName31=SPU0410LR5H-1
+ModelName31=WM8731
 ModelUpdate31=1
-ModelType32=PCBLIB
-ModelName32=SW-Button
-ModelUpdate32=1
-ModelType33=PCBLIB
-ModelName33=W25Q32
-ModelUpdate33=1
-ModelType34=PCBLIB
-ModelName34=W25Q32J
-ModelUpdate34=1
-ModelType35=PCBLIB
-ModelName35=WM8731
-ModelUpdate35=1
 ModelTypeGroup1=SI
 ModelTypeUpdate1=1
-ModelType36=SI
-ModelName36=Cap
-ModelUpdate36=1
-ModelType37=SI
-ModelName37=Connector
-ModelUpdate37=1
-ModelType38=SI
-ModelName38=Res
-ModelUpdate38=1
+ModelType32=SI
+ModelName32=Cap
+ModelUpdate32=1
+ModelType33=SI
+ModelName33=Connector
+ModelUpdate33=1
+ModelType34=SI
+ModelName34=Res
+ModelUpdate34=1
 ModelTypeGroup2=SIM
 ModelTypeUpdate2=1
-ModelType39=SIM
-ModelName39=CAP
-ModelUpdate39=1
-ModelType40=SIM
-ModelName40=RESISTOR
-ModelUpdate40=1
+ModelType35=SIM
+ModelName35=CAP
+ModelUpdate35=1
+ModelType36=SIM
+ModelName36=RESISTOR
+ModelUpdate36=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0
@@ -1541,7 +1518,7 @@ UpdateVariants=1
 PartTypes=0
 
 [NetInfos]
-Net1=NetName=NetC32_1|NetColor=$00007EC5
+Net1=NetName=NetJ2_2|NetColor=$00FF6EFF
 Net2=NetName=NetC24_1|NetColor=$00FF99CF
 Net3=NetName=CDC_ADCLRC|NetColor=clYellow
 Net4=NetName=FLASH_MEM_SS|NetColor=$0000BE00
@@ -1574,7 +1551,7 @@ Net30=NetName=MICIN|NetColor=$00007EC5
 Net31=NetName=CDC_DACLRC|NetColor=clYellow
 Net32=NetName=NetC28_2|NetColor=$000083FD
 Net33=NetName=NetC31_1|NetColor=$000083FD
-Net34=NetName=NetJ2_2|NetColor=$00FF6EFF
+Net34=NetName=NetC32_1|NetColor=$00007EC5
 
 [Comparison Options]
 ComparisonOptions0=Kind=Net|MinPercent=75|MinMatch=3|ShowMatch=-1|Confirm=-1|UseName=-1|InclAllRules=0

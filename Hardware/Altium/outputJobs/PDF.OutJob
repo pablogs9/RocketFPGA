@@ -21,7 +21,7 @@ TargetOutputMedium=Folder Structure
 VariantName=[No Variations]
 VariantScope=1
 CurrentConfigurationName=
-TargetPrinter=Epson AL-C1100
+TargetPrinter=Microsoft Print to PDF
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintJobKind=1|PrintWhat=1
 OutputMedium1=Print Job
 OutputMedium1_Type=Printer
@@ -168,16 +168,18 @@ OutputDefault6=0
 PageOptions6=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=1|PaperKind=A4|PaperIndex=9
 Configuration6_Name1=ColumnNameFormat
 Configuration6_Item1=CaptionAsName
-Configuration6_Name2=General
-Configuration6_Item2=OpenExported=False|AddToProject=False|ReportBOMViolationsInMessages=False|ForceFit=False|NotFitted=False|Database=False|DatabasePriority=False|IncludePcbData=False|IncludeVaultData=False|IncludeCloudData=False|IncludeDocumentData=True|IncludeAlternatives=False|ShowExportOptions=True|TemplateFilename=|TemplateVaultGuid=|TemplateRevisionGuid=|BatchMode=2|FormWidth=1512|FormHeight=975|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=USD|SolutionsPerItem=1|SuppliersPerSolution=1|ViewType=0|UseDirectApi=False|BomSetName=
-Configuration6_Name3=GroupOrder
-Configuration6_Item3=Comment=True|Footprint=True|Value=True
-Configuration6_Name4=SortOrder
-Configuration6_Item4=Designator=Up|Comment=Up|Footprint=Up
-Configuration6_Name5=VisibleOrder
-Configuration6_Item5=Comment=120|DesignItemId=100|ManufacturerReference=232|Value=183|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
-Configuration6_Name6=VisibleOrder_Flat
-Configuration6_Item6=Comment=120|DesignItemId=100|ManufacturerReference=232|Value=183|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
+Configuration6_Name2=Filter
+Configuration6_Item2=545046300E5446696C74657257726170706572000D46696C7465722E416374697665090F46696C7465722E43726974657269610A04000000000000000000
+Configuration6_Name3=General
+Configuration6_Item3=OpenExported=False|AddToProject=False|ForceFit=False|NotFitted=False|Database=False|DatabasePriority=False|IncludePCBData=False|IncludeVaultData=False|IncludeAlternatives=False|ShowExportOptions=True|TemplateFilename=|BatchMode=5|FormWidth=1800|FormHeight=1242|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=<none>|ViewType=0
+Configuration6_Name4=GroupOrder
+Configuration6_Item4=Comment=True|Footprint=True|Value=True
+Configuration6_Name5=SortOrder
+Configuration6_Item5=Designator=Up|Comment=Up|Footprint=Up
+Configuration6_Name6=VisibleOrder
+Configuration6_Item6=Comment=120|DesignItemId=100|ManufacturerReference=232|Value=183|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120|price=100|vendor=100|vendorID=100
+Configuration6_Name7=VisibleOrder_Flat
+Configuration6_Item7=Comment=120|DesignItemId=100|ManufacturerReference=232|Value=183|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
 
 [PublishSettings]
 OutputFilePath2=PDF\NodeFPGA_documentation.PDF
@@ -207,7 +209,7 @@ ShowComponentParameters2=1
 GlobalBookmarks2=0
 PDFACompliance2=Disabled
 PDFVersion2=Default
-OutputFilePath3=D:\GranaSat\NodeFPGA\Hardware\Altium\Project Outputs for NodeFPGA\
+OutputFilePath3=C:\Users\luissancar\Documents\GitHub\NodeFPGA\Hardware\Altium\Project Outputs for NodeFPGA\
 ReleaseManaged3=1
 OutputBasePath3=Project Outputs for NodeFPGA
 OutputPathMedia3=
@@ -261,7 +263,7 @@ WmvQuality4=80
 [GeneratedFilesSettings]
 RelativeOutputPath2=PDF\NodeFPGA_documentation.PDF
 OpenOutputs2=1
-RelativeOutputPath3=D:\GranaSat\NodeFPGA\Hardware\Altium\Project Outputs for NodeFPGA\
+RelativeOutputPath3=C:\Users\luissancar\Documents\GitHub\NodeFPGA\Hardware\Altium\Project Outputs for NodeFPGA\
 OpenOutputs3=1
 AddToProject3=1
 TimestampFolder3=0
