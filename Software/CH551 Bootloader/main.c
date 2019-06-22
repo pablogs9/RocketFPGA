@@ -95,6 +95,9 @@ volatile __idata uint8_t USBByteCount = 0;
 volatile __idata uint8_t USBBufOutPoint = 0;
 volatile __idata uint8_t UpPoint2_Busy  = 0;
 
+#define STATE_UART_BRIDGE 0
+#define STATE_PROGRAMMER 1
+uint8_t device_state = 1;
 #define BOOT_ADDR  0x3800
 
 /* This function provided a way to access the internal bootloader */
@@ -146,7 +149,18 @@ void USBDeviceEndPointCfg(){
 	UEP4_1_MOD = 0X40;													
 	UEP0_CTRL = UEP_R_RES_ACK | UEP_T_RES_NAK;							
 }
-
+void virtual_uart_tx(uint8_t tdata){
+	Receive_Uart_Buf[Uart_Input_Point++] = tdata;
+	UartByteCount++;				
+	if(Uart_Input_Point>=UART_REV_LEN)
+	{
+		Uart_Input_Point = 0;
+	}
+}
+void v_uart_puts(char *str){
+	while(*str)
+		virtual_uart_tx(*(str++));
+}
 void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 	uint16_t len;
 	if(UIF_TRANSFER) //USB transfer finished?										
@@ -209,7 +223,17 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 						pDescr += len;
 						break;
 					case SET_CONTROL_LINE_STATE:  //0x22  generates RS-232/V.24 style control signals
+						if(UsbSetupBuf->wValueL==0x03){
+							device_state = 1;
+							v_uart_puts("Programming mode active\r\n");	
+						}
+						else{
+							device_state = 0;
+							v_uart_puts("UART Bridge mode active\r\n");
+						}
+
 						break;
+
 					case SET_LINE_CODING:	  //0x20  Configure
 						break;
 					default:
@@ -544,19 +568,9 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 	}
 }
 
-void virtual_uart_tx(uint8_t tdata){
-	Receive_Uart_Buf[Uart_Input_Point++] = tdata;
-	UartByteCount++;				
-	if(Uart_Input_Point>=UART_REV_LEN)
-	{
-		Uart_Input_Point = 0;
-	}
-}
 
-void v_uart_puts(char *str){
-	while(*str)
-		virtual_uart_tx(*(str++));
-}
+
+
 
 void usb_poll(){
 	uint8_t length;
