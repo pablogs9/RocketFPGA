@@ -117,7 +117,6 @@ void runFPGA_Flash(uint8_t uart_data){
                 if(debug) printf("Reading: %lu - 0x%02X (%c). Remaining: %lu\r\n",memIndex,data,data,transactionBytes);
                 memIndex++;
                 virtual_uart_tx(data);
-                usb_poll();
                 mDelayuS(80);
                 transactionBytes--;
             }

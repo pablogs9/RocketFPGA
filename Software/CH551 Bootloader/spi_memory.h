@@ -2,8 +2,7 @@
 #define __SPI_MEMORY_H__
 
 #include <spi.h>
-#include "NodeFPGA_config.h"
-
+#include "FPGA_flash.h"
 #define MEM_WREN 0x06
 #define MEM_WRDI 0x04
 #define MEM_RDSR 0x05
@@ -31,6 +30,6 @@ void MEM_writeAddress(uint32_t addr);
 void MEM_waitWriteCycle();
 void MEM_chipErase();
 void MEM_releasePowerDown();
-
+void MEM_chipEraseFirst64k();
 
 #endif
