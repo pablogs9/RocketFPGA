@@ -2,14 +2,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "spi_memory.h"
 #define DEFAULT_ENDP0_SIZE	64
 #define DEFAULT_ENDP1_SIZE	64
 #include <ch554.h>
 #include <ch554_usb.h>
 #include <debug.h>
-#include <spi.h>
-#include "NodeFPGA_config.h"
+#include "FPGA_flash.h"
+#include "VUART_tx.h"
 
 __xdata __at (0x0000) uint8_t  Ep0Buffer[DEFAULT_ENDP0_SIZE];	
 __xdata __at (0x0040) uint8_t  Ep1Buffer[DEFAULT_ENDP1_SIZE];
@@ -86,11 +85,6 @@ unsigned char  __code Manuf_Des[]={
 
 __xdata uint8_t LineCoding[7]={0x00,0xe1,0x00,0x00,0x00,0x00,0x08};   
 
-#define UART_REV_LEN  64
-__idata uint8_t Receive_Uart_Buf[UART_REV_LEN];  
-volatile __idata uint8_t Uart_Input_Point = 0;
-volatile __idata uint8_t Uart_Output_Point = 0; 
-volatile __idata uint8_t UartByteCount = 0;
 volatile __idata uint8_t USBByteCount = 0;
 volatile __idata uint8_t USBBufOutPoint = 0;
 volatile __idata uint8_t UpPoint2_Busy  = 0;
@@ -149,18 +143,7 @@ void USBDeviceEndPointCfg(){
 	UEP4_1_MOD = 0X40;													
 	UEP0_CTRL = UEP_R_RES_ACK | UEP_T_RES_NAK;							
 }
-void virtual_uart_tx(uint8_t tdata){
-	Receive_Uart_Buf[Uart_Input_Point++] = tdata;
-	UartByteCount++;				
-	if(Uart_Input_Point>=UART_REV_LEN)
-	{
-		Uart_Input_Point = 0;
-	}
-}
-void v_uart_puts(char *str){
-	while(*str)
-		virtual_uart_tx(*(str++));
-}
+
 void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 	uint16_t len;
 	if(UIF_TRANSFER) //USB transfer finished?										
@@ -593,123 +576,13 @@ void usb_poll(){
 
 // FPGA Programming State machine
 
-uint8_t state = 0;
-uint8_t debug = 0;
-uint8_t operation;
-uint32_t transactionBytes = 0;
 
-#define PAGEBUFFERLEN 256
-uint32_t memAddres = 0x00000000;
-uint32_t memIndex = 0;
 
 void uart_poll(){
 	uint8_t uart_data;
-	if(USBByteCount) {	
-		uart_data = Ep2Buffer[USBBufOutPoint++];
-		if (state == 0 && (uart_data == 'W' || uart_data == 'R')) { // Write command received
-			if(debug) printf("State 0. Mode %c. \r\n",uart_data);
-			operation = uart_data;
-			transactionBytes = 0;
-			state = 1;
-			// SPIMasterModeSet(0);
-			enableFPGAReset();
-			MEM_releasePowerDown();
-		}else if (state == 0 && uart_data == 'd') {
-			debug = !debug;
-			if(debug) printf("Debug enabled\r\n");
-		}else if (state == 0 && uart_data == 'D') {
-			disableFPGAReset();
-		}else if (state == 0 && uart_data == 'A') {
-			triestateFlashSS();
-			triestateSPI();
-			
-			enableFPGAReset();
-			mDelaymS(5);
-			triestateFPGAReset();
-		}else if (state == 0 && uart_data == 'B') {
-			jump_to_bootloader();
-		}else if (state == 0 && uart_data == 'V') {
-			v_uart_puts("HeimdalFPGA Bootloader V0.2\n");
-		}else if (state == 1 || state == 2 || state == 3){
-			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
-			transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
-			state++;
-		}else if (state == 4){
-			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
-			transactionBytes = transactionBytes | (uart_data << 24);
-			if(debug) printf("Transaction Byte END, data: %lu \r\n",transactionBytes);
-
-			if (operation == 'W') {
-				if(debug) printf("Preparing memory to write\r\n");
-
-				if(debug) printf("Erasing device\r\n");
-				MEM_chipEraseFirst64k();
-
-				enableFlashSS();
-				MEM_writeEnable();
-				disableFlashSS();
-
-				memAddres = 0x00000000;
-				memIndex = 0;
-				enableFlashSS();
-				if(debug) printf("Init write at %lu\r\n",memAddres);
-				MEM_startWrite(memAddres);
-
-				state = 5;
-			}else if (operation == 'R'){
-				if(debug) printf("Preparing memory to read\r\n");
-				enableFlashSS();
-				MEM_startRead(0x00);
-				memIndex = 0;
-				while(transactionBytes > 0){
-					uint8_t data = MEM_read();
-					if(debug) printf("Reading: %lu - 0x%02X (%c). Remaining: %lu\r\n",memIndex,data,data,transactionBytes);
-					memIndex++;
-					virtual_uart_tx(data);
-					usb_poll();
-					mDelayuS(80);
-					transactionBytes--;
-				}
-				if(debug) printf("Reading done, returning to state 0\r\n");
-				disableFlashSS();
-				state = 0;
-			}
-		}else if (state == 5){
-			MEM_write(uart_data);
-			memIndex++;
-			transactionBytes--;
-
-
-			if (memIndex == PAGEBUFFERLEN) {
-				if(debug) printf("--transactionBytes %lu\r\n",transactionBytes);
-				if(debug) printf("--memIndex %lu\r\n",memIndex);
-
-				disableFlashSS();
-				if(debug) printf("Waiting write cycle\r\n");
-				MEM_waitWriteCycle();
-				if(debug) printf("Done write cycle\r\n");
-
-				enableFlashSS();
-				MEM_writeEnable();
-				disableFlashSS();
-
-				enableFlashSS();
-				memIndex = 0;
-				memAddres = memAddres + PAGEBUFFERLEN;
-				if(debug) printf("Init write at %lu\r\n",memAddres);
-
-				MEM_startWrite(memAddres);
-			}
-			
-			// virtual_uart_tx(0x01);
-
-			if (transactionBytes == 0) {
-				if(debug) printf("Write done!\r\n");
-				disableFlashSS();
-				MEM_waitWriteCycle();
-				state = 0;
-			}
-		}
+	if(USBByteCount) {
+		uart_data = Ep2Buffer[USBBufOutPoint++];	
+		runFPGA_Flash(uart_data);
 		USBByteCount--;
 		if(USBByteCount==0) UEP2_CTRL = UEP2_CTRL & ~ MASK_UEP_R_RES | UEP_R_RES_ACK;
 	}
