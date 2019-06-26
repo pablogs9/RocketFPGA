@@ -368,10 +368,6 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 							{
 								if( CfgDesc[ 7 ] & 0x20 )
 								{
-									/* 休眠 */
-#ifdef DE_PRINTF
-									printf( "suspend\n" );															
-#endif
 									while ( XBUS_AUX & bUART0_TX )
 									{
 										;	
@@ -524,9 +520,6 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 	}
 	if(UIF_BUS_RST)																 
 	{
-#ifdef DE_PRINTF
-		printf( "reset\n" );															
-#endif
 		UEP0_CTRL = UEP_R_RES_ACK | UEP_T_RES_NAK;
 		UEP1_CTRL = bUEP_AUTO_TOG | UEP_T_RES_NAK;
 		UEP2_CTRL = bUEP_AUTO_TOG | UEP_T_RES_NAK | UEP_R_RES_ACK;
@@ -546,9 +539,6 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 		UIF_SUSPEND = 0;
 		if ( USB_MIS_ST & bUMS_SUSPEND )										
 		{
-#ifdef DE_PRINTF
-			printf( "suspend\n" );														
-#endif
 			while ( XBUS_AUX & bUART0_TX )
 			{
 				;	
@@ -567,8 +557,6 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 
 	}
 }
-
-
 
 
 
@@ -618,7 +606,6 @@ void uart_poll(){
 	uint8_t uart_data;
 	if(USBByteCount) {	
 		uart_data = Ep2Buffer[USBBufOutPoint++];
-
 		if (state == 0 && (uart_data == 'W' || uart_data == 'R')) { // Write command received
 			if(debug) printf("State 0. Mode %c. \r\n",uart_data);
 			operation = uart_data;
@@ -738,11 +725,7 @@ main(){
 	USBDeviceCfg();
 	USBDeviceEndPointCfg();											
 	USBDeviceIntCfg();												
-	UEP0_T_LEN = 0;
-	UEP1_T_LEN = 0;													
-	UEP2_T_LEN = 0;	
 	SPIMasterModeSet(0);
-	
 	while(1){
 		usb_poll();
 		uart_poll();			
