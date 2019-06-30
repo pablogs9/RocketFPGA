@@ -83,64 +83,80 @@ void MEM_writeAddress(uint32_t addr){
 void MEM_waitWriteCycle(){
     uint8_t ans;
     
-    enableFlashSS();
+    MEM_enableSS();
     CH554SPIMasterWrite(MEM_RDSR);
     ans = CH554SPIMasterRead();
     while(ans & 0x01){
         ans = CH554SPIMasterRead();
     };
 
-    disableFlashSS();
+    MEM_disableSS();
 }
 
 void MEM_chipErase(){
     uint8_t ans;
 
-    enableFlashSS();
+    MEM_enableSS();
 	MEM_writeEnable();
-	disableFlashSS();
+	MEM_disableSS();
 
-    enableFlashSS();
+    MEM_enableSS();
     CH554SPIMasterWrite(MEM_CHER);
-    disableFlashSS();
+    MEM_disableSS();
     
-    enableFlashSS();
+    MEM_enableSS();
     CH554SPIMasterWrite(MEM_RDSR);
     ans = CH554SPIMasterRead();
     while(ans & 0x01){
         ans = CH554SPIMasterRead();
     };
 
-    disableFlashSS();
+    MEM_disableSS();
 }
 
 void MEM_chipEraseFirst64k(){
     uint8_t ans;
 
-    enableFlashSS();
+    MEM_enableSS();
 	MEM_writeEnable();
-	disableFlashSS();
+	MEM_disableSS();
 
-    enableFlashSS();
+    MEM_enableSS();
     CH554SPIMasterWrite(0xD8);
     MEM_writeAddress(0);
-    disableFlashSS();
+    MEM_disableSS();
     
-    enableFlashSS();
+    MEM_enableSS();
     CH554SPIMasterWrite(MEM_RDSR);
     ans = CH554SPIMasterRead();
     while(ans & 0x01){
         ans = CH554SPIMasterRead();
     };
 
-    disableFlashSS();
+    MEM_disableSS();
 }
 
 void MEM_releasePowerDown(){
-    enableFlashSS();
+    MEM_enableSS();
 	CH554SPIMasterWrite(MEM_RPWDN);
-	disableFlashSS();
+	MEM_disableSS();
     mDelaymS(1);
 }
 
+void MEM_disableSS(){
+    DISABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
+    ENABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
+    FLASH_SS = 1;
+}
 
+void MEM_highImpedanceSS(){
+    FLASH_SS = 1;
+    ENABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
+    DISABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
+}
+
+void MEM_enableSS(){
+    DISABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
+    ENABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
+    FLASH_SS = 0;
+}

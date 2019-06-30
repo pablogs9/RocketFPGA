@@ -14,6 +14,13 @@
 #define MEM_CHER 0xC7
 #define MEM_RPWDN 0xAB
 
+#define FLASH_SS_PIN 2
+
+SBIT(FLASH_SS, 0xB0, FLASH_SS_PIN);
+
+#define ENABLE_BIT(R,B) R = R |	(1<<B)
+#define DISABLE_BIT(R,B) R = R & ~(1<<B)
+
 void MEM_writeEnable();
 void MEM_writeDisable();
 uint8_t MEM_getStatusRegister();
@@ -31,5 +38,8 @@ void MEM_waitWriteCycle();
 void MEM_chipErase();
 void MEM_releasePowerDown();
 void MEM_chipEraseFirst64k();
+void MEM_disableSS();
+void MEM_highImpedanceSS();
+void MEM_enableSS();
 
 #endif

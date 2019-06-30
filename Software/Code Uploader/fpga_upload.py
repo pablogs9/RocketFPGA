@@ -36,7 +36,7 @@ def start_flash(port, baudrate, file, no_verify):
     except FileNotFoundError:
         print("File {} not found in path".format(file))
         exit()
-
+    ser.write(b'b')
     txdata = f.read()
     dlen = len(txdata)
     print("Loading File: {:s} -- {:0.2f} KB".format(file,len(txdata)/1024))
