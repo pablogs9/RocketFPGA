@@ -4,7 +4,7 @@ module memory (
 
     input wire [MEMLEN-1:0] addr,
     input wire [DATALEN-1:0] datain,
-    output wire [DATALEN-1:0] dataout,
+    output reg [DATALEN-1:0] dataout,
     	
     input wire wren,
 );
@@ -20,7 +20,7 @@ assign chipselect[1] = addr[MEMLEN-1:MEMLEN-3] === 2'b01;
 assign chipselect[2] = addr[MEMLEN-1:MEMLEN-3] === 2'b10;
 assign chipselect[3] = addr[MEMLEN-1:MEMLEN-3] === 2'b11;
 
-reg [DATALEN-1:0] outbuff [4:0];
+wire [DATALEN-1:0] outbuff [4:0];
 assign dataout = outbuff[addr[MEMLEN-1:MEMLEN-3]];
 
 SB_SPRAM256KA M1 (

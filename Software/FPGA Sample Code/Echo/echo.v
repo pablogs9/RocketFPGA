@@ -1,7 +1,6 @@
 module echo #(
 	parameter BITSIZE = 24
 )(	
-	// Parallel audio interface
 	input wire bclk,
 	input wire lrclk,
 
@@ -13,52 +12,45 @@ module echo #(
 );
 localparam N = 7;
 localparam NPOS = 2**N;
-localparam ADDRLEN = 14;
+localparam ADDRLEN = 14 + 2;
 localparam DATALEN = 16;
 
-reg [N-1:0] rd_ptr = 0;
-reg [N-1:0] wr_ptr = NPOS/2;
+reg [ADDRLEN-1:0] rd_ptr = 0;
+reg [ADDRLEN-1:0] wr_ptr = 10;
 
-reg [2:0] counter = 0;
+reg [5:0] counter = 0;
 
-wire wren;
+reg wren;
 reg [ADDRLEN-1:0] memaddr;
 reg [DATALEN-1:0] datain;
 reg [DATALEN-1:0] dataout;
 
-SB_SPRAM256KA M1 (
-    .ADDRESS(memaddr),
-    .DATAIN(datain),
-    .MASKWREN(4'b1111),
-    .WREN(wren),
-    .CHIPSELECT(1'b1),
-    .CLOCK(bclk),
-    .STANDBY(1'b0),
-    .SLEEP(1'b0),
-    .POWEROFF(1'b0),
-    .DATAOUT(dataout)
-  );
+// assign right_out = dataout +  right_out;
+
+memory M1 (
+    .clk(bclk),
+    .addr(memaddr),
+    .datain(datain),
+    .dataout(dataout),
+);
 
 always @(posedge lrclk) begin
 	left_out <= left_in;
-	counter <= 1;
 end
 
 always @(posedge bclk) begin
+	counter <= counter + 1;
 	if (counter === 1) begin
-		datain <= right_in;
+		datain <= dataout/2 + right_in/2;
 		wren <= 1;
 		memaddr <= wr_ptr;
-		counter <= 2;
 	end else if (counter === 2) begin
 		wren <= 0;
 		memaddr <= rd_ptr;
-		counter <= 3;
 	end else if (counter === 3) begin
-		right_out <= dataout;
+		right_out <= dataout/2 + right_in/2;
 		wr_ptr <= ((wr_ptr + 1) % NPOS);
 		rd_ptr <= ((rd_ptr + 1) % NPOS);
-		counter <= 0;
 	end
 end
 
