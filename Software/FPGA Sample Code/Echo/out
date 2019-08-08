@@ -1,0 +1,388 @@
+#-- Sintesis
+# yosys -p 'synth_ice40 -top main -json main.json' echo.v i2s_rx.v i2s_tx.v main.v memory.v
+yosys -p 'synth_ice40 -top main -json main.json' main.v i2s_rx.v i2s_tx.v echo.v memory.v
+
+ /----------------------------------------------------------------------------\
+ |                                                                            |
+ |  yosys -- Yosys Open SYnthesis Suite                                       |
+ |                                                                            |
+ |  Copyright (C) 2012 - 2018  Clifford Wolf <clifford@clifford.at>           |
+ |                                                                            |
+ |  Permission to use, copy, modify, and/or distribute this software for any  |
+ |  purpose with or without fee is hereby granted, provided that the above    |
+ |  copyright notice and this permission notice appear in all copies.         |
+ |                                                                            |
+ |  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES  |
+ |  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF          |
+ |  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR   |
+ |  ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES    |
+ |  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN     |
+ |  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF   |
+ |  OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.            |
+ |                                                                            |
+ \----------------------------------------------------------------------------/
+
+ Yosys 0.8+     310 (git sha1 32bd0f22, clang 9.1.0 -fPIC -Os)
+
+
+-- Parsing `main.v' using frontend `verilog' --
+
+1. Executing Verilog-2005 frontend.
+Parsing Verilog input from `main.v' to AST representation.
+Generating RTLIL representation for module `\main'.
+Successfully finished Verilog frontend.
+
+-- Parsing `i2s_rx.v' using frontend `verilog' --
+
+2. Executing Verilog-2005 frontend.
+Parsing Verilog input from `i2s_rx.v' to AST representation.
+Generating RTLIL representation for module `\i2s_rx'.
+Successfully finished Verilog frontend.
+
+-- Parsing `i2s_tx.v' using frontend `verilog' --
+
+3. Executing Verilog-2005 frontend.
+Parsing Verilog input from `i2s_tx.v' to AST representation.
+Generating RTLIL representation for module `\i2s_tx'.
+Successfully finished Verilog frontend.
+
+-- Parsing `echo.v' using frontend `verilog' --
+
+4. Executing Verilog-2005 frontend.
+Parsing Verilog input from `echo.v' to AST representation.
+Generating RTLIL representation for module `\echo'.
+Warning: wire '\wren' is assigned in a block at echo.v:50.
+Warning: wire '\wren' is assigned in a block at echo.v:56.
+Successfully finished Verilog frontend.
+
+-- Parsing `memory.v' using frontend `verilog' --
+
+5. Executing Verilog-2005 frontend.
+Parsing Verilog input from `memory.v' to AST representation.
+Generating RTLIL representation for module `\memory'.
+Successfully finished Verilog frontend.
+
+-- Running command `synth_ice40 -top main -json main.json' --
+
+6. Executing SYNTH_ICE40 pass.
+
+6.1. Executing Verilog-2005 frontend.
+Parsing Verilog input from `/usr/local/bin/../share/yosys/ice40/cells_sim.v' to AST representation.
+Generating RTLIL representation for module `\SB_IO'.
+Generating RTLIL representation for module `\SB_GB_IO'.
+Generating RTLIL representation for module `\SB_GB'.
+Generating RTLIL representation for module `\SB_LUT4'.
+Generating RTLIL representation for module `\SB_CARRY'.
+Generating RTLIL representation for module `\SB_DFF'.
+Generating RTLIL representation for module `\SB_DFFE'.
+Generating RTLIL representation for module `\SB_DFFSR'.
+Generating RTLIL representation for module `\SB_DFFR'.
+Generating RTLIL representation for module `\SB_DFFSS'.
+Generating RTLIL representation for module `\SB_DFFS'.
+Generating RTLIL representation for module `\SB_DFFESR'.
+Generating RTLIL representation for module `\SB_DFFER'.
+Generating RTLIL representation for module `\SB_DFFESS'.
+Generating RTLIL representation for module `\SB_DFFES'.
+Generating RTLIL representation for module `\SB_DFFN'.
+Generating RTLIL representation for module `\SB_DFFNE'.
+Generating RTLIL representation for module `\SB_DFFNSR'.
+Generating RTLIL representation for module `\SB_DFFNR'.
+Generating RTLIL representation for module `\SB_DFFNSS'.
+Generating RTLIL representation for module `\SB_DFFNS'.
+Generating RTLIL representation for module `\SB_DFFNESR'.
+Generating RTLIL representation for module `\SB_DFFNER'.
+Generating RTLIL representation for module `\SB_DFFNESS'.
+Generating RTLIL representation for module `\SB_DFFNES'.
+Generating RTLIL representation for module `\SB_RAM40_4K'.
+Generating RTLIL representation for module `\SB_RAM40_4KNR'.
+Generating RTLIL representation for module `\SB_RAM40_4KNW'.
+Generating RTLIL representation for module `\SB_RAM40_4KNRNW'.
+Generating RTLIL representation for module `\ICESTORM_LC'.
+Generating RTLIL representation for module `\SB_PLL40_CORE'.
+Generating RTLIL representation for module `\SB_PLL40_PAD'.
+Generating RTLIL representation for module `\SB_PLL40_2_PAD'.
+Generating RTLIL representation for module `\SB_PLL40_2F_CORE'.
+Generating RTLIL representation for module `\SB_PLL40_2F_PAD'.
+Generating RTLIL representation for module `\SB_WARMBOOT'.
+Generating RTLIL representation for module `\SB_SPRAM256KA'.
+Generating RTLIL representation for module `\SB_HFOSC'.
+Generating RTLIL representation for module `\SB_LFOSC'.
+Generating RTLIL representation for module `\SB_RGBA_DRV'.
+Generating RTLIL representation for module `\SB_I2C'.
+Generating RTLIL representation for module `\SB_SPI'.
+Generating RTLIL representation for module `\SB_LEDDA_IP'.
+Generating RTLIL representation for module `\SB_FILTER_50NS'.
+Generating RTLIL representation for module `\SB_IO_I3C'.
+Generating RTLIL representation for module `\SB_IO_OD'.
+Generating RTLIL representation for module `\SB_MAC16'.
+Successfully finished Verilog frontend.
+
+6.2. Executing HIERARCHY pass (managing design hierarchy).
+
+6.2.1. Analyzing design hierarchy..
+Top module:  \main
+Used module:     \i2s_tx
+Used module:     \echo
+Used module:     \i2s_rx
+
+6.2.2. Executing AST frontend in derive mode using pre-parsed AST for module `\i2s_tx'.
+Parameter \BITSIZE = 16
+Generating RTLIL representation for module `$paramod\i2s_tx\BITSIZE=16'.
+
+6.2.3. Executing AST frontend in derive mode using pre-parsed AST for module `\echo'.
+Parameter \BITSIZE = 16
+Generating RTLIL representation for module `$paramod\echo\BITSIZE=16'.
+Warning: wire '\wren' is assigned in a block at echo.v:50.
+Warning: wire '\wren' is assigned in a block at echo.v:56.
+
+6.2.4. Executing AST frontend in derive mode using pre-parsed AST for module `\i2s_rx'.
+Parameter \BITSIZE = 16
+Generating RTLIL representation for module `$paramod\i2s_rx\BITSIZE=16'.
+
+6.2.5. Analyzing design hierarchy..
+Top module:  \main
+Used module:     $paramod\i2s_tx\BITSIZE=16
+Used module:     $paramod\echo\BITSIZE=16
+Used module:     $paramod\i2s_rx\BITSIZE=16
+
+6.2.6. Analyzing design hierarchy..
+Top module:  \main
+Used module:     $paramod\i2s_tx\BITSIZE=16
+Used module:     $paramod\echo\BITSIZE=16
+Used module:     $paramod\i2s_rx\BITSIZE=16
+Removing unused module `\memory'.
+Removing unused module `\echo'.
+Removing unused module `\i2s_tx'.
+Removing unused module `\i2s_rx'.
+Removed 4 unused modules.
+
+6.3. Executing PROC pass (convert processes to netlists).
+
+6.3.1. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Cleaned up 0 empty switches.
+
+6.3.2. Executing PROC_RMDEAD pass (remove dead branches from decision trees).
+Removed a total of 0 dead cases.
+
+6.3.3. Executing PROC_INIT pass (extract init attributes).
+Found init rule in `$paramod\echo\BITSIZE=16.$proc$echo.v:22$60'.
+  Set init value: \machinestate = 3'000
+Found init rule in `$paramod\echo\BITSIZE=16.$proc$echo.v:20$59'.
+  Set init value: \wr_ptr = 7'1000000
+Found init rule in `$paramod\echo\BITSIZE=16.$proc$echo.v:19$58'.
+  Set init value: \rd_ptr = 7'0000000
+
+6.3.4. Executing PROC_ARST pass (detect async resets in processes).
+
+6.3.5. Executing PROC_MUX pass (convert decision trees to multiplexers).
+Creating decoders for process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:31$65'.
+     1/2: $0\right_chan[15:0]
+     2/2: $0\left_chan[15:0]
+Creating decoders for process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:24$64'.
+     1/2: $0\right[15:0]
+     2/2: $0\left[15:0]
+Creating decoders for process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:20$63'.
+     1/1: $0\lrclk_r[0:0]
+Creating decoders for process `$paramod\echo\BITSIZE=16.$proc$echo.v:22$60'.
+     1/1: $2\machinestate[2:0]
+Creating decoders for process `$paramod\echo\BITSIZE=16.$proc$echo.v:20$59'.
+     1/1: $1\wr_ptr[6:0]
+Creating decoders for process `$paramod\echo\BITSIZE=16.$proc$echo.v:19$58'.
+     1/1: $1\rd_ptr[6:0]
+Creating decoders for process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+     1/7: $1\machinestate[2:0]
+     2/7: $0\wr_ptr[6:0]
+     3/7: $0\rd_ptr[6:0]
+     4/7: $0\datain[15:0]
+     5/7: $0\memaddr[13:0]
+     6/7: $0\wren[0:0]
+     7/7: $0\right_out[15:0]
+Creating decoders for process `$paramod\echo\BITSIZE=16.$proc$echo.v:42$51'.
+     1/2: $0\machinestate[2:0]
+     2/2: $0\left_out[15:0]
+Creating decoders for process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:34$44'.
+     1/1: $0\sdata[0:0]
+Creating decoders for process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:29$42'.
+     1/2: $0\bit_cnt[5:0]
+     2/2: $0\lrclk_r[0:0]
+Creating decoders for process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:23$41'.
+     1/2: $0\right[15:0]
+     2/2: $0\left[15:0]
+Creating decoders for process `\main.$proc$main.v:73$1'.
+     1/1: $0\divider[30:0]
+
+6.3.6. Executing PROC_DLATCH pass (convert process syncs to latches).
+
+6.3.7. Executing PROC_DFF pass (convert process syncs to FFs).
+Creating register for signal `$paramod\i2s_rx\BITSIZE=16.\left_chan' using process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:31$65'.
+  created $dff cell `$procdff$104' with positive edge clock.
+Creating register for signal `$paramod\i2s_rx\BITSIZE=16.\right_chan' using process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:31$65'.
+  created $dff cell `$procdff$105' with positive edge clock.
+Creating register for signal `$paramod\i2s_rx\BITSIZE=16.\left' using process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:24$64'.
+  created $dff cell `$procdff$106' with positive edge clock.
+Creating register for signal `$paramod\i2s_rx\BITSIZE=16.\right' using process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:24$64'.
+  created $dff cell `$procdff$107' with positive edge clock.
+Creating register for signal `$paramod\i2s_rx\BITSIZE=16.\lrclk_r' using process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:20$63'.
+  created $dff cell `$procdff$108' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\right_out' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$109' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\wren' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$110' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\memaddr' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$111' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\datain' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$112' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\rd_ptr' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$113' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\wr_ptr' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$114' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\machinestate' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+  created $dff cell `$procdff$115' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\left_out' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:42$51'.
+  created $dff cell `$procdff$116' with positive edge clock.
+Creating register for signal `$paramod\echo\BITSIZE=16.\machinestate' using process `$paramod\echo\BITSIZE=16.$proc$echo.v:42$51'.
+  created $dff cell `$procdff$117' with positive edge clock.
+Creating register for signal `$paramod\i2s_tx\BITSIZE=16.\sdata' using process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:34$44'.
+  created $dff cell `$procdff$118' with negative edge clock.
+Creating register for signal `$paramod\i2s_tx\BITSIZE=16.\lrclk_r' using process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:29$42'.
+  created $dff cell `$procdff$119' with negative edge clock.
+Creating register for signal `$paramod\i2s_tx\BITSIZE=16.\bit_cnt' using process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:29$42'.
+  created $dff cell `$procdff$120' with negative edge clock.
+Creating register for signal `$paramod\i2s_tx\BITSIZE=16.\left' using process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:23$41'.
+  created $dff cell `$procdff$121' with positive edge clock.
+Creating register for signal `$paramod\i2s_tx\BITSIZE=16.\right' using process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:23$41'.
+  created $dff cell `$procdff$122' with positive edge clock.
+Creating register for signal `\main.\divider' using process `\main.$proc$main.v:73$1'.
+  created $dff cell `$procdff$123' with positive edge clock.
+
+6.3.8. Executing PROC_CLEAN pass (remove empty switches from decision trees).
+Found and cleaned up 2 empty switches in `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:31$65'.
+Removing empty process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:31$65'.
+Found and cleaned up 1 empty switch in `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:24$64'.
+Removing empty process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:24$64'.
+Removing empty process `$paramod\i2s_rx\BITSIZE=16.$proc$i2s_rx.v:20$63'.
+Removing empty process `$paramod\echo\BITSIZE=16.$proc$echo.v:22$60'.
+Removing empty process `$paramod\echo\BITSIZE=16.$proc$echo.v:20$59'.
+Removing empty process `$paramod\echo\BITSIZE=16.$proc$echo.v:19$58'.
+Found and cleaned up 1 empty switch in `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+Removing empty process `$paramod\echo\BITSIZE=16.$proc$echo.v:47$52'.
+Removing empty process `$paramod\echo\BITSIZE=16.$proc$echo.v:42$51'.
+Removing empty process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:34$44'.
+Removing empty process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:29$42'.
+Removing empty process `$paramod\i2s_tx\BITSIZE=16.$proc$i2s_tx.v:23$41'.
+Removing empty process `main.$proc$main.v:73$1'.
+Cleaned up 4 empty switches.
+
+6.4. Executing FLATTEN pass (flatten design).
+Mapping main.I2SRX using $paramod\i2s_rx\BITSIZE=16.
+Mapping main.E1 using $paramod\echo\BITSIZE=16.
+Mapping main.I2STX using $paramod\i2s_tx\BITSIZE=16.
+No more expansions possible.
+Deleting now unused module $paramod\i2s_rx\BITSIZE=16.
+Deleting now unused module $paramod\echo\BITSIZE=16.
+Deleting now unused module $paramod\i2s_tx\BITSIZE=16.
+
+6.5. Executing TRIBUF pass.
+
+6.6. Executing DEMINOUT pass (demote inout ports to input or output).
+
+6.7. Executing OPT_EXPR pass (perform const folding).
+Replacing modulo-by-128 cell `$techmap\E1.$mod$echo.v:63$57' in module `\main' with bitmask.
+Replacing modulo-by-128 cell `$techmap\E1.$mod$echo.v:62$55' in module `\main' with bitmask.
+
+6.8. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \main..
+  removing unused non-port wire \I2STX.data.
+  removing unused non-port wire \serialdataoutput.
+  removing unused non-port wire \right3.
+  removing unused non-port wire \left3.
+  removed 33 unused temporary wires.
+Removed 0 unused cells and 33 unused wires.
+
+6.9. Executing CHECK pass (checking for obvious problems).
+checking module main..
+Warning: multiple conflicting drivers for main.\E1.machinestate [2]:
+    port Q[2] of cell $techmap\E1.$procdff$115 ($dff)
+    port Q[2] of cell $techmap\E1.$procdff$117 ($dff)
+Warning: multiple conflicting drivers for main.\E1.machinestate [1]:
+    port Q[1] of cell $techmap\E1.$procdff$115 ($dff)
+    port Q[1] of cell $techmap\E1.$procdff$117 ($dff)
+Warning: multiple conflicting drivers for main.\E1.machinestate [0]:
+    port Q[0] of cell $techmap\E1.$procdff$115 ($dff)
+    port Q[0] of cell $techmap\E1.$procdff$117 ($dff)
+found and reported 3 problems.
+
+6.10. Executing OPT pass (performing simple optimizations).
+
+6.10.1. Executing OPT_EXPR pass (perform const folding).
+
+6.10.2. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\main'.
+  Cell `$techmap\E1.$procmux$83_CMP0' is identical to cell `$techmap\E1.$procmux$103_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$83_CMP = $techmap\E1.$procmux$103_CMP
+    Removing $eq cell `$techmap\E1.$procmux$83_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$84_CMP0' is identical to cell `$techmap\E1.$procmux$100_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$84_CMP = $techmap\E1.$procmux$100_CMP
+    Removing $eq cell `$techmap\E1.$procmux$84_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$85_CMP0' is identical to cell `$techmap\E1.$procmux$101_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$85_CMP = $techmap\E1.$procmux$101_CMP
+    Removing $eq cell `$techmap\E1.$procmux$85_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$87_CMP0' is identical to cell `$techmap\E1.$procmux$103_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$87_CMP = $techmap\E1.$procmux$103_CMP
+    Removing $eq cell `$techmap\E1.$procmux$87_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$89_CMP0' is identical to cell `$techmap\E1.$procmux$103_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$89_CMP = $techmap\E1.$procmux$103_CMP
+    Removing $eq cell `$techmap\E1.$procmux$89_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$93_CMP0' is identical to cell `$techmap\E1.$procmux$101_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$93_CMP = $techmap\E1.$procmux$101_CMP
+    Removing $eq cell `$techmap\E1.$procmux$93_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$96_CMP0' is identical to cell `$techmap\E1.$procmux$100_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$96_CMP = $techmap\E1.$procmux$100_CMP
+    Removing $eq cell `$techmap\E1.$procmux$96_CMP0' from module `\main'.
+  Cell `$techmap\E1.$procmux$97_CMP0' is identical to cell `$techmap\E1.$procmux$101_CMP0'.
+    Redirecting output \Y: $techmap\E1.$procmux$97_CMP = $techmap\E1.$procmux$101_CMP
+    Removing $eq cell `$techmap\E1.$procmux$97_CMP0' from module `\main'.
+  Cell `$techmap\I2STX.$logic_not$i2s_tx.v:21$39' is identical to cell `$techmap\I2SRX.$logic_not$i2s_rx.v:18$61'.
+    Redirecting output \Y: $techmap\I2STX.$logic_not$i2s_tx.v:21$39_Y = $techmap\I2SRX.$logic_not$i2s_rx.v:18$61_Y
+    Removing $logic_not cell `$techmap\I2STX.$logic_not$i2s_tx.v:21$39' from module `\main'.
+Removed a total of 9 cells.
+
+6.10.3. Executing OPT_MUXTREE pass (detect dead branches in mux trees).
+Running muxtree optimizer on module \main..
+  Creating internal representation of mux trees.
+  Evaluating internal representation of mux trees.
+    Root of a mux tree: $techmap\E1.$procmux$102 (pure)
+    Root of a mux tree: $techmap\E1.$procmux$82 (pure)
+    Root of a mux tree: $techmap\E1.$procmux$86 (pure)
+    Root of a mux tree: $techmap\E1.$procmux$88 (pure)
+    Root of a mux tree: $techmap\E1.$procmux$92 (pure)
+    Root of a mux tree: $techmap\E1.$procmux$95 (pure)
+    Root of a mux tree: $techmap\E1.$procmux$99 (pure)
+    Root of a mux tree: $techmap\I2SRX.$procmux$69 (pure)
+    Root of a mux tree: $techmap\I2SRX.$procmux$74 (pure)
+    Root of a mux tree: $techmap\I2SRX.$procmux$77 (pure)
+    Root of a mux tree: $techmap\I2SRX.$procmux$80 (pure)
+    Root of a mux tree: $techmap\I2STX.$ternary$i2s_tx.v:35$50 (pure)
+  Analyzing evaluation results.
+Removed 0 multiplexer ports.
+
+6.10.4. Executing OPT_REDUCE pass (consolidate $*mux and $reduce_* inputs).
+  Optimizing cells in module \main.
+Performed a total of 0 changes.
+
+6.10.5. Executing OPT_MERGE pass (detect identical cells).
+Finding identical cells in module `\main'.
+Removed a total of 0 cells.
+
+6.10.6. Executing OPT_RMDFF pass (remove dff with constant values).
+
+6.10.7. Executing OPT_CLEAN pass (remove unused cells and wires).
+Finding unused cells or wires in module \main..
+  removed 9 unused temporary wires.
+Removed 0 unused cells and 42 unused wires.
+
+6.10.8. Executing OPT_EXPR pass (perform const folding).
+
+6.10.9. Finished OPT passes. (There is nothing left to do.)
+
+6.11. Executing WREDUCE pass (reducing word size of cells).

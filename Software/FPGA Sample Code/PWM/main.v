@@ -3,6 +3,7 @@ module main(
  output LED
 );
 
+
 reg [30:0] divider;
 parameter dividerBit = 18;
 wire subclock;

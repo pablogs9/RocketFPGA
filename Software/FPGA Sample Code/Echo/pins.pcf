@@ -1,0 +1,10 @@
+set_io OSC 37
+set_io LED 44
+set_io RESET 27
+
+set_io MCLK 36
+set_io BCLK 35
+set_io ADCLRC 28
+set_io DACLRC 32
+set_io ADCDAT 31
+set_io DACDAT 34

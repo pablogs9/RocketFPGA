@@ -1,0 +1,26 @@
+//iverilog main_tb.vtb main.v i2s_rx.v i2s_tx.v echo.v; vvp a.out
+
+`timescale 1us/1ns
+
+module main_tb();
+    
+    reg osc = 0;
+    reg reset = 0;
+    reg adcdat = 1;
+
+    wire mclk, blck, adclrc, daclrc, dacdat, led;
+
+    main DUT (osc, mclk, blck, adclrc, daclrc, adcdat, dacdat, led, reset);
+
+
+    always #1 osc = !osc;
+    
+    initial begin
+        $dumpfile("test.vcd");
+        $dumpvars(0,main_tb);
+        # 8200     
+        adcdat = 0;
+        # 100000 $finish;
+    end
+ 
+endmodule
