@@ -16,9 +16,6 @@ module main(
 
 localparam BITSIZE = 16;
 
-//  8   ->   1920/ 5280    36%
-//  12  ->   2894/ 5280    54%
-
 // Clocking
 reg [30:0] divider;
 wire mclk_clock;

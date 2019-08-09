@@ -19,7 +19,7 @@ $(NAME).bin: $(PINS) $(NAME).v
 	
 	#-- Sintesis
 	# yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' $(wildcard *.v)
-	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v i2s_rx.v i2s_tx.v echo.v memory.v
+	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v ../I2S/i2s_rx.v ../I2S/i2s_tx.v echo.v memory.v
 
 	
 	#-- Place & route

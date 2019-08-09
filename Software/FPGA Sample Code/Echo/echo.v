@@ -10,13 +10,11 @@ module echo #(
 	output reg [DATALEN-1:0] left_out,
 	output reg [DATALEN-1:0] right_out,
 );
-localparam N = 7;
-localparam NPOS = 2**N;
 localparam ADDRLEN = 14 + 2;
 localparam DATALEN = 16;
 
-reg [ADDRLEN-1:0] rd_ptr = 0;
-reg [ADDRLEN-1:0] wr_ptr = 10;
+reg [ADDRLEN-1:0] rd_ptr = 1;
+reg [ADDRLEN-1:0] wr_ptr = 0;
 
 reg [5:0] counter = 0;
 
@@ -49,8 +47,8 @@ always @(posedge bclk) begin
 		memaddr <= rd_ptr;
 	end else if (counter === 3) begin
 		right_out <= dataout/2 + right_in/2;
-		wr_ptr <= ((wr_ptr + 1) % NPOS);
-		rd_ptr <= ((rd_ptr + 1) % NPOS);
+		wr_ptr <= wr_ptr + 1;
+		rd_ptr <= rd_ptr + 1;
 	end
 end
 

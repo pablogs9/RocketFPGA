@@ -1,0 +1,30 @@
+UP5k has:
+    - 120 kb EBR RAM -> 30 units of dual port (one for write and one for read) RAM of 256 words of 16 bits (address of 8 bits)
+    - 1024 kb SPRAM -> 4 units of single port RAM 16000 words of 16 bits (address of 14 bits)
+
+## SAVING BUFFERS
+
+#24 BIT MODE
+
+44100 samples/second * 24 bits/sample = 1058400 bits/second
+
+120 kb EBR RAM -> 4096 bits * 30 memories = 122880 bits ->  128800 bits / 1058400 bits/second = 0,1160997732 second = 116 ms
+
+1024 kb SPRAM -> 256000 * 4 memories = 1024000 bits -> 1024000 bits / 1058400 bits/second = 0,9674981104 seconds = 900 ms
+
+
+#16 BIT MODE
+
+44100 samples/second * 16 bits/sample = 705600 bits/second
+
+120 kb EBR RAM -> 4096 bits * 30 memories = 122880 bits ->  128800 bits / 705600 bits/second = 0,1825396825 second = 180 ms
+
+1024 kb SPRAM -> 256000 * 4 memories = 1024000 bits -> 1024000 bits / 705600 bits/second = 1,4512471655 seconds
+
+## DDS
+
+
+
+
+
+
