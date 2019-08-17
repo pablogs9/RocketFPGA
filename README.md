@@ -1,7 +1,7 @@
 # NodeFPGA :sound:
 Why buy a iCE40UP5k breakout when it is possible to make one?
 <p align="center">
-  <img width="50%"  src="Images/Render1.jpg">
+  <img width="50%"  src="Resources/Render1.jpg">
 </p>
 
 ## What is  this?
@@ -15,7 +15,7 @@ of audio jack to set the focus this board in sound synthesis with
 FPGAs :smiling_imp:.
 
 <p align="center">
-  <img width="50%"  src="Images/plate.gif">
+  <img width="50%"  src="Resources/plate.gif">
 </p>
 
 ## Repo structure:
