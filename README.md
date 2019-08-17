@@ -1,7 +1,7 @@
 # NodeFPGA :sound:
 Why buy a iCE40UP5k breakout when it is possible to make one?
 <p align="center">
-  <img width="20%" src="images/Render1.jpg">
+  <img  src="images/Render1.jpg">
 </p>
 
 ## What is  this?
