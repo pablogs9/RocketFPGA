@@ -1,7 +1,7 @@
 # NodeFPGA :sound:
 Why buy a iCE40UP5k breakout when it is possible to make one?
 <p align="center">
-  <img  src="images/Render1.jpg">
+  <img width="50%"  src="images/Render1.jpg">
 </p>
 
 ## What is  this?
@@ -13,6 +13,10 @@ the USB, opening a lot of new possibilities.
 The current hardware development is focushed on adding an audio codec and a couple
 of audio jack to set the focus this board in sound synthesis with 
 FPGAs :smiling_imp:.
+
+<p align="center">
+  <img width="50%"  src="images/plate.gif">
+</p>
 
 ## Repo structure:
 - Hardware: Contains the Altium PCB design files. (At some point we will clone this on kicad)
