@@ -11,7 +11,7 @@ SRCS=$(wildcard $(SRC_PATH)/*.c) \
 RELS=$(addprefix $(BUILD_DIR)/,$(notdir $(SRCS:.c=.rel)))
 CC = sdcc
 OBJCOPY = objcopy
-WCHISP = wchisptool
+WCHISP ?= ./utils/vnproch551/vnproch551
 FREQ_SYS ?= 16000000
 XRAM_SIZE ?= 0x0400
 XRAM_LOC ?= 0x0000
@@ -42,9 +42,10 @@ $(BIN_DIR)/$(TARGET).ihx:  $(BIN_DIR) $(BUILD_DIR)  $(RELS)
 $(BIN_DIR)/$(TARGET).bin: $(BIN_DIR)/$(TARGET).ihx
 	$(OBJCOPY) -I ihex -O binary $(BIN_DIR)/$(TARGET).ihx $(BIN_DIR)/$(TARGET).bin
 	
-flash: $(TARGET).bin 
-	$(WCHISP) -f $(BIN_DIR)/$(TARGET).bin -g
-
+flash:$(BIN_DIR)/$(TARGET).bin 
+	$(WCHISP) $(BIN_DIR)/$(TARGET).bin
+tools:
+	$(MAKE) -C utils/vnproch551
 .DEFAULT_GOAL := all
 all: $(BIN_DIR)/$(TARGET).bin 
 

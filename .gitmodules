@@ -1,0 +1,3 @@
+[submodule "Software/CH551 Bootloader/utils/vnproch551"]
+	path = Software/CH551 Bootloader/utils/vnproch551
+	url = https://github.com/hfegetude/vnproch551.git
