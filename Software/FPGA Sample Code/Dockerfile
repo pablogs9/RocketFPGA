@@ -2,6 +2,8 @@ FROM debian
 
 RUN apt update && apt install -y build-essential libeigen3-dev clang bison flex libreadline-dev gawk tcl-dev libffi-dev git mercurial graphviz xdot pkg-config python python3 libftdi-dev python3-dev libboost-all-dev cmake
 
+WORKDIR /
+
 RUN git clone https://github.com/cliffordwolf/icestorm.git icestorm
 RUN git clone https://github.com/YosysHQ/nextpnr nextpnr
 RUN git clone https://github.com/cliffordwolf/yosys.git yosys
