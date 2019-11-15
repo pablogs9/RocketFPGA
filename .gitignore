@@ -1,2 +1,8 @@
-**/.DS_Store
-.vscode
+**/.DS_Store 
+.vscode 
+**/*.SchLib.Zip 
+**/*.PcbDoc.Zip 
+**/*.SchDoc.Zip 
+**/*.PcbLib.Zip 
+**/*.LOG 
+**/__Previews/*
