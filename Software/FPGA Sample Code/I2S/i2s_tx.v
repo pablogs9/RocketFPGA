@@ -1,32 +1,43 @@
-module i2s_tx (
-	input wire mclk,
-	input wire bclk,
-	input wire confdone,
-	input wire lrclk,
-	output reg sdata,
 
-	input wire [BITSIZE-1:0] left_chan,
-	input wire [BITSIZE-1:0] right_chan
+module i2s_tx #(
+	parameter BITSIZE	= 32
+)(
+	input			sclk,
+	input			rst,
+	input		lrclk,
+	output reg		sdata,
+	input [BITSIZE-1:0]	left_chan,
+	input [BITSIZE-1:0]	right_chan
 );
-parameter BITSIZE = 16;
 
-reg [5:0]				bit_cnt = 0;
+reg [BITSIZE-1:0]		bit_cnt;
 reg [BITSIZE-1:0]		left;
 reg [BITSIZE-1:0]		right;
+reg [BITSIZE-1:0]		prescaler = BITSIZE;
 
-reg			        lrclk_r;
-wire			    lrclk_nedge;
+always @(negedge sclk)
+	if (rst)
+		bit_cnt <= 1;
+	else if (bit_cnt >= prescaler)
+		bit_cnt <= 1;
+	else
+		bit_cnt <= bit_cnt + 1;
 
-wire data;
+// Sample channels on the transfer of the last bit of the right channel
+always @(negedge sclk)
+	if (bit_cnt == prescaler && lrclk) begin
+		left <= left_chan;
+		right <= right_chan;
+	end
 
-always @(negedge lrclk) begin
-	left <= left_chan;
-	right <= right_chan;
-end
+// left/right "clock" generation - 0 = left, 1 = right
+// always @(negedge sclk)
+// 	if (rst)
+// 		lrclk <= 1;
+// 	else if (bit_cnt == prescaler)
+// 		lrclk <= ~lrclk;
 
-always @(posedge bclk) begin
-	sdata <= lrclk ? right[BITSIZE - (bit_cnt - BITSIZE/2)] : left[BITSIZE - bit_cnt];
-	bit_cnt <= bit_cnt + 1;
-end
+always @(negedge sclk)
+	sdata <= lrclk ? right[BITSIZE - bit_cnt] : left[BITSIZE - bit_cnt];
 
 endmodule

@@ -75,12 +75,11 @@ assign IO5 = BCLK;
 assign IO4 = DACDAT;
 
 
-// Codec interface
+// Codec  configuration interface
 assign SCLK = sclk_w;
 assign MOSI = mosi_w;
 assign CS = cs_w;
 assign CSMODE = 1'b1;
-
 
 wire sclk_w;
 wire mosi_w;
@@ -102,9 +101,8 @@ wire [BITSIZE-1:0] right2;
 i2s_rx #( 
   .BITSIZE(BITSIZE),
 ) I2SRX (
-  .mclk (MCLK), 
-  .bclk (BCLK),  
-  .confdone (confdone), 
+  .sclk (BCLK), 
+  .rst (!confdone), 
   .lrclk (ADCLRC),
   .sdata (ADCDAT),
   .left_chan (left2),
@@ -114,9 +112,8 @@ i2s_rx #(
 i2s_tx #( 
   .BITSIZE(BITSIZE),
 ) I2STX (
-    .mclk (MCLK), 
-    .bclk (BCLK), 
-    .confdone (confdone), 
+    .sclk (BCLK), 
+    .rst (!confdone), 
     .lrclk (DACLRC),
     .sdata (DACDAT),
     .left_chan (left2),
