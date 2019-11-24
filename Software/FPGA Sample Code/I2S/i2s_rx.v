@@ -1,41 +1,42 @@
-module i2s_rx #(
-	parameter BITSIZE = 24
-)(
-	input bclk,
-	input wire rst,
-	input wire lrclk,
-	input wire sdata,
 
-	output reg [BITSIZE-1:0] left_chan,
-	output reg [BITSIZE-1:0] right_chan
+module i2s_rx #(
+	parameter AUDIO_DW		= 32
+)(
+	input				sclk,
+	input				rst,
+
+	input				lrclk,
+	input				sdata,
+
+	// Parallel datastreams
+	output reg [AUDIO_DW-1:0]	left_chan,
+	output reg [AUDIO_DW-1:0]	right_chan
 );
 
-reg [BITSIZE-1:0]	left;
-reg [BITSIZE-1:0]	right;
-reg			        lrclk_r;
-wire			    lrclk_nedge;
+reg [AUDIO_DW-1:0]	left;
+reg [AUDIO_DW-1:0]	right;
+reg			lrclk_r;
+wire			lrclk_nedge;
 
 assign lrclk_nedge = !lrclk & lrclk_r;
 
-always @(posedge bclk) begin
+always @(posedge sclk)
 	lrclk_r <= lrclk;
-end
 
-always @(posedge bclk) begin
+// sdata msb is valid one clock cycle after lrclk switches
+always @(posedge sclk)
 	if (lrclk_r)
-		right <= {right[BITSIZE-2:0], sdata};
+		right <= {right[AUDIO_DW-2:0], sdata};
 	else
-		left <= {left[BITSIZE-2:0], sdata};
-end
+		left <= {left[AUDIO_DW-2:0], sdata};
 
-always @(posedge bclk) begin
+always @(posedge sclk)
 	if (rst) begin
 		left_chan <= 0;
 		right_chan <= 0;
 	end else if (lrclk_nedge) begin
 		left_chan <= left;
-		right_chan <= {right[BITSIZE-2:0], sdata};
+		right_chan <= {right[AUDIO_DW-2:0], sdata};
 	end
-end
 
 endmodule

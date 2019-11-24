@@ -628,7 +628,7 @@ void uart_poll(){
 		}else if (state == 0 && uart_data == 'B') {
 			jump_to_bootloader();
 		}else if (state == 0 && uart_data == 'V') {
-			v_uart_puts("HeimdalFPGA Bootloader V0.21\n");
+			v_uart_puts("RocketFPGA Bootloader V0.21\n");
 		}else if (state == 1 || state == 2 || state == 3){
 			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
 			transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));

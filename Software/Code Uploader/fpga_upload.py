@@ -9,7 +9,10 @@ def writeBytes(ser, d):
     ser.write(len(d).to_bytes(4, byteorder='little'))
     for i,c in enumerate(d):
         ser.write([c])
-        print("Writing: {:.2f}%".format(100*i/len(d)), end="\r")
+        if i == 1:
+            print("Erasing memory")
+        else:
+            print("Writing: {:.2f}%".format(100*i/len(d)), end="\r")
         # ack = ser.read()
 
 def readBytes(ser,l):

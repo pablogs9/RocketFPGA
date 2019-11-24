@@ -4,7 +4,7 @@ module main(
 );
 
 reg [30:0] ledDivider;
-parameter ledVelocity = 23;
+parameter ledVelocity = 22;
 
 always @(posedge OSC) begin
     ledDivider <= ledDivider + 1;  

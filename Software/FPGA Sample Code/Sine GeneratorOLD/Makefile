@@ -18,12 +18,13 @@ sint: $(NAME).bin
 $(NAME).bin: $(PINS) $(NAME).v 
 	
 	#-- Sintesis
-	# yosys -p "synth_ice40 -blif $(NAME).blif" $(NAME).v
-	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' $(NAME).v
+	# yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' $(wildcard *.v)
+	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v ../I2S/i2s_rx.v ../I2S/i2s_tx.v echo.v memory.v configurator.v SPI.v wishbone.v
+
 	
 	#-- Place & route
 	# arachne-pnr -d 1k -p $(PINS) $(NAME).blif -o $(NAME).txt
-	nextpnr-ice40 --up5k --package sg48 --json $(NAME).json --pcf $(PINS) --asc $(NAME).asc
+	nextpnr-ice40 --up5k --package sg48  --json $(NAME).json --pcf $(PINS) --asc $(NAME).asc
 	
 	#-- Generar binario final, listo para descargar en fgpa
 	icepack $(NAME).asc $(NAME).bin
@@ -31,9 +32,6 @@ $(NAME).bin: $(PINS) $(NAME).v
 
 flash: $(NAME).bin
 	fpga_upload -d $(PORT) -f $(NAME).bin 
-
-
-
 
 #-- Limpiar todo
 clean:
