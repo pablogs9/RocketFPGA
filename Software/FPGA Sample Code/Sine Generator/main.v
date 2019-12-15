@@ -16,9 +16,9 @@ module main(
 
     //I2S Interface
     output wire MCLK,
-    output wire BCLK,
-    output wire ADCLRC,
-    output wire DACLRC,
+    input wire BCLK,
+    input wire ADCLRC,
+    input wire DACLRC,
     input wire ADCDAT,
     output wire DACDAT,
 
@@ -29,7 +29,14 @@ module main(
     input wire RXD
 );
 
-localparam BITSIZE = 16;
+localparam BITSIZE = 24;
+wire [7:0] IO;
+
+parameter	PW =18, // Number of bits in the input phase
+			OW =24; // Number of output bits
+reg	[(OW-1):0]		quartertable	[0:((1<<(PW-2))-1)];
+initial	$readmemh("quarterwav.hex", quartertable);
+
 
 // Clocking and reset
 reg [30:0] divider;
@@ -61,19 +68,6 @@ SB_LFOSC lfosc (
     .CLKLF(LFOSC_internal)
 );
 
-wire [7:0] IO;
-// Debug SPI
-// assign IO7 = sclk_w;
-// assign IO6 = mosi_w;
-// assign IO5 = cs_w;
-// assign IO4 = confdone;
-
-// Debug I2S
-assign IO7 = ADCDAT;
-assign IO6 = ADCLRC;
-assign IO5 = BCLK;
-assign IO4 = DACDAT;
-
 
 // Codec  configuration interface
 assign SCLK = sclk_w;
@@ -95,8 +89,10 @@ configurator conf (
 );
 
 // Path
-wire [BITSIZE-1:0] left2;
-wire [BITSIZE-1:0] right2;
+wire [BITSIZE-1:0] left1;
+wire [BITSIZE-1:0] right1;
+reg [BITSIZE-1:0] left2;
+reg [BITSIZE-1:0] right2;
 
 i2s_rx #( 
   .BITSIZE(BITSIZE),
@@ -105,8 +101,8 @@ i2s_rx #(
   .rst (!confdone), 
   .lrclk (ADCLRC),
   .sdata (ADCDAT),
-  .left_chan (left2),
-  .right_chan (right2)
+  .left_chan (left1),
+  .right_chan (right1)
 );
 
 i2s_tx #( 
@@ -120,25 +116,26 @@ i2s_tx #(
     .right_chan (right2)
 );
 
-reg [BITSIZE-1:0] auxreg = 0;
+// NCO
+// Debug NC0
+assign IO7 = DACDAT;
+assign IO6 = DACLRC;
+assign IO5 = BCLK;
+assign IO4 = 1;
 
-// reg [20:0]	inc = 150000;
-// reg [50:0]	phase;
-// The initial value is usually irrelevant
-// always @(posedge divider[13]) begin
-//     inc <= inc + 300;
-// end
+reg [BITSIZE-1:0]	phase;
 
-// always @(posedge OSC)
-// 	// Allow for an D/A running at a lower speed from your FPGA
-// 	if (lrc_clock)
-// 		phase <= phase + inc;
+always @(posedge DACLRC) begin
+	// Allow for an D/A running at a lower speed from your FPGA
+	phase <= phase + 174763;
+end
 
-// always @(posedge lrc_clock) begin
-//     auxreg <= phase[50:34];
-//     left2 <= auxreg;
-//     right2 <= auxreg;
-// end
+always @(posedge DACLRC) begin
+    // left2 <= {(WORD-BITSIZE){1'b0}};
+    // right2 <= {(WORD-BITSIZE){1'b0}};
+    left2 <= phase;
+    right2 <= phase;
+end
 
 // MCLK = 49.152 MHz
 // div 0 = 24.576 MHz
@@ -153,13 +150,6 @@ reg [BITSIZE-1:0] auxreg = 0;
 // div 9 = 48 kHz
 // div 10 = 24 kHz
 assign MCLK = divider[1];
-assign BCLK = divider[4];
-
-// LRCLK
-assign lrc_clock = divider[9];
-assign ADCLRC = divider[9];
-assign DACLRC = divider[9];
-
 
 // LED
 assign LED = divider[23];

@@ -1,5 +1,7 @@
 
-module SPI (
+module SPI #(
+	parameter DATASIZE		= 16
+)(
     output wire MOSI, 
     output wire SCK, 
     output wire CS, 
@@ -7,13 +9,13 @@ module SPI (
     //  Interface
     input wire RESET, 
     input wire CLK, 
-    input wire [7:0] DATA,
+    input wire [DATASIZE-1:0] DATA,
     input wire TRG, 
     input wire RDY, 
 
-) ;
+);
 reg [7:0] nbits;
-reg [7:0] inner_data;
+reg [DATASIZE-1:0] inner_data;
 
 always @(posedge CLK) begin
     if (RESET) begin
@@ -29,8 +31,8 @@ always @(posedge CLK) begin
             RDY <= 0;
             SCK <= 0;
             CS <= 1;
-            MOSI <= DATA[7];
-            nbits <= 8;
+            MOSI <= DATA[DATASIZE-1];
+            nbits <= DATASIZE;
         end           
         else if (nbits > 0 && SCK == 1) begin
 	        MOSI <= inner_data[nbits-2];

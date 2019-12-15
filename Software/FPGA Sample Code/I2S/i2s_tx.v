@@ -1,43 +1,44 @@
 
 module i2s_tx #(
-	parameter BITSIZE	= 32
+	parameter BITSIZE	= 16
 )(
 	input			sclk,
 	input			rst,
-	input		lrclk,
+	input			lrclk,
 	output reg		sdata,
 	input [BITSIZE-1:0]	left_chan,
 	input [BITSIZE-1:0]	right_chan
 );
+parameter WORD	= 64;
 
 reg [BITSIZE-1:0]		bit_cnt;
-reg [BITSIZE-1:0]		left;
-reg [BITSIZE-1:0]		right;
+reg [(2*WORD)-1:0]		data_word;
 reg [BITSIZE-1:0]		prescaler = BITSIZE;
 
-always @(negedge sclk)
-	if (rst)
-		bit_cnt <= 1;
-	else if (bit_cnt >= prescaler)
-		bit_cnt <= 1;
+reg last_lrclk = 0;
+reg buf_lrclk = 0;
+wire lrclk_negedge = !last_lrclk && buf_lrclk;
+
+always @(negedge sclk) begin
+	buf_lrclk <= lrclk;
+	last_lrclk <= buf_lrclk;
+end
+
+always @(posedge sclk)
+	if (lrclk_negedge) 
+		bit_cnt <= 2;
 	else
 		bit_cnt <= bit_cnt + 1;
 
-// Sample channels on the transfer of the last bit of the right channel
 always @(negedge sclk)
-	if (bit_cnt == prescaler && lrclk) begin
-		left <= left_chan;
-		right <= right_chan;
+	if (!last_lrclk && lrclk) begin
+		data_word <= {right_chan,{(WORD-BITSIZE){1'b0}},left_chan,{(WORD-BITSIZE){1'b0}}};
 	end
 
-// left/right "clock" generation - 0 = left, 1 = right
-// always @(negedge sclk)
-// 	if (rst)
-// 		lrclk <= 1;
-// 	else if (bit_cnt == prescaler)
-// 		lrclk <= ~lrclk;
-
 always @(negedge sclk)
-	sdata <= lrclk ? right[BITSIZE - bit_cnt] : left[BITSIZE - bit_cnt];
+	if (rst) 
+		sdata <= 0;
+	else
+		sdata <= data_word[(2*WORD)-bit_cnt];
 
 endmodule
