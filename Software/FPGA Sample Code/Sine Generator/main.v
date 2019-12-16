@@ -30,13 +30,13 @@ module main(
 );
 
 localparam BITSIZE = 24;
+localparam PHASE = 17;
+localparam TABLE = 12;
+
 wire [7:0] IO;
 
-parameter	PW =18, // Number of bits in the input phase
-			OW =24; // Number of output bits
-reg	[(OW-1):0]		quartertable	[0:((1<<(PW-2))-1)];
-initial	$readmemh("quarterwav.hex", quartertable);
-
+reg	[BITSIZE-1:0] quartertable [0:((1<<TABLE)-1)];
+initial	$readmemh("testtable.hex", quartertable);
 
 // Clocking and reset
 reg [30:0] divider;
@@ -123,32 +123,41 @@ assign IO6 = DACLRC;
 assign IO5 = BCLK;
 assign IO4 = 1;
 
-reg [BITSIZE-1:0]	phase;
+reg [PHASE-1:0]	phase;
+reg [TABLE-1:0] index;
+reg [BITSIZE-1:0] val;
+
+
+// reg [PHASE-1:0] step;
+// initial step = 1365; // Start at 1 kHz
+
+// always @(posedge divider[23]) begin
+// 	step <= step + 137; // Increase 100 Hz at led rate
+// end
 
 always @(posedge DACLRC) begin
-	// Allow for an D/A running at a lower speed from your FPGA
-	phase <= phase + 174763;
+	phase <= phase + 6827;
 end
 
 always @(posedge DACLRC) begin
-    // left2 <= {(WORD-BITSIZE){1'b0}};
-    // right2 <= {(WORD-BITSIZE){1'b0}};
-    left2 <= phase;
-    right2 <= phase;
+    if (phase[PHASE-2])
+        index <= ~phase[PHASE-3:PHASE-TABLE-2];
+    else
+        index <= phase[PHASE-3:PHASE-TABLE-2];
+
+    val <=  quartertable[index];
+
+    if (phase[PHASE-1]) begin
+        left2 <= -val;
+        right2 <= -val;
+        end
+    else begin
+        left2 <= val;
+        right2 <= val;
+        end
 end
 
-// MCLK = 49.152 MHz
-// div 0 = 24.576 MHz
 // div 1 = 12.288 MHz
-// div 2 = 6.114 MHz
-// div 3 = 3.072 MHz
-// div 4 = 1.536 MHz
-// div 5 = 768 kHz
-// div 6 = 384 kHz
-// div 7 = 192 kHz
-// div 8 = 96 kHz
-// div 9 = 48 kHz
-// div 10 = 24 kHz
 assign MCLK = divider[1];
 
 // LED
