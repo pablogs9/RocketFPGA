@@ -137,7 +137,7 @@ reg [BITSIZE-1:0] sine_out;
 // end
 
 always @(posedge DACLRC) begin
-	phase <= phase + 683;
+	phase <= phase + 1365;
 end
 
 always @(posedge DACLRC) begin

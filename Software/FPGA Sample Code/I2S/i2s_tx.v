@@ -9,7 +9,7 @@ module i2s_tx #(
 	input [BITSIZE-1:0]	left_chan,
 	input [BITSIZE-1:0]	right_chan
 );
-parameter WORD	= 64;
+parameter WORD	= 32;
 
 reg [BITSIZE-1:0]		bit_cnt;
 reg [(2*WORD)-1:0]		data_word;
