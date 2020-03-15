@@ -5,11 +5,11 @@ B = int(sys.argv[1])
 W = int(sys.argv[2])
 N = int(math.pow(2,W))
 
-max_val = (2**B)-1
+max_val = (2**(B-1))-1
 
 for k in range(N):
-    phase = (math.pi/2) * (((2*k)+1) / (2*N))
-    value = ((max_val/2) * math.sin(phase))
+    phase = (math.pi/2) * (k/(N-1))
+    value = max_val * math.sin(phase)
 
     if k%8 == 0:
         print("{:s}@{:08x} ".format("" if k == 0 else "\n",k),end='')

@@ -17,7 +17,7 @@ reg [BITSIZE-1:0]		prescaler = BITSIZE;
 
 reg last_lrclk = 0;
 reg buf_lrclk = 0;
-wire lrclk_negedge = !last_lrclk && buf_lrclk;
+wire lrclk_posedge = !last_lrclk && buf_lrclk;
 
 always @(negedge sclk) begin
 	buf_lrclk <= lrclk;
@@ -25,7 +25,7 @@ always @(negedge sclk) begin
 end
 
 always @(posedge sclk)
-	if (lrclk_negedge) 
+	if (lrclk_posedge) 
 		bit_cnt <= 2;
 	else
 		bit_cnt <= bit_cnt + 1;

@@ -30,8 +30,8 @@ module main(
 );
 
 localparam BITSIZE = 24;
-localparam PHASE = 17;
-localparam TABLE = 12;
+localparam PHASE = 16;
+localparam TABLE = 9;
 
 wire [7:0] IO;
 
@@ -126,6 +126,7 @@ assign IO4 = 1;
 reg [PHASE-1:0]	phase;
 reg [TABLE-1:0] index;
 reg [BITSIZE-1:0] val;
+reg [BITSIZE-1:0] sine_out;
 
 
 // reg [PHASE-1:0] step;
@@ -136,7 +137,7 @@ reg [BITSIZE-1:0] val;
 // end
 
 always @(posedge DACLRC) begin
-	phase <= phase + 6827;
+	phase <= phase + 683;
 end
 
 always @(posedge DACLRC) begin
@@ -148,14 +149,15 @@ always @(posedge DACLRC) begin
     val <=  quartertable[index];
 
     if (phase[PHASE-1]) begin
-        left2 <= -val;
-        right2 <= -val;
+        sine_out <= -val;
         end
     else begin
-        left2 <= val;
-        right2 <= val;
-        end
+        sine_out <= val;
+    end
 end
+
+assign right2 = sine_out;
+assign left2 = sine_out;
 
 // div 1 = 12.288 MHz
 assign MCLK = divider[1];
