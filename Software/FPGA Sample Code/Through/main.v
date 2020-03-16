@@ -36,7 +36,7 @@ localparam TABLE = 9;
 wire [7:0] IO;
 
 assign IO7 = DACDAT;
-assign IO6 = DACLRC;
+assign IO6 = ADCLRC;
 assign IO5 = BCLK;
 assign IO4 = ADCDAT;
 
