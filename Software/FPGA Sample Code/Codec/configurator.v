@@ -41,9 +41,9 @@ assign cmd[2] = {1'b0,POWEROFF,CLKOUTPD,OSCPD,OUTPD,DACPD,ADCPD,MICPD,LINEINPD} 
 
 // Set both line channels mute and volume
 assign addr[3] = {7'h00} ; 
-parameter LRINBOTH = 1'b1; 
-parameter LINMUTE = 1'b0; 
-parameter LINVOL = 5'd23; 	// 12 dB (31) ... 0 dB (23) ... -34.5 dB (0) -- 1.5 dB step
+parameter LRINBOTH = 1'b1; 	// Apply to in L and in R
+parameter LINMUTE = 1'b0;   // Not muted
+parameter LINVOL = 5'd31; 	// 12 dB (31) ... 0 dB (23) ... -34.5 dB (0) -- 1.5 dB step
 assign cmd[3] = {LRINBOTH,LINMUTE,2'b00,LINVOL} ; 
 
 // Set both headphone channels mute and volume

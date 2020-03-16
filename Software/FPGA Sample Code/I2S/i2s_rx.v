@@ -1,5 +1,5 @@
 module i2s_rx #(
-	parameter BITSIZE		= 32
+	parameter BITSIZE		= 24
 )(
 	input				sclk,
 	input				rst,

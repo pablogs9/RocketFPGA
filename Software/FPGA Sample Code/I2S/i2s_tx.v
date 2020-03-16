@@ -1,6 +1,6 @@
 
 module i2s_tx #(
-	parameter BITSIZE	= 16
+	parameter BITSIZE	= 24
 )(
 	input			sclk,
 	input			rst,
