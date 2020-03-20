@@ -50,7 +50,7 @@ assign cmd[3] = {LRINBOTH,LINMUTE,2'b00,LINVOL} ;
 assign addr[4] = {7'h02} ; 
 parameter LRHPBOTH = 1'b1; 
 parameter LZCEN = 1'b0;  	// Zerocross
-parameter LHPVOL = 7'd110; 	// 6 dB (127) ... 0 dB ... -73 dB (48) ... lower mutes -- 1 dB step
+parameter LHPVOL = 7'd125; 	// 6 dB (127) ... 0 dB ... -73 dB (48) ... lower mutes -- 1 dB step
 assign cmd[4] = {LRHPBOTH,LZCEN,LHPVOL} ; 
 
 // Analogue Audio Path Control
@@ -79,9 +79,9 @@ assign addr[7] = {7'h07} ;
 parameter BCLKINV = 1'b0; 
 parameter MS = 1'b1; 
 parameter LRSWAP = 1'b0; 
-parameter LRP = 1'b0; 		// CUIDADO CON ESTO 
+parameter LRP = 1'b1; 		// CUIDADO CON ESTO 
 parameter IWL = 2'b10; 		// Data len 32 bits 11, 24 bits 10, 20 bits 01, 16 bits 00
-parameter FORMAT = 2'b10; 	// Format DSP 11, I2S 10, left 01, right 00,
+parameter FORMAT = 2'b11; 	// Format DSP 11, I2S 10, left 01, right 00,
 assign cmd[7] = {1'b0,BCLKINV,MS,LRSWAP,LRP,IWL,FORMAT} ; 
 
 // Sampling Control

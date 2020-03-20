@@ -9,32 +9,17 @@ module i2s_rx #(
 	output reg [BITSIZE-1:0]	right_chan
 );
 
-parameter WORD	= 32;
+parameter BUFFER_SIZE = 64;
 
-reg [WORD-1:0]	left;
-reg [WORD-1:0]	right;
-reg					lrclk_r;
-wire				lrclk_nedge;
+reg [BUFFER_SIZE-1:0] buffer; //63:0
 
-assign lrclk_nedge = !lrclk & lrclk_r;
-
-always @(posedge sclk)
-	lrclk_r <= lrclk;
-
-always @(posedge sclk)
-	if (lrclk_r)
-		right <= {right[WORD-2:0], sdata};
-	else
-		left <= {left[WORD-2:0], sdata};
-
-always @(posedge sclk)
-	if (rst) begin
-		left_chan <= 0;
-		right_chan <= 0;
-	end else if (lrclk_nedge) begin
-		left_chan <= left[WORD-1:WORD-1-BITSIZE];
-		right_chan <= right[WORD-1:WORD-1-BITSIZE];
-		// right_chan <= {right[WORD-2:0], sdata};
+always @(posedge sclk) begin
+	if (lrclk) begin
+		left_chan <= buffer[BUFFER_SIZE-1:BUFFER_SIZE-1-BITSIZE]; //63:39
+		right_chan <= buffer[BUFFER_SIZE-1-BITSIZE:BUFFER_SIZE-1-BITSIZE-BITSIZE]; //38:14
+	end else begin
+		buffer <= {buffer[BUFFER_SIZE-2:0], sdata};
 	end
+end
 
 endmodule

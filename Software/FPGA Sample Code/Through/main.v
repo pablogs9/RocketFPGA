@@ -35,10 +35,10 @@ localparam TABLE = 9;
 
 wire [7:0] IO;
 
-assign IO7 = DACDAT;
-assign IO6 = ADCLRC;
-assign IO5 = BCLK;
-assign IO4 = ADCDAT;
+assign IO7 = ADCDAT;
+assign IO6 = BCLK;
+assign IO5 = DACLRC;
+assign IO4 = DACDAT;
 
 // Clocking and reset
 reg [30:0] divider;
@@ -111,6 +111,7 @@ i2s_tx #(
     .left_chan (left2),
     .right_chan (right2)
 );
+
 
 assign right2 = right1;
 assign left2 = left1;
