@@ -35,9 +35,6 @@ localparam TABLE = 9;
 
 wire [7:0] IO;
 
-reg	[BITSIZE-1:0] quartertable [0:((1<<TABLE)-1)];
-initial	$readmemh("testtable.hex", quartertable);
-
 // Clocking and reset
 reg [30:0] divider;
 reg reset = 1;
@@ -61,13 +58,6 @@ SB_HFOSC #(
     .CLKHFEN(1'b1),
     .CLKHF(HFOSC_internal)
 );
-wire LFOSC_internal;
-SB_LFOSC lfosc (
-    .CLKLFPU(1'b1),
-    .CLKLFEN(1'b1),
-    .CLKLF(LFOSC_internal)
-);
-
 
 // Codec  configuration interface
 assign SCLK = sclk_w;
@@ -89,10 +79,10 @@ configurator conf (
 );
 
 // Path
-wire [BITSIZE-1:0] left1;
-wire [BITSIZE-1:0] right1;
-reg [BITSIZE-1:0] left2;
-reg [BITSIZE-1:0] right2;
+reg signed [BITSIZE-1:0] left1;
+reg signed [BITSIZE-1:0] right1;
+reg signed [BITSIZE-1:0] left2;
+reg signed [BITSIZE-1:0] right2;
 
 i2s_rx #( 
   .BITSIZE(BITSIZE),
@@ -104,6 +94,29 @@ i2s_rx #(
   .left_chan (left1),
   .right_chan (right1)
 );
+
+
+
+sinegenerator #(
+    .BITSIZE(BITSIZE),
+    .TABLESIZE(TABLE),
+    .PHASESIZE(PHASE),
+) S1 (
+	.lrclk(DACLRC),
+    .out(right2),
+    .freq(1365),
+);
+
+sinegenerator #(
+    .BITSIZE(BITSIZE),
+    .TABLESIZE(TABLE),
+    .PHASESIZE(PHASE),
+) S2 (
+	.lrclk(DACLRC),
+    .out(left2),
+    .freq(600),
+);
+
 
 i2s_tx #( 
   .BITSIZE(BITSIZE),
@@ -122,35 +135,6 @@ assign IO7 = DACDAT;
 assign IO6 = DACLRC;
 assign IO5 = BCLK;
 assign IO4 = 1;
-
-reg [PHASE-1:0]	phase;
-reg [TABLE-1:0] index;
-reg [BITSIZE-1:0] val;
-reg [BITSIZE-1:0] sine_out;
-
-
-always @(posedge DACLRC) begin
-	phase <= phase + 1365;
-end
-
-always @(posedge DACLRC) begin
-    if (phase[PHASE-2])
-        index <= ~phase[PHASE-3:PHASE-TABLE-2];
-    else
-        index <= phase[PHASE-3:PHASE-TABLE-2];
-
-    val <=  quartertable[index];
-
-    if (phase[PHASE-1]) begin
-        sine_out <= -val;
-        end
-    else begin
-        sine_out <= val;
-    end
-end
-
-assign right2 = sine_out;
-assign left2 = sine_out;
 
 // div 1 = 12.288 MHz
 assign MCLK = divider[1];

@@ -5,7 +5,7 @@ B = int(sys.argv[1])
 W = int(sys.argv[2])
 N = int(math.pow(2,W))
 
-max_val = (2**(B-1))-1
+max_val = (2**(B-2))-1
 
 for k in range(N):
     phase = (math.pi/2) * (k/(N-1))
