@@ -12,12 +12,14 @@ set_io DACDAT 34
 set_io SCLK 15
 set_io MOSI 14
 set_io CS 42
-set_io CSMODE 38
+set_io -pullup yes -pullup_resistor 10K CSMODE 38
 
 set_io IO7 27
 set_io IO6 26
 set_io IO5 25
 set_io IO4 23
+
+set_io -pullup yes -pullup_resistor 10K USER_BUTTON 9
 
 set_io TXD 18
 set_io RXD 19

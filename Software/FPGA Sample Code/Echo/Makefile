@@ -2,7 +2,7 @@
 #-- Establecer nombre del componente
 #----------------------------------------
 NAME = main
-PINS = pins.pcf
+PINS = ../Utils/pins.pcf
 PORT = /dev/ttyS20
 
 #-------------------------------------------------------
@@ -18,12 +18,10 @@ sint: $(NAME).bin
 $(NAME).bin: $(PINS) $(NAME).v 
 	
 	#-- Sintesis
-	# yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' $(wildcard *.v)
-	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v ../I2S/i2s_rx.v ../I2S/i2s_tx.v echo.v memory.v
+	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v ../Codec/configurator.v ../Codec/SPI.v ../I2S/i2s_rx.v ../I2S/i2s_tx.v echo.v memory.v
 
 	
 	#-- Place & route
-	# arachne-pnr -d 1k -p $(PINS) $(NAME).blif -o $(NAME).txt
 	nextpnr-ice40 --up5k --package sg48  --json $(NAME).json --pcf $(PINS) --asc $(NAME).asc
 	
 	#-- Generar binario final, listo para descargar en fgpa

@@ -1,9 +1,10 @@
-module configurator(	
+module configurator #(
+	parameter BITSIZE = 24,
+)(	
 	input wire clk,
 	output reg cs,
 	output wire spi_mosi, 
 	output wire spi_sck,
-	input wire reset,
 	output reg done,
 );
 
@@ -11,6 +12,15 @@ reg trigger = 0;
 reg  [15:0] write_data;
 wire ready;
 reg idone = 0;
+
+reg reset = 1;
+reg [5:0] resetcounter;
+always @(posedge clk ) begin
+	resetcounter <= resetcounter + 1;
+	if (resetcounter[5]) begin
+        reset <= 0;
+    end
+end
 
 assign done = idone;
 
@@ -50,7 +60,7 @@ assign cmd[3] = {LRINBOTH,LINMUTE,2'b00,LINVOL} ;
 assign addr[4] = {7'h02} ; 
 parameter LRHPBOTH = 1'b1; 
 parameter LZCEN = 1'b0;  	// Zerocross
-parameter LHPVOL = 7'd125; 	// 6 dB (127) ... 0 dB ... -73 dB (48) ... lower mutes -- 1 dB step
+parameter LHPVOL = 7'd124; 	// 6 dB (127) ... 0 dB ... -73 dB (48) ... lower mutes -- 1 dB step
 assign cmd[4] = {LRHPBOTH,LZCEN,LHPVOL} ; 
 
 // Analogue Audio Path Control
@@ -68,7 +78,7 @@ assign cmd[5] = {1'b0,SIDEATT,SIDETONE,DACSEL,BYPASS,INSEL,MUTEMIC,MICBOOST} ;
 // Digital Audio Path Control
 assign addr[6] = {7'h05} ; 
 parameter ADCHPD = 1'b1; 	// ADC high pass filter
-parameter DEEMP = 2'b11; 	// Deemphasis 00 disabled
+parameter DEEMP = 2'b00; 	// Deemphasis 00 disabled
 parameter DACMU = 1'b0; 	// DAC Soft Mute Control
 parameter HPOR = 1'b0; 		// Store dc offset when High Pass Filter disabled
 assign cmd[6] = {4'b0000,HPOR,DACMU,DEEMP,ADCHPD} ; 
@@ -80,7 +90,7 @@ parameter BCLKINV = 1'b0;
 parameter MS = 1'b1; 
 parameter LRSWAP = 1'b0; 
 parameter LRP = 1'b1; 		// CUIDADO CON ESTO 
-parameter IWL = 2'b10; 		// Data len 32 bits 11, 24 bits 10, 20 bits 01, 16 bits 00
+parameter IWL = (BITSIZE == 24) ? 2'b10 : 2'b00; 		// Data len 32 bits 11, 24 bits 10, 20 bits 01, 16 bits 00
 parameter FORMAT = 2'b11; 	// Format DSP 11, I2S 10, left 01, right 00,
 assign cmd[7] = {1'b0,BCLKINV,MS,LRSWAP,LRP,IWL,FORMAT} ; 
 
