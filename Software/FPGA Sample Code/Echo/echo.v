@@ -52,7 +52,7 @@ always @(posedge bclk) begin
 		counter <= 1;
 		
 	if (counter == 1) begin
-		datain <= (left_in >>> 1) + (right_in >>> 1) + (dataout >>> 2);
+		datain <= (left_in >>> 2) + (right_in >>> 2) + (dataout >>> 2);
 		wren <= 1;
 		memaddr <= wr_ptr;
 		counter <= counter + 1;

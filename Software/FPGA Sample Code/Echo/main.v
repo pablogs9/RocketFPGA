@@ -26,15 +26,17 @@ module main(
     input wire USER_BUTTON,
 
     output wire TXD,
-    input wire RXD
+    input wire RXD,
+
+    output wire CAPACITOR,
+    output wire POT_1,
+    output wire POT_2,
+    input wire DIFF_IN,
 );
 
 localparam BITSIZE = 16;
 
-// assign IO7 = ADCDAT;
-// assign IO6 = BCLK;
-// assign IO5 = DACLRC;
-// assign IO4 = DACDAT;
+
 
 // Clocking and reset
 reg [30:0] divider;
@@ -93,5 +95,10 @@ i2s_tx #(
 
 // LED
 assign LED = !USER_BUTTON;
+
+// assign IO7 = divider[16];
+// assign IO6 = aux;
+// assign IO5 = DACLRC;
+// assign IO4 = DACDAT;
 
 endmodule
