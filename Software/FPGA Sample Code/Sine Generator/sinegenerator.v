@@ -1,6 +1,5 @@
 module sinegenerator #(
 	parameter BITSIZE = 24,
-    parameter TABLESIZE = 9,
     parameter PHASESIZE = 16,
 )(	
 	input wire lrclk,
@@ -8,8 +7,15 @@ module sinegenerator #(
 	output reg [BITSIZE-1:0] out,
 );
 
+localparam TABLESIZE = 9;
+
 reg	[BITSIZE-1:0] quartertable [0:((1<<TABLESIZE)-1)];
-initial	$readmemh("quartersinetable.hex", quartertable);
+
+if (BITSIZE == 24) begin
+    initial	$readmemh("quartersinetable_24bits_depth9.hex", quartertable);
+end else begin
+    initial	$readmemh("quartersinetable_16bits_depth9.hex", quartertable);
+end
 
 reg [PHASESIZE-1:0]	phase;
 reg [TABLESIZE-1:0] index;

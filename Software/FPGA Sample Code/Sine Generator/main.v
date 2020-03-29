@@ -6,7 +6,6 @@ module main(
     output wire SCLK,
     output wire MOSI,
     output wire CS,
-    output wire CSMODE,
 
     output wire IO7,
     output wire IO6,
@@ -24,123 +23,76 @@ module main(
 
     output wire LED,
     input wire RESET,
+    input wire USER_BUTTON,
 
     output wire TXD,
-    input wire RXD
+    input wire RXD,
+
+    output wire CAPACITOR,
+    output wire POT_1,
+    output wire POT_2,
+    input wire DIFF_IN,
 );
 
 localparam BITSIZE = 24;
-localparam PHASE = 16;
-localparam TABLE = 9;
 
-wire [7:0] IO;
+reg [15:0] tones [0:95];
+initial $readmemh("cromatic.hex", tones);
 
 // Clocking and reset
 reg [30:0] divider;
-reg reset = 1;
 always @(posedge OSC) begin
     divider <= divider + 1;
-    if (divider > 500) begin
-        reset <= 0;
-    end
 end
 
-// Internal clocking
-wire HFOSC_internal;
-reg [30:0] divider_internal;
-always @(posedge HFOSC_internal) begin
-    divider_internal <= divider_internal + 1;
-end
-SB_HFOSC #( 
-   .CLKHF_DIV("0b11"), // 48 MHz /8 = 6 MHz
- ) hfosc (
-    .CLKHFPU(1'b1),
-    .CLKHFEN(1'b1),
-    .CLKHF(HFOSC_internal)
-);
+assign MCLK = divider[1]; //12.288 MHz
 
-// Codec  configuration interface
-assign SCLK = sclk_w;
-assign MOSI = mosi_w;
-assign CS = cs_w;
-assign CSMODE = 1'b1;
-
-wire sclk_w;
-wire mosi_w;
-wire cs_w;
-wire confdone;
-configurator conf (
-    .clk(divider_internal[3]),
-    .spi_mosi(mosi_w), 
-    .spi_sck(sclk_w),
-    .cs(cs_w),
-    .reset(reset),
-    .done(confdone),
+configurator #(
+    .BITSIZE(BITSIZE),
+)conf (
+    .clk(divider[6]),
+    .spi_mosi(MOSI), 
+    .spi_sck(SCLK),
+    .cs(CS),
 );
 
 // Path
-reg signed [BITSIZE-1:0] left1;
-reg signed [BITSIZE-1:0] right1;
-reg signed [BITSIZE-1:0] left2;
-reg signed [BITSIZE-1:0] right2;
+wire [BITSIZE-1:0] left2;
+wire [BITSIZE-1:0] right2;
 
-i2s_rx #( 
-  .BITSIZE(BITSIZE),
-) I2SRX (
-  .sclk (BCLK), 
-  .rst (!confdone), 
-  .lrclk (ADCLRC),
-  .sdata (ADCDAT),
-  .left_chan (left1),
-  .right_chan (right1)
-);
-
-
+reg [15:0] freq;
+reg [15:0] freq_counter = 0;
 
 sinegenerator #(
     .BITSIZE(BITSIZE),
-    .TABLESIZE(TABLE),
-    .PHASESIZE(PHASE),
+    .PHASESIZE(16),
 ) S1 (
 	.lrclk(DACLRC),
     .out(right2),
-    .freq(1365),
+    .freq(freq),
 );
-
-sinegenerator #(
-    .BITSIZE(BITSIZE),
-    .TABLESIZE(TABLE),
-    .PHASESIZE(PHASE),
-) S2 (
-	.lrclk(DACLRC),
-    .out(left2),
-    .freq(600),
-);
-
 
 i2s_tx #( 
-  .BITSIZE(BITSIZE),
+    .BITSIZE(BITSIZE),
 ) I2STX (
     .sclk (BCLK), 
-    .rst (!confdone), 
     .lrclk (DACLRC),
     .sdata (DACDAT),
-    .left_chan (left2),
+    .left_chan (right2),
     .right_chan (right2)
 );
 
-// NCO
-// Debug NC0
-assign IO7 = DACDAT;
-assign IO6 = DACLRC;
-assign IO5 = BCLK;
-assign IO4 = 1;
-
-// div 1 = 12.288 MHz
-assign MCLK = divider[1];
+always @(posedge divider[24]) begin
+    freq <= tones[freq_counter];
+    freq_counter <= freq_counter + 1;
+end
 
 // LED
-assign LED = divider[23];
+assign LED = !USER_BUTTON;
 
+// assign IO7 = divider[16];
+// assign IO6 = aux;
+// assign IO5 = DACLRC;
+// assign IO4 = DACDAT;
 
 endmodule

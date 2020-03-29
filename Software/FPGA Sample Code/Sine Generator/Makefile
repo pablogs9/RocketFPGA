@@ -2,7 +2,7 @@
 #-- Establecer nombre del componente
 #----------------------------------------
 NAME = main
-PINS = pins.pcf
+PINS = ../Utils/pins.pcf
 PORT = /dev/ttyS20
 
 #-------------------------------------------------------

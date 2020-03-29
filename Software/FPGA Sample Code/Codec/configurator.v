@@ -1,5 +1,6 @@
 module configurator #(
 	parameter BITSIZE = 24,
+	parameter LINE_NOMIC = 1,
 )(	
 	input wire clk,
 	output reg cs,
@@ -67,7 +68,7 @@ assign cmd[4] = {LRHPBOTH,LZCEN,LHPVOL} ;
 assign addr[5] = {7'h04} ; 
 parameter MICBOOST = 1'b0; 
 parameter MUTEMIC = 1'b0; 
-parameter INSEL = 1'b0; 	// 0 - line , 1 - mic 
+parameter INSEL = (LINE_NOMIC == 1 ) ? 1'b0 : 1'b1; 	// 0 - line , 1 - mic 
 parameter BYPASS = 1'b0; 
 parameter DACSEL = 1'b1; 
 parameter SIDETONE = 1'b0; 

@@ -1,3 +1,8 @@
+# BITSIZE = B
+# TABLESIZE = W
+# reg [BITSIZE-1:0] quartertable [0:((1<<TABLESIZE)-1)];
+# initial $readmemh("file.hex", quartertable);
+
 import math
 import sys
 
@@ -7,6 +12,7 @@ N = int(math.pow(2,W))
 
 max_val = (2**(B-2))-1
 
+N = N+1
 for k in range(N):
     phase = (math.pi/2) * (k/(N-1))
     value = max_val * math.sin(phase)
