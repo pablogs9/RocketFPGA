@@ -11,10 +11,11 @@ reg [PHASESIZE-1:0]	phase;
 
 always @(posedge lrclk) begin
 	phase <= phase + freq;
-end
 
-always @(posedge lrclk) begin
-    out <= {BITSIZE{phase[0]}};
+    if (phase[(PHASESIZE-2)])
+        out <= {24{1'b1}};
+    else
+        out <= {1'b0,{23{1'b1}}};
 end
 
 endmodule
