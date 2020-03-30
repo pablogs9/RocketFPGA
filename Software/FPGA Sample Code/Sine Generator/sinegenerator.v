@@ -14,9 +14,9 @@ if (BITSIZE == 24) begin
     if (TABLESIZE == 12) begin
         initial	$readmemh("quartersinetable_24bits_depth12.hex", quartertable);
     end else if (TABLESIZE == 10) begin
-        initial	$readmemh("quartersinetable_16bits_depth10.hex", quartertable);
+        initial	$readmemh("quartersinetable_24bits_depth10.hex", quartertable);
     end else if (TABLESIZE == 9) begin
-        initial	$readmemh("quartersinetable_16bits_depth9.hex", quartertable);
+        initial	$readmemh("quartersinetable_24bits_depth9.hex", quartertable);
     end
     initial	$readmemh("quartersinetable_24bits_depth12.hex", quartertable);
 end else begin
