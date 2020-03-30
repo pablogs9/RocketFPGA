@@ -9,7 +9,7 @@ module sinegenerator #(
 
 localparam TABLESIZE = 9;
 
-reg	[BITSIZE-1:0] quartertable [0:((1<<TABLESIZE)-1)];
+reg	[BITSIZE-1:0] quartertable [0:((2**TABLESIZE)-1)];
 
 if (BITSIZE == 24) begin
     initial	$readmemh("quartersinetable_24bits_depth9.hex", quartertable);
