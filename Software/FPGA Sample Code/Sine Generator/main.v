@@ -36,7 +36,7 @@ module main(
 
 localparam BITSIZE = 24;
 
-reg [15:0] tones [0:95];
+reg [15:0] tones [0:119];
 initial $readmemh("cromatic.hex", tones);
 
 // Clocking and reset
@@ -82,7 +82,7 @@ i2s_tx #(
     .right_chan (right2)
 );
 
-always @(posedge divider[24]) begin
+always @(posedge divider[23]) begin
     freq <= tones[freq_counter];
     freq_counter <= freq_counter + 1;
 end

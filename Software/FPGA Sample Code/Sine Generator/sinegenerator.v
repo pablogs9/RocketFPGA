@@ -19,6 +19,7 @@ end
 
 reg [PHASESIZE-1:0]	phase;
 reg [TABLESIZE-1:0] index;
+reg	[1:0]	        negate;
 reg signed [BITSIZE-1:0] val;
 
 always @(posedge lrclk) begin
@@ -26,19 +27,20 @@ always @(posedge lrclk) begin
 end
 
 always @(posedge lrclk) begin
-    if (phase[PHASESIZE-2])
+    negate[0] <= phase[(PHASESIZE-1)];
+    if (phase[(PHASESIZE-2)])
         index <= ~phase[PHASESIZE-3:PHASESIZE-TABLESIZE-2];
     else
-        index <= phase[PHASESIZE-3:PHASESIZE-TABLESIZE-2];
+        index <=  phase[PHASESIZE-3:PHASESIZE-TABLESIZE-2];
 
-    val <=  quartertable[index];
+    val <= quartertable[index];
 
-    if (phase[PHASESIZE-1]) begin
+    negate[1] <= negate[0];
+
+    if (negate[1])
         out <= -val;
-    end
-    else begin
-        out <= val;
-    end
+    else
+        out <=  val;
 end
 
 

@@ -12,12 +12,14 @@ PHASE = int(sys.argv[2])
 
 
 k = 0
-for i in range(1,97):
+for i in range(1,120):
     f = 440 * math.pow(2,(i-49)/12)
     n = round(f*math.pow(2,PHASE)/FS)
     if k%8 == 0:
         print("{:s}@{:08x} ".format("" if k == 0 else "\n",k),end='')
     print("{:04x} ".format(int(n)),end='')
+    print("f = {:f} k = {:d}".format(f,k), file=sys.stderr)
+
     k = k + 1
 
 print("")
