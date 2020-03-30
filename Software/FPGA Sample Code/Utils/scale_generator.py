@@ -12,8 +12,9 @@ PHASE = int(sys.argv[2])
 
 
 k = 0
-for i in range(1,120):
-    f = 440 * math.pow(2,(i-49)/12)
+MAX = 140
+for i in range(1,MAX):
+    f = 440 * math.pow(2,(i-(MAX/2))/12)
     n = round(f*math.pow(2,PHASE)/FS)
     if k%8 == 0:
         print("{:s}@{:08x} ".format("" if k == 0 else "\n",k),end='')
