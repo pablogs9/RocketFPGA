@@ -12,14 +12,18 @@ N = int(math.pow(2,W))
 
 max_val = (2**(B-2))-1
 
-N = N+1
-for k in range(N):
+K = 1
+N = N+K
+
+i = 0
+for k in range(K,N):
     phase = (math.pi/2) * (k/(N-1))
     value = max_val * math.sin(phase)
 
-    if k%8 == 0:
-        print("{:s}@{:08x} ".format("" if k == 0 else "\n",k),end='')
+    if i%8 == 0:
+        print("{:s}@{:08x} ".format("" if i == 0 else "\n",i),end='')
     print("{:06x} ".format(int(value)),end='')
+    i = i + 1
 
 print("")
 
