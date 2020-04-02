@@ -127,12 +127,12 @@ mixer #(
 	.bclk(BCLK),
 	.in1(sine1),
 	.in2(sine2),
-    .in3(sine1),
-	.in4(sine2),
+    .in3(sine3),
+	.in4(sine4),
 	.n1(n1),
 	.n2(n2),
-    .n3(n1),
-	.n4(n2),
+    .n3(n3),
+	.n4(n4),
     .out(out),
 );
 
