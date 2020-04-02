@@ -37,8 +37,8 @@ module main(
 localparam BITSIZE = 24;
 
 reg [15:0] tones [0:139];
-// python3 ../Utils/scale_generator.py 48000 16 > cromatic.hex
-initial $readmemh("cromatic.hex", tones);
+// python3 ../Utils/scale_generator.py 48000 16 > cromatic_48k_16bits.hex
+initial $readmemh("cromatic_48k_16bits.hex", tones);
 
 // Clocking and reset
 reg [30:0] divider;
