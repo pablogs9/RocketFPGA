@@ -56,18 +56,26 @@ configurator #(
 // Path
 wire [BITSIZE-1:0] sine1;
 wire [BITSIZE-1:0] sine2;
+wire [BITSIZE-1:0] sine3;
+wire [BITSIZE-1:0] sine4;
 wire [BITSIZE-1:0] n1;
 wire [BITSIZE-1:0] n2;
+wire [BITSIZE-1:0] n3;
+wire [BITSIZE-1:0] n4;
 wire [BITSIZE-1:0] out;
 
 reg counter = 0;
-always @(posedge divider[23]) begin
+always @(posedge divider[27]) begin
     if (counter) begin
-        n1 <= 24'b001000000000000000000000;
-        n2 <= 24'b000100000000000000000000;
-    end else begin
         n1 <= 24'b000100000000000000000000;
+        n2 <= 24'b000100000000000000000000;
+        n3 <= 24'b000100000000000000000000;
+        n4 <= 24'b000100000000000000000000;
+    end else begin
+        n1 <= 24'b001000000000000000000000;
         n2 <= 24'b001000000000000000000000;
+        n3 <= 24'b001000000000000000000000;
+        n4 <= 24'b001000000000000000000000;
     end
     counter <= !counter;
 end
@@ -79,7 +87,7 @@ sinegenerator #(
     .enable(1'b1),
 	.lrclk(DACLRC),
     .out(sine1),
-    .freq(601),
+    .freq(300), // 220 Hz
 );
 
 sinegenerator #(
@@ -89,7 +97,27 @@ sinegenerator #(
     .enable(1'b1),
 	.lrclk(DACLRC),
     .out(sine2),
-    .freq(7629),
+    .freq(1201), // 880 Hz
+);
+
+sinegenerator #(
+    .BITSIZE(BITSIZE),
+    .PHASESIZE(16),
+) S3 (
+    .enable(1'b1),
+	.lrclk(DACLRC),
+    .out(sine3),
+    .freq(2403), // 1760 Hz
+);
+
+sinegenerator #(
+    .BITSIZE(BITSIZE),
+    .PHASESIZE(16),
+) S4 (
+    .enable(1'b1),
+	.lrclk(DACLRC),
+    .out(sine4),
+    .freq(9612), // 7040 Hz
 );
 
 mixer #(
@@ -99,8 +127,12 @@ mixer #(
 	.bclk(BCLK),
 	.in1(sine1),
 	.in2(sine2),
+    .in3(sine1),
+	.in4(sine2),
 	.n1(n1),
 	.n2(n2),
+    .n3(n1),
+	.n4(n2),
     .out(out),
 );
 

@@ -8,9 +8,13 @@ module mixer #(
 
     input wire signed [BITSIZE-1:0] in1,
     input wire signed [BITSIZE-1:0] in2,
+    input wire signed [BITSIZE-1:0] in3,
+    input wire signed [BITSIZE-1:0] in4,
 
     input wire signed [BITSIZE-1:0] n1,    // Q1.(BITSIZE-2)
     input wire signed [BITSIZE-1:0] n2,    // Q1.(BITSIZE-2)
+    input wire signed [BITSIZE-1:0] n3,    // Q1.(BITSIZE-2)
+    input wire signed [BITSIZE-1:0] n4,    // Q1.(BITSIZE-2)
 
 	output reg signed [BITSIZE-1:0] out,
 );
@@ -64,8 +68,14 @@ always @(posedge bclk) begin
         auxout2 <= 0;
 	end else if (counter == 2) begin
 		auxout1 <= (in2 * n2);
-        auxout2 <= auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
+        auxout2 <= auxout2 + auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
     end else if (counter == 3) begin
+		auxout1 <= (in3 * n3);
+        auxout2 <= auxout2 + auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
+    end else if (counter == 4) begin
+		auxout1 <= (in4 * n4);
+        auxout2 <= auxout2 + auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
+    end else if (counter == 5) begin
         auxout2 <=  auxout2 + auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
 	end
 end
