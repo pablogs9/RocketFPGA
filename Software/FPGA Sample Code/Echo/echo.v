@@ -3,7 +3,7 @@ module echo #(
 )(	
 	input wire enable,
 
-	input wire bclk,
+	input wire bclk,    // 64 times lrclk 
 	input wire lrclk,
 
 	input wire signed [BITSIZE-1:0] left_in,

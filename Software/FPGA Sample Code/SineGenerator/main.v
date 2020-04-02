@@ -36,7 +36,8 @@ module main(
 
 localparam BITSIZE = 24;
 
-reg [15:0] tones [0:119];
+reg [15:0] tones [0:139];
+// python3 ../Utils/scale_generator.py 48000 16 > cromatic.hex
 initial $readmemh("cromatic.hex", tones);
 
 // Clocking and reset
@@ -67,6 +68,7 @@ sinegenerator #(
     .BITSIZE(BITSIZE),
     .PHASESIZE(16),
 ) S1 (
+    .enable(1'b1),
 	.lrclk(DACLRC),
     .out(right2),
     .freq(freq),
@@ -87,12 +89,5 @@ always @(posedge divider[23]) begin
     freq_counter <= freq_counter + 1;
 end
 
-// LED
-assign LED = !USER_BUTTON;
-
-// assign IO7 = divider[16];
-// assign IO6 = aux;
-// assign IO5 = DACLRC;
-// assign IO4 = DACDAT;
 
 endmodule
