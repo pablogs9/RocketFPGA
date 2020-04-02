@@ -44,28 +44,30 @@ module mixer #(
 // );
 
 reg [2:0] counter = 0;
-reg signed [(BITSIZE*2)-1:0] auxout;
+reg signed [(BITSIZE*2)-1:0] auxout1;
+reg signed [(BITSIZE*2)-1:0] auxout2;
 
 always @(posedge lrclk) begin
     // out <= auxout >>> (BITSIZE/2);
-    auxout <= (in1 * n1) + (in2 * n2);
-    out <= auxout[(BITSIZE*2)-1:(BITSIZE)-2];
+    // auxout <= (in1 * n1) + (in2 * n2);
+    out <= auxout2;
 end
 
 always @(posedge bclk) begin
-    
-    // if(lrclk)
-	// 	counter <= 1;
-    // else
-    //     counter <= counter + 1;
+    if(lrclk)
+		counter <= 1;
+    else
+        counter <= counter + 1;
 		
-	// if (counter == 1) begin
-    //     auxout <= 0;
-	// end else if (counter == 2) begin
-	// 	auxout <= auxout + (in1 * n1);
-	// end else if (counter == 3) begin
-    //     auxout <= auxout + (in2 * n2);
-	// end
+	if (counter == 1) begin
+        auxout1 <= (in1 * n1);
+        auxout2 <= 0;
+	end else if (counter == 2) begin
+		auxout1 <= (in2 * n2);
+        auxout2 <= auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
+    end else if (counter == 3) begin
+        auxout2 <=  auxout2 + auxout1[(BITSIZE*2)-1:(BITSIZE)-2];
+	end
 end
 
 
