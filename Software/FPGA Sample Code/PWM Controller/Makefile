@@ -19,7 +19,7 @@ $(NAME).bin: $(PINS) $(NAME).v
 	
 	#-- Sintesis
 	# yosys -p "synth_ice40 -blif $(NAME).blif" $(NAME).v
-	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v pwm.v spi.v clock_synchronizer.v
+	yosys -p 'synth_ice40 -dsp -top $(NAME) -json $(NAME).json' main.v pwm.v spi.v clock_synchronizer.v
 	
 	#-- Place & route
 	# arachne-pnr -d 1k -p $(PINS) $(NAME).blif -o $(NAME).txt

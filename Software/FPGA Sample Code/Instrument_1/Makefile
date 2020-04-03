@@ -18,8 +18,8 @@ sint: $(NAME).bin
 $(NAME).bin: $(PINS) $(NAME).v 
 	
 	#-- Sintesis
-	# yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' $(wildcard *.v)
-	yosys -p 'synth_ice40 -top $(NAME) -json $(NAME).json' main.v ../Sine Generator/sinegenerator.v ../I2S/i2s_rx.v ../I2S/i2s_tx.v ../Codec/configurator.v ../Codec/SPI.v ../Echo/echo.v ../Echo/memory.v ../ADC/adc.v
+	# yosys -p 'synth_ice40 -dsp -top $(NAME) -json $(NAME).json' $(wildcard *.v)
+	yosys -p 'synth_ice40 -dsp -top $(NAME) -json $(NAME).json' main.v ../Sine Generator/sinegenerator.v ../I2S/i2s_rx.v ../I2S/i2s_tx.v ../Codec/configurator.v ../Codec/SPI.v ../Echo/echo.v ../Echo/memory.v ../ADC/adc.v
 
 	
 	#-- Place & route
