@@ -46,6 +46,7 @@ assign MCLK = divider[1]; //12.288 MHz
 
 configurator #(
     .BITSIZE(BITSIZE),
+    .LINE_NOMIC(1'b0),
 )conf (
     .clk(divider[6]),
     .spi_mosi(MOSI), 
@@ -58,27 +59,19 @@ wire [BITSIZE-1:0] sine1;
 wire [BITSIZE-1:0] sine2;
 wire [BITSIZE-1:0] sine3;
 wire [BITSIZE-1:0] sine4;
-wire [BITSIZE-1:0] n1;
-wire [BITSIZE-1:0] n2;
-wire [BITSIZE-1:0] n3;
-wire [BITSIZE-1:0] n4;
+
+wire [BITSIZE-1:0] mic;
+wire [BITSIZE-1:0] m1_out;
 wire [BITSIZE-1:0] out;
 
-reg counter = 0;
-always @(posedge divider[27]) begin
-    if (counter) begin
-        n1 <= 24'b000100000000000000000000;
-        n2 <= 24'b000100000000000000000000;
-        n3 <= 24'b000100000000000000000000;
-        n4 <= 24'b000100000000000000000000;
-    end else begin
-        n1 <= 24'b001000000000000000000000;
-        n2 <= 24'b001000000000000000000000;
-        n3 <= 24'b001000000000000000000000;
-        n4 <= 24'b001000000000000000000000;
-    end
-    counter <= !counter;
-end
+i2s_rx #( 
+  .BITSIZE(BITSIZE),
+) I2SRX (
+  .sclk (BCLK), 
+  .lrclk (ADCLRC),
+  .sdata (ADCDAT),
+  .left_chan (mic),
+);
 
 sinegenerator #(
     .BITSIZE(BITSIZE),
@@ -100,39 +93,45 @@ sinegenerator #(
     .freq(1201), // 880 Hz
 );
 
-sinegenerator #(
-    .BITSIZE(BITSIZE),
-    .PHASESIZE(16),
-) S3 (
-    .enable(1'b1),
-	.lrclk(DACLRC),
-    .out(sine3),
-    .freq(2403), // 1760 Hz
-);
+// sinegenerator #(
+//     .BITSIZE(BITSIZE),
+//     .PHASESIZE(16),
+// ) S3 (
+//     .enable(1'b1),
+// 	.lrclk(DACLRC),
+//     .out(sine3),
+//     .freq(2403), // 1760 Hz
+// );
 
-sinegenerator #(
-    .BITSIZE(BITSIZE),
-    .PHASESIZE(16),
-) S4 (
-    .enable(1'b1),
-	.lrclk(DACLRC),
-    .out(sine4),
-    .freq(9612), // 7040 Hz
-);
+// sinegenerator #(
+//     .BITSIZE(BITSIZE),
+//     .PHASESIZE(16),
+// ) S4 (
+//     .enable(1'b1),
+// 	.lrclk(DACLRC),
+//     .out(sine4),
+//     .freq(9612), // 7040 Hz
+// );
 
-mixer #(
+// mixer4_fixed #(
+//     .BITSIZE(BITSIZE),
+// ) M1 (
+// 	.lrclk(DACLRC),
+// 	.bclk(BCLK),
+// 	.in1(sine1),
+// 	.in2(sine2),
+//     .in3(sine3),
+// 	.in4(sine4),
+//     .out(m1_out),
+// );
+
+mixer2_fixed #(
     .BITSIZE(BITSIZE),
-) M1 (
+) M2 (
 	.lrclk(DACLRC),
 	.bclk(BCLK),
 	.in1(sine1),
 	.in2(sine2),
-    .in3(sine3),
-	.in4(sine4),
-	.n1(n1),
-	.n2(n2),
-    .n3(n3),
-	.n4(n4),
     .out(out),
 );
 

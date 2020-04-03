@@ -1,6 +1,5 @@
-// out = (n1 * in1) + (n2 * in2)
-// multiplication -> signed Q1.22 * signed Q1.22 = signed Q
-module mixer #(
+// out = (n1 * in1) + (n2 * in2) + (n3 * in3) + (n4 * in4)
+module mixer4 #(
 	parameter BITSIZE = 16,
 )(	
     input wire lrclk,
@@ -52,8 +51,6 @@ reg signed [(BITSIZE*2)-1:0] auxout1;
 reg signed [(BITSIZE*2)-1:0] auxout2;
 
 always @(posedge lrclk) begin
-    // out <= auxout >>> (BITSIZE/2);
-    // auxout <= (in1 * n1) + (in2 * n2);
     out <= auxout2;
 end
 
