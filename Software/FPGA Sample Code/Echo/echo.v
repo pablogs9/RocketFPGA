@@ -12,6 +12,11 @@ module echo #(
 	output wire [BITSIZE-1:0] left_out,
 	output wire [BITSIZE-1:0] right_out,
 );
+
+if (BITSIZE == 24) begin
+    $error("ECHO SUPPORT FOR 24 NOT AVAILABLE YET");
+end
+
 localparam ADDRLEN = 16;
 
 reg [ADDRLEN-1:0] rd_ptr = 1;

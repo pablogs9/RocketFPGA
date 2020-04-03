@@ -87,8 +87,8 @@ multiplier #(
 ) M2 (
 	.lrclk(DACLRC),
 	.bclk(BCLK),
-	.in1(sine1 >>> 1),
-	.in2(sine2 >>> 1),
+	.in1(triangle1 >>> 1),
+	.in2(sine2),
     .out(out),
 );
 
