@@ -11,17 +11,16 @@ module multiplier #(
 	output reg signed [BITSIZE-1:0] out,
 );
 
+if (BITSIZE == 24) begin
+    $error("MULTIPLIER SUPPORT FOR 24 NOT AVAILABLE YET");
+end
+
 reg signed [(BITSIZE*2)-1:0] aux;
 
 assign aux = in1 * in2;
 
 always @(posedge lrclk) begin
-    // aux <= in1 * in2;
     out <= aux[(BITSIZE*2)-1:(BITSIZE)-2];
-end
-
-always @(posedge bclk) begin
-    
 end
 
 

@@ -55,8 +55,8 @@ configurator #(
 );
 
 // Path
-wire [BITSIZE-1:0] sine1;
-wire [BITSIZE-1:0] sine2;
+wire signed [BITSIZE-1:0] sine1;
+wire signed [BITSIZE-1:0] sine2;
 
 wire [BITSIZE-1:0] m1_out;
 wire [BITSIZE-1:0] out;
@@ -87,8 +87,8 @@ multiplier #(
 ) M2 (
 	.lrclk(DACLRC),
 	.bclk(BCLK),
-	.in1(sine1),
-	.in2(sine2),
+	.in1(sine1 >>> 1),
+	.in2(sine2 >>> 1),
     .out(out),
 );
 
