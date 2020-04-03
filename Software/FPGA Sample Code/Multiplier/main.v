@@ -62,14 +62,14 @@ wire [BITSIZE-1:0] m1_out;
 wire [BITSIZE-1:0] out;
 
 
-trianglegenerator #(
+sinegenerator #(
     .BITSIZE(BITSIZE),
     .PHASESIZE(16),
 ) S1 (
     .enable(1'b1),
 	.lrclk(DACLRC),
     .out(sine1),
-    .freq(300), // 220 Hz
+    .freq(11), // 220 Hz
 );
 
 sinegenerator #(
@@ -84,10 +84,10 @@ sinegenerator #(
 
 multiplier #(
     .BITSIZE(BITSIZE),
-) M2 (
+) M1 (
 	.lrclk(DACLRC),
 	.bclk(BCLK),
-	.in1(sine1 >>> 1),
+	.in1((2**BITSIZE/2) + sine1 >>> 2),
 	.in2(sine2 >>> 1),
     .out(out),
 );
