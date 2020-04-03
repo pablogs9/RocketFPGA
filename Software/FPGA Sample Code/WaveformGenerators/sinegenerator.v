@@ -13,14 +13,14 @@ reg	[BITSIZE-1:0] quartertable [0:((2**TABLESIZE)-1)];
 
 if (BITSIZE == 24) begin
     if (TABLESIZE == 12) begin
-        initial	$readmemh("../SineGenerator/quartersinetable_24bits_depth12.hex", quartertable);
+        initial	$readmemh("../WaveformGenerators/quartersinetable_24bits_depth12.hex", quartertable);
     end else if (TABLESIZE == 10) begin
-        initial	$readmemh("../SineGenerator/quartersinetable_24bits_depth10.hex", quartertable);
+        initial	$readmemh("../WaveformGenerators/quartersinetable_24bits_depth10.hex", quartertable);
     end else if (TABLESIZE == 9) begin
-        initial	$readmemh("../SineGenerator/quartersinetable_24bits_depth9.hex", quartertable);
+        initial	$readmemh("../WaveformGenerators/quartersinetable_24bits_depth9.hex", quartertable);
     end
 end else begin
-    initial	$readmemh("../SineGenerator/quartersinetable_16bits_depth9.hex", quartertable);
+    initial	$readmemh("../WaveformGenerators/quartersinetable_16bits_depth9.hex", quartertable);
 end
 
 reg [PHASESIZE-1:0]	phase;

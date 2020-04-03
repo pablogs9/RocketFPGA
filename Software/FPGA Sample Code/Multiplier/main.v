@@ -62,7 +62,7 @@ wire [BITSIZE-1:0] m1_out;
 wire [BITSIZE-1:0] out;
 
 
-sinegenerator #(
+trianglegenerator #(
     .BITSIZE(BITSIZE),
     .PHASESIZE(16),
 ) S1 (
