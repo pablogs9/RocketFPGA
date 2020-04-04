@@ -4,6 +4,10 @@ UP5k has:
 
 ## SAVING BUFFERS
 
+
+
+
+
 #24 BIT MODE
 
 44100 samples/second * 24 bits/sample = 1058400 bits/second
@@ -21,8 +25,16 @@ UP5k has:
 
 1024 kb SPRAM -> 256000 * 4 memories = 1024000 bits -> 1024000 bits / 705600 bits/second = 1,4512471655 seconds
 
-## DDS
 
+#16 BIT MODE - 48 kHz 
+48000 samples/second * 16 bits/sample = 768000 bits/second
+ALL MEMORY: 1024 kb SPRAM -> 256000 * 4 memories = 1024000 bits -> 1024000 bits / 768000 bits/second = 1,3333333333 seconds
+SINGLE MEMORY: 1024 kb SPRAM -> 256000 bits -> 256000 bits / 768000 bits/second = 0,3333333333 seconds = 333 ms
+
+#16 BIT MODE - 96 kHz 
+96000 samples/second * 16 bits/sample = 1536000 bits/second
+ALL MEMORY: 1024 kb SPRAM -> 256000 * 4 memories = 1024000 bits -> 1024000 bits / 1536000 bits/second = 0,6666666667 seconds = 667 ms
+SINGLE MEMORY: 1024 kb SPRAM -> 256000 bits -> 256000 bits / 1536000 bits/second = 0,1666666667 seconds = 167 ms
 
 
 
