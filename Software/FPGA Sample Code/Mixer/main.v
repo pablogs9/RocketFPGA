@@ -25,7 +25,7 @@ module main(
     input wire RESET,
     input wire USER_BUTTON,
 
-    output wire TXD,
+    output wire PRE_RESET,
     input wire RXD,
 
     output wire CAPACITOR,
@@ -52,6 +52,7 @@ configurator #(
     .spi_mosi(MOSI), 
     .spi_sck(SCLK),
     .cs(CS),
+    .prereset(PRE_RESET),
 );
 
 // Path

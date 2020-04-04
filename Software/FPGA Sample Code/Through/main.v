@@ -25,7 +25,7 @@ module main(
     output wire LED,
     input wire RESET,
 
-    output wire TXD,
+    output wire PRE_RESET,
     input wire RXD
 );
 

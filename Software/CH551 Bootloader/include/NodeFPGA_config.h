@@ -3,6 +3,8 @@
 
 #define RESET_FPGA_PIN 3
 #define FLASH_SS_PIN 2
+#define TXD_CH_PIN 1
+#define LED_PIN 4
 #define FLASH_DO_PIN 5
 #define FLASH_DI_PIN 6
 #define FLASH_CK_PIN 7
@@ -16,6 +18,8 @@ SBIT(FLASH_CK, 0x90, FLASH_CK_PIN);
 
 SBIT(FLASH_SS, 0xB0, FLASH_SS_PIN);
 SBIT(RESET_FPGA, 0xB0, RESET_FPGA_PIN);
+SBIT(TXD_CH, 0xB0, TXD_CH_PIN);
+SBIT(LED, 0x90, LED_PIN);
 
 void enableFlashSS();
 void enableFPGAReset();
@@ -23,5 +27,9 @@ void disableFlashSS();
 void disableFPGAReset();
 void triestateFlashSS();
 void triestateFPGAReset();
+void enablePreFlash();
+void disablePreFlash();
+void enableLED();
+void disableLED();
 
 

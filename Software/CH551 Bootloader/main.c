@@ -611,6 +611,9 @@ void uart_poll(){
 			transactionBytes = 0;
 			state = 1;
 			// SPIMasterModeSet(0);
+			enableLED();
+			enablePreFlash();
+			mDelaymS(10); // Wait for FPGA prepare its own reset
 			enableFPGAReset();
 			MEM_releasePowerDown();
 		}else if (state == 0 && uart_data == 'd') {
@@ -621,14 +624,14 @@ void uart_poll(){
 		}else if (state == 0 && uart_data == 'A') {
 			triestateFlashSS();
 			triestateSPI();
-			
+			disablePreFlash();
 			enableFPGAReset();
 			mDelaymS(5);
 			triestateFPGAReset();
 		}else if (state == 0 && uart_data == 'B') {
 			jump_to_bootloader();
 		}else if (state == 0 && uart_data == 'V') {
-			v_uart_puts("RocketFPGA Bootloader V0.21\n");
+			v_uart_puts("RocketFPGA Bootloader V0.3\n");
 		}else if (state == 1 || state == 2 || state == 3){
 			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
 			transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
@@ -707,6 +710,7 @@ void uart_poll(){
 				if(debug) printf("Write done!\r\n");
 				disableFlashSS();
 				MEM_waitWriteCycle();
+				disableLED();
 				state = 0;
 			}
 		}
@@ -729,6 +733,7 @@ main(){
 	UEP1_T_LEN = 0;													
 	UEP2_T_LEN = 0;	
 	SPIMasterModeSet(0);
+	disableLED();
 	
 	while(1){
 		usb_poll();

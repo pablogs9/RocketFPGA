@@ -8,6 +8,7 @@ module configurator #(
 	output wire spi_mosi, 
 	output wire spi_sck,
 	output reg done,
+	input wire prereset,
 );
 
 reg trigger = 0;
@@ -126,7 +127,6 @@ SPI spimaster (
     .RDY(ready), 
 );
 
-
 reg [7:0] counter = 0;
 reg csreg = 1;
 assign cs = csreg;
@@ -138,26 +138,36 @@ always @(posedge clk) begin
 		counter <= 0;
 		trigger <= 0;
 		csreg <= 1;
-	end
-	else begin
+	end else if (prereset) begin
+		if (ready == 1 && trigger != 1 && state == 0) begin
+			write_data <= {addr[0], cmd[0]};
+			trigger <= 1;
+			state <= state + 1;
+		end else if (ready == 1 && trigger != 1 && state == 1) begin
+			csreg <= 0;
+			state <= state + 1;
+		end else if (ready == 1 && trigger != 1 && state == 2) begin
+			csreg <= 1;
+			state <= 0;
+		end else begin
+			trigger <= 0;
+		end
+	end else begin
 		if (ready == 1 && trigger != 1 && state == 0 && counter < num_regs) begin
 			write_data <= {addr[counter], cmd[counter]};
 			trigger <= 1;
 			state <= state + 1;
 			counter <= counter + 1;
-		end
-		else if (ready == 1 && trigger != 1 && state == 1) begin
+		end else if (ready == 1 && trigger != 1 && state == 1) begin
 			csreg <= 0;
 			state <= state + 1;
-		end
-		else if (ready == 1 && trigger != 1 && state == 2) begin
+		end else if (ready == 1 && trigger != 1 && state == 2) begin
 			csreg <= 1;
 			state <= 0;
 			if (counter == num_regs) begin
 				idone <= 1;
 			end
-		end
-		else begin
+		end else begin
 			trigger <= 0;
 		end
 	end

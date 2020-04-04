@@ -11,7 +11,7 @@ module SPI #(
     input wire CLK, 
     input wire [DATASIZE-1:0] DATA,
     input wire TRG, 
-    input wire RDY, 
+    output wire RDY, 
 
 );
 reg [7:0] nbits;

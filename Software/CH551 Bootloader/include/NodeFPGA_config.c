@@ -1,11 +1,28 @@
 #include "NodeFPGA_config.h"
 #include <debug.h>
 
+void enablePreFlash(){
+    DISABLE_BIT(P3_MOD_OC,TXD_CH_PIN);
+    ENABLE_BIT(P3_DIR_PU,TXD_CH_PIN);
+    TXD_CH = 1;
+}
 
-void enableFlashSS(){
-    DISABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
-    ENABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
-    FLASH_SS = 0;
+void disablePreFlash(){
+    DISABLE_BIT(P3_MOD_OC,TXD_CH_PIN);
+    ENABLE_BIT(P3_DIR_PU,TXD_CH_PIN);
+    TXD_CH = 0;
+}
+
+void enableLED(){
+    DISABLE_BIT(P1_MOD_OC,LED_PIN);
+    ENABLE_BIT(P1_DIR_PU,LED_PIN);
+    LED = 1;
+}
+
+void disableLED(){
+    DISABLE_BIT(P1_MOD_OC,LED_PIN);
+    ENABLE_BIT(P1_DIR_PU,LED_PIN);
+    LED = 0;
 }
 
 void enableFPGAReset(){
@@ -14,28 +31,34 @@ void enableFPGAReset(){
     RESET_FPGA = 0;
 }
 
-void disableFlashSS(){
-    DISABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
-    ENABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
-    FLASH_SS = 1;
-}
-
 void disableFPGAReset(){
     DISABLE_BIT(P3_MOD_OC,RESET_FPGA_PIN);
     ENABLE_BIT(P3_DIR_PU,RESET_FPGA_PIN);
     RESET_FPGA = 1;
 }
 
-void triestateFlashSS(){
+void disableFlashSS(){
+    DISABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
+    ENABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
     FLASH_SS = 1;
-    ENABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
-    DISABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
 }
 
 void triestateFPGAReset(){
     RESET_FPGA = 1;	
     ENABLE_BIT(P3_MOD_OC,RESET_FPGA_PIN);
     DISABLE_BIT(P3_DIR_PU,RESET_FPGA_PIN);
+}
+
+void enableFlashSS(){
+    DISABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
+    ENABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
+    FLASH_SS = 0;
+}
+
+void triestateFlashSS(){
+    FLASH_SS = 1;
+    ENABLE_BIT(P3_MOD_OC,FLASH_SS_PIN);
+    DISABLE_BIT(P3_DIR_PU,FLASH_SS_PIN);
 }
 
 void triestateSPI(){
