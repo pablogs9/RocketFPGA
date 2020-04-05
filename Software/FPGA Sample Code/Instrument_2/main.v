@@ -123,6 +123,7 @@ echo #(
   .enable(!USER_BUTTON),
   .bclk (BCLK), 
   .lrclk (ADCLRC),
+  .offset(1),
   .in (mic),
   .out (out_echo),
 );
