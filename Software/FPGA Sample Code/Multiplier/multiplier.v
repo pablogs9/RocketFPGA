@@ -2,8 +2,7 @@
 module multiplier #(
 	parameter BITSIZE = 16,
 )(	
-    input wire lrclk,
-	input wire bclk,    // 64 times lrclk 
+	// input wire clk,
 
     input wire signed [BITSIZE-1:0] in1,
     input wire signed [BITSIZE-1:0] in2,
@@ -18,10 +17,7 @@ end
 reg signed [(BITSIZE*2)-1:0] aux;
 
 assign aux = in1 * in2;
-
-always @(posedge lrclk) begin
-    out <= aux[(BITSIZE*2)-1:(BITSIZE)-2];
-end
+assign out = aux[(BITSIZE*2)-1:(BITSIZE)-2];
 
 
 endmodule

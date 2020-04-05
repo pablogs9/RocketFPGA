@@ -41,14 +41,7 @@ memory  #(
 	.wren(wren)
 );
 
-always @(posedge lrclk) begin
-	if (cleaning) 
-		out <= 0;
-	else if (enable)
-		out <= dataout;
-	else
-		out <= in;
-end
+assign out = (cleaning || !enable) ? 0 : dataout; 
 
 always @(posedge bclk) begin
 	if(lrclk)
@@ -61,7 +54,7 @@ always @(posedge bclk) begin
 		if (cleaning)
 			datain <= 0;
 		else
-			datain <= (in >>> 1) +  (dataout >>> 1);
+			datain <= (in >>> 1) + (dataout >>> 1);
 		wren <= 1;
 		memaddr <= wr_ptr;
 		counter <= counter + 1;

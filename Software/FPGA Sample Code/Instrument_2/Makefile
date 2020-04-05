@@ -8,7 +8,7 @@ sint: $(NAME).bin
 $(NAME).bin: $(PINS) $(NAME).v 
 	
 	#-- Synthesis
-	yosys -Q -d -p 'synth_ice40 -dsp -top $(NAME) -json $(NAME).json' main.v  ../I2S/i2s_rx.v ../I2S/i2s_tx.v ../Codec/configurator.v ../Codec/SPI.v ../WaveformGenerators/*generator.v ../Multiplier/multiplier.v ../NoiseGate/noisegate.v ../Echo/echo.v ../Echo/memory.v 
+	yosys -Q -d -p 'synth_ice40 -dsp -top $(NAME) -json $(NAME).json' main.v  ../I2S/i2s_rx.v ../I2S/i2s_tx.v ../Codec/configurator.v ../Codec/SPI.v ../WaveformGenerators/*generator.v ../Multiplier/multiplier.v ../NoiseGate/noisegate.v ../Echo/echo.v ../Echo/memory.v ../Mixer/mixer2_fixed.v ../Mixer/mixer2.v
 
 	#-- Place & route
 	nextpnr-ice40 --up5k --package sg48  --json $(NAME).json --pcf $(PINS) --asc $(NAME).asc

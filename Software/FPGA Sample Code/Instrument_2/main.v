@@ -67,66 +67,31 @@ i2s_rx #(
   .left_chan (mic),
 );
 
-wire signed [BITSIZE-1:0] sine1;
-
-sinegenerator #(
-    .BITSIZE(BITSIZE),
-    .PHASESIZE(16),
-) S1 (
-    .enable(1'b1),
-	.lrclk(DACLRC),
-    .out(sine1),
-    .freq(21), // 11 - 220 Hz
-);
-
-wire signed [BITSIZE-1:0] sine2;
-
-sinegenerator #(
-    .BITSIZE(BITSIZE),
-    .PHASESIZE(16),
-) S2 (
-    .enable(1'b1),
-	.lrclk(DACLRC),
-    .out(sine2),
-    .freq(2403), // 1760 Hz
-);
-
-wire signed [BITSIZE-1:0] out_mult;
-
-multiplier #(
-    .BITSIZE(BITSIZE),
-) M1 (
-	.lrclk(DACLRC),
-	.bclk(BCLK),
-	.in1((2**BITSIZE/2) + sine1 >>> 2),
-	.in2(sine2 >>> 1),
-    .out(out_mult),
-);
-
-wire signed [BITSIZE-1:0] out_mult2;
-
-multiplier #(
-    .BITSIZE(BITSIZE),
-) M2 (
-	.lrclk(DACLRC),
-	.bclk(BCLK),
-	.in1((sine1 >>> 4)),
-	.in2(mic >>> 2),
-    .out(out_mult2),
-);
 
 wire signed [BITSIZE-1:0] out_echo;
 
 echo #( 
   .BITSIZE(BITSIZE),
-  .LENGHT(4),
+  .LENGHT(1),
 ) E1 (
   .enable(!USER_BUTTON),
   .bclk (BCLK), 
-  .lrclk (ADCLRC),
+  .lrclk (ADCLRC), 
   .offset(1),
   .in (mic),
   .out (out_echo),
+);
+
+wire signed [BITSIZE-1:0] out_mixer;
+
+mixer2 #(
+    .BITSIZE(BITSIZE),
+) MIX1 (
+    .in1(out_echo),
+    .n1(16'b0100100000000000),
+    .in2(mic),
+    .n2(16'b0100100000000000),
+    .out(out_mixer),
 );
 
 i2s_tx #( 
@@ -135,8 +100,8 @@ i2s_tx #(
     .sclk (BCLK), 
     .lrclk (DACLRC),
     .sdata (DACDAT),
-    .left_chan (out_echo),
-    .right_chan (out_echo)
+    .left_chan (out_mixer),
+    .right_chan (out_mixer)
 );
 
 endmodule
