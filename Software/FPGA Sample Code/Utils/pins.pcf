@@ -21,8 +21,9 @@ set_io IO4 23
 
 set_io -pullup yes -pullup_resistor 10K USER_BUTTON 9
 
-set_io PRE_RESET 18
-set_io RXD 19
+set_io PRE_RESET 16
+set_io TXD 19
+set_io RXD 18
 
 set_io CAPACITOR 13
 set_io POT_1 6

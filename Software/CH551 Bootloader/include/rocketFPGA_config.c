@@ -1,16 +1,12 @@
-#include "NodeFPGA_config.h"
+#include "rocketFPGA_config.h"
 #include <debug.h>
 
 void enablePreFlash(){
-    DISABLE_BIT(P3_MOD_OC,TXD_CH_PIN);
-    ENABLE_BIT(P3_DIR_PU,TXD_CH_PIN);
-    TXD_CH = 1;
+    enableFlashSS();
 }
 
 void disablePreFlash(){
-    DISABLE_BIT(P3_MOD_OC,TXD_CH_PIN);
-    ENABLE_BIT(P3_DIR_PU,TXD_CH_PIN);
-    TXD_CH = 0;
+    disableFlashSS();
 }
 
 void enableLED(){

@@ -9,7 +9,7 @@
 #include <ch554_usb.h>
 #include <debug.h>
 #include <spi.h>
-#include "NodeFPGA_config.h"
+#include "rocketFPGA_config.h"
 
 __xdata __at (0x0000) uint8_t  Ep0Buffer[DEFAULT_ENDP0_SIZE];	
 __xdata __at (0x0040) uint8_t  Ep1Buffer[DEFAULT_ENDP1_SIZE];
@@ -612,8 +612,11 @@ void uart_poll(){
 			state = 1;
 			// SPIMasterModeSet(0);
 			enableLED();
+			
 			enablePreFlash();
-			mDelaymS(10); // Wait for FPGA prepare its own reset
+			mDelaymS(20); // Prevent FPGA for a reset
+			disablePreFlash();
+
 			enableFPGAReset();
 			MEM_releasePowerDown();
 		}else if (state == 0 && uart_data == 'd') {
@@ -624,14 +627,13 @@ void uart_poll(){
 		}else if (state == 0 && uart_data == 'A') {
 			triestateFlashSS();
 			triestateSPI();
-			disablePreFlash();
 			enableFPGAReset();
 			mDelaymS(5);
 			triestateFPGAReset();
 		}else if (state == 0 && uart_data == 'B') {
 			jump_to_bootloader();
 		}else if (state == 0 && uart_data == 'V') {
-			v_uart_puts("RocketFPGA Bootloader V0.3.1\n");
+			v_uart_puts("RocketFPGA Bootloader V0.3.2\n");
 		}else if (state == 1 || state == 2 || state == 3){
 			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
 			transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));

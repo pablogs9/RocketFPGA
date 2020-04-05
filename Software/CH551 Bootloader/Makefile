@@ -9,7 +9,7 @@ C_FILES = \
 	include/spi_memory.c\
 	include/debug.c \
 	include/spi.c \
-	include/NodeFPGA_config.c 
+	include/rocketFPGA_config.c 
 
 CC = sdcc
 OBJCOPY = objcopy

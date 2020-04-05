@@ -138,7 +138,7 @@ always @(posedge clk) begin
 		counter <= 0;
 		trigger <= 0;
 		csreg <= 1;
-	end else if (prereset) begin
+	end else if (!prereset) begin
 		if (ready == 1 && trigger != 1 && state == 0) begin
 			write_data <= {addr[0], cmd[0]};
 			trigger <= 1;

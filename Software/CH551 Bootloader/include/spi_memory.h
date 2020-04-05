@@ -2,7 +2,7 @@
 #define __SPI_MEMORY_H__
 
 #include <spi.h>
-#include "NodeFPGA_config.h"
+#include "rocketFPGA_config.h"
 
 #define MEM_WREN 0x06
 #define MEM_WRDI 0x04
