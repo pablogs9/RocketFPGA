@@ -631,7 +631,7 @@ void uart_poll(){
 		}else if (state == 0 && uart_data == 'B') {
 			jump_to_bootloader();
 		}else if (state == 0 && uart_data == 'V') {
-			v_uart_puts("RocketFPGA Bootloader V0.3\n");
+			v_uart_puts("RocketFPGA Bootloader V0.3.1\n");
 		}else if (state == 1 || state == 2 || state == 3){
 			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
 			transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
@@ -646,7 +646,8 @@ void uart_poll(){
 
 				if(debug) printf("Erasing device\r\n");
 				// MEM_chipEraseFirst64k();
-				MEM_chipErase();
+				// MEM_chipErase();
+				MEM_chipEraseFirstNBlocks( (uint8_t)(((float)transactionBytes)/65536.0) + 1 );
 
 				enableFlashSS();
 				MEM_writeEnable();

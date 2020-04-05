@@ -29,6 +29,8 @@ void MEM_writeByteAt(uint32_t addr, uint8_t data);
 void MEM_writeAt(uint32_t addr, uint8_t length, uint8_t * buf);
 void MEM_writeAddress(uint32_t addr);
 void MEM_waitWriteCycle();
+void MEM_chipEraseBlock(uint8_t block);
+void MEM_chipEraseFirstNBlocks(uint8_t n);
 void MEM_chipErase();
 void MEM_releasePowerDown();
 

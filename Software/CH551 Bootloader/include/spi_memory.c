@@ -114,7 +114,7 @@ void MEM_chipErase(){
     disableFlashSS();
 }
 
-void MEM_chipEraseFirst64k(){
+void MEM_chipEraseBlock(uint8_t block){
     uint8_t ans;
 
     enableFlashSS();
@@ -123,7 +123,7 @@ void MEM_chipEraseFirst64k(){
 
     enableFlashSS();
     CH554SPIMasterWrite(0xD8);
-    MEM_writeAddress(0);
+    MEM_writeAddress(((uint32_t)block) * 0x10000);
     disableFlashSS();
     
     enableFlashSS();
@@ -134,6 +134,13 @@ void MEM_chipEraseFirst64k(){
     };
 
     disableFlashSS();
+}
+
+void MEM_chipEraseFirstNBlocks(uint8_t n){
+    for (uint8_t i = 0; i < n; i++)
+    {
+        MEM_chipEraseBlock(i);
+    }
 }
 
 void MEM_releasePowerDown(){
