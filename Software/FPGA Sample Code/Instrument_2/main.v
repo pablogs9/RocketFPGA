@@ -119,6 +119,7 @@ wire signed [BITSIZE-1:0] out_echo;
 
 echo #( 
   .BITSIZE(BITSIZE),
+  .LENGHT(4),
 ) E1 (
   .enable(!USER_BUTTON),
   .bclk (BCLK), 

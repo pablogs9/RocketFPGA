@@ -1,12 +1,13 @@
 module echo #(
-	parameter BITSIZE = 16
+	parameter BITSIZE = 16,
+	parameter LENGHT = 1,
 )(	
 	input wire enable,
 
 	input wire bclk,    // 64 times lrclk 
 	input wire lrclk,
 
-	input wire [ADDRLEN-1:0] offset,
+	input wire [16:0] offset,
 
 	input wire signed [BITSIZE-1:0] in,
 	output wire signed [BITSIZE-1:0] out,
@@ -16,7 +17,7 @@ if (BITSIZE == 24) begin
     $error("ECHO SUPPORT FOR 24 NOT AVAILABLE YET");
 end
 
-localparam ADDRLEN = 14;
+localparam ADDRLEN = (LENGHT == 4) ? 16 : ((LENGHT == 2) ? 15 : 14);
 
 reg [ADDRLEN-1:0] wr_ptr = 0;
 
@@ -29,17 +30,15 @@ reg signed [BITSIZE-1:0] datain;
 reg signed [BITSIZE-1:0] dataout;
 wire signed [BITSIZE-1:0] outbuff;
 
-SB_SPRAM256KA M1 (
-  .ADDRESS (memaddr), 
-  .DATAIN (datain), 
-  .DATAOUT (outbuff),
-  .MASKWREN (4'b1111),
-  .WREN (wren),
-  .CHIPSELECT (1'b1),
-  .CLOCK (bclk),
-  .STANDBY (1'b0),
-  .SLEEP (1'b0),
-  .POWEROFF (1'b1)
+memory  #( 
+   .BITSIZE(BITSIZE),
+   .LENGHT(LENGHT),
+) M1 (
+    .clk(bclk),
+    .addr(memaddr),
+    .datain(datain),
+    .dataout(dataout),
+	.wren(wren)
 );
 
 always @(posedge lrclk) begin
