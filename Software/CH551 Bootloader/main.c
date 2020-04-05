@@ -15,6 +15,8 @@ __xdata __at (0x0000) uint8_t  Ep0Buffer[DEFAULT_ENDP0_SIZE];
 __xdata __at (0x0040) uint8_t  Ep1Buffer[DEFAULT_ENDP1_SIZE];
 __xdata __at (0x0080) uint8_t  Ep2Buffer[2*MAX_PACKET_SIZE];
 
+uint8_t usb_uart_mode = 0;
+
 uint16_t SetupLen;
 uint8_t   SetupReq,Count,UsbConfig;
 const uint8_t *  pDescr;
@@ -209,6 +211,14 @@ void DeviceInterrupt(void) __interrupt (INT_NO_USB){
 						pDescr += len;
 						break;
 					case SET_CONTROL_LINE_STATE:  //0x22  generates RS-232/V.24 style control signals
+						if(UsbSetupBuf->wValueL==0x03){
+							usb_uart_mode = 1; //Programming mode
+							// v_uart_puts("Programming mode active\r\n");	
+						}
+						else{
+							usb_uart_mode = 0; //Brigde mode
+							// v_uart_puts("UART Bridge mode active\r\n");
+						}
 						break;
 					case SET_LINE_CODING:	  //0x20  Configure
 						break;
@@ -605,118 +615,124 @@ void uart_poll(){
 	if(USBByteCount) {	
 		uart_data = Ep2Buffer[USBBufOutPoint++];
 
-		if (state == 0 && (uart_data == 'W' || uart_data == 'R')) { // Write command received
-			if(debug) printf("State 0. Mode %c. \r\n",uart_data);
-			operation = uart_data;
-			transactionBytes = 0;
-			state = 1;
-			// SPIMasterModeSet(0);
-			enableLED();
-			
-			enablePreFlash();
-			mDelaymS(20); // Prevent FPGA for a reset
-			disablePreFlash();
+		if(usb_uart_mode == 1){
+			if (state == 0 && (uart_data == 'W' || uart_data == 'R')) { // Write command received
+				if(debug) printf("State 0. Mode %c. \r\n",uart_data);
+				operation = uart_data;
+				transactionBytes = 0;
+				state = 1;
+				// SPIMasterModeSet(0);
+				enableLED();
+				
+				enablePreFlash();
+				mDelaymS(20); // Prevent FPGA for a reset
+				disablePreFlash();
 
-			enableFPGAReset();
-			MEM_releasePowerDown();
-		}else if (state == 0 && uart_data == 'd') {
-			debug = !debug;
-			if(debug) printf("Debug enabled\r\n");
-		}else if (state == 0 && uart_data == 'D') {
-			disableFPGAReset();
-		}else if (state == 0 && uart_data == 'A') {
-			triestateFlashSS();
-			triestateSPI();
-			enableFPGAReset();
-			mDelaymS(5);
-			triestateFPGAReset();
-		}else if (state == 0 && uart_data == 'B') {
-			jump_to_bootloader();
-		}else if (state == 0 && uart_data == 'V') {
-			v_uart_puts("RocketFPGA Bootloader V0.3.2\n");
-		}else if (state == 1 || state == 2 || state == 3){
-			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
-			transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
-			state++;
-		}else if (state == 4){
-			if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
-			transactionBytes = transactionBytes | (uart_data << 24);
-			if(debug) printf("Transaction Byte END, data: %lu \r\n",transactionBytes);
+				enableFPGAReset();
+				MEM_releasePowerDown();
+			}else if (state == 0 && uart_data == 'd') {
+				debug = !debug;
+				if(debug) printf("Debug enabled\r\n");
+			}else if (state == 0 && uart_data == 'D') {
+				disableFPGAReset();
+			}else if (state == 0 && uart_data == 'A') {
+				triestateFlashSS();
+				triestateSPI();
+				enableFPGAReset();
+				mDelaymS(5);
+				triestateFPGAReset();
+			}else if (state == 0 && uart_data == 'B') {
+				jump_to_bootloader();
+			}else if (state == 0 && uart_data == 'V') {
+				v_uart_puts("RocketFPGA Bootloader V0.4.0\n");
+			}else if (state == 1 || state == 2 || state == 3){
+				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
+				transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
+				state++;
+			}else if (state == 4){
+				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
+				transactionBytes = transactionBytes | (uart_data << 24);
+				if(debug) printf("Transaction Byte END, data: %lu \r\n",transactionBytes);
 
-			if (operation == 'W') {
-				if(debug) printf("Preparing memory to write\r\n");
+				if (operation == 'W') {
+					if(debug) printf("Preparing memory to write\r\n");
 
-				if(debug) printf("Erasing device\r\n");
-				// MEM_chipEraseFirst64k();
-				// MEM_chipErase();
-				MEM_chipEraseFirstNBlocks( (uint8_t)(((float)transactionBytes)/65536.0) + 1 );
+					if(debug) printf("Erasing device\r\n");
+					// MEM_chipEraseFirst64k();
+					// MEM_chipErase();
+					MEM_chipEraseFirstNBlocks( (uint8_t)(((float)transactionBytes)/65536.0) + 1 );
 
-				enableFlashSS();
-				MEM_writeEnable();
-				disableFlashSS();
+					enableFlashSS();
+					MEM_writeEnable();
+					disableFlashSS();
 
-				memAddres = 0x00000000;
-				memIndex = 0;
-				enableFlashSS();
-				if(debug) printf("Init write at %lu\r\n",memAddres);
-				MEM_startWrite(memAddres);
+					memAddres = 0x00000000;
+					memIndex = 0;
+					enableFlashSS();
+					if(debug) printf("Init write at %lu\r\n",memAddres);
+					MEM_startWrite(memAddres);
 
-				state = 5;
-			}else if (operation == 'R'){
-				if(debug) printf("Preparing memory to read\r\n");
-				enableFlashSS();
-				MEM_startRead(0x00);
-				memIndex = 0;
-				while(transactionBytes > 0){
-					uint8_t data = MEM_read();
-					if(debug) printf("Reading: %lu - 0x%02X (%c). Remaining: %lu\r\n",memIndex,data,data,transactionBytes);
-					memIndex++;
-					virtual_uart_tx(data);
-					usb_poll();
-					mDelayuS(80);
-					transactionBytes--;
+					state = 5;
+				}else if (operation == 'R'){
+					if(debug) printf("Preparing memory to read\r\n");
+					enableFlashSS();
+					MEM_startRead(0x00);
+					memIndex = 0;
+					while(transactionBytes > 0){
+						uint8_t data = MEM_read();
+						if(debug) printf("Reading: %lu - 0x%02X (%c). Remaining: %lu\r\n",memIndex,data,data,transactionBytes);
+						memIndex++;
+						virtual_uart_tx(data);
+						usb_poll();
+						mDelayuS(80);
+						transactionBytes--;
+					}
+					if(debug) printf("Reading done, returning to state 0\r\n");
+					disableFlashSS();
+					state = 0;
 				}
-				if(debug) printf("Reading done, returning to state 0\r\n");
-				disableFlashSS();
-				state = 0;
+			}else if (state == 5){
+				MEM_write(uart_data);
+				memIndex++;
+				transactionBytes--;
+
+
+				if (memIndex == PAGEBUFFERLEN) {
+					if(debug) printf("--transactionBytes %lu\r\n",transactionBytes);
+					if(debug) printf("--memIndex %lu\r\n",memIndex);
+
+					disableFlashSS();
+					if(debug) printf("Waiting write cycle\r\n");
+					MEM_waitWriteCycle();
+					if(debug) printf("Done write cycle\r\n");
+
+					enableFlashSS();
+					MEM_writeEnable();
+					disableFlashSS();
+
+					enableFlashSS();
+					memIndex = 0;
+					memAddres = memAddres + PAGEBUFFERLEN;
+					if(debug) printf("Init write at %lu\r\n",memAddres);
+
+					MEM_startWrite(memAddres);
+				}
+				
+				// virtual_uart_tx(0x01);
+
+				if (transactionBytes == 0) {
+					if(debug) printf("Write done!\r\n");
+					disableFlashSS();
+					MEM_waitWriteCycle();
+					disableLED();
+					state = 0;
+				}
 			}
-		}else if (state == 5){
-			MEM_write(uart_data);
-			memIndex++;
-			transactionBytes--;
-
-
-			if (memIndex == PAGEBUFFERLEN) {
-				if(debug) printf("--transactionBytes %lu\r\n",transactionBytes);
-				if(debug) printf("--memIndex %lu\r\n",memIndex);
-
-				disableFlashSS();
-				if(debug) printf("Waiting write cycle\r\n");
-				MEM_waitWriteCycle();
-				if(debug) printf("Done write cycle\r\n");
-
-				enableFlashSS();
-				MEM_writeEnable();
-				disableFlashSS();
-
-				enableFlashSS();
-				memIndex = 0;
-				memAddres = memAddres + PAGEBUFFERLEN;
-				if(debug) printf("Init write at %lu\r\n",memAddres);
-
-				MEM_startWrite(memAddres);
-			}
-			
-			// virtual_uart_tx(0x01);
-
-			if (transactionBytes == 0) {
-				if(debug) printf("Write done!\r\n");
-				disableFlashSS();
-				MEM_waitWriteCycle();
-				disableLED();
-				state = 0;
-			}
+		}else{
+			CH554UART0SendByte(uart_data);
 		}
+
+
 		USBByteCount--;
 		if(USBByteCount==0) UEP2_CTRL = UEP2_CTRL & ~ MASK_UEP_R_RES | UEP_R_RES_ACK;
 	}

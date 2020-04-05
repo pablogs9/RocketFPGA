@@ -31,6 +31,7 @@ def readBytes(ser,l):
 def start_flash(port, baudrate, file, no_verify):
     try:
         ser = serial.Serial(port,baudrate)
+        ser.rts = 1
     except serial.serialutil.SerialException:
         print("The port '{}' could not be oppended at {} bauds".format(port, baudrate))
         exit()
