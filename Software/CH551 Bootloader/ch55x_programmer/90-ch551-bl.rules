@@ -1,0 +1,3 @@
+KERNEL=="1-1.1", SUBSYSTEM=="usb", ATTR{idProduct}=="55e0", ATTR{idVendor}=="4348", \
+	MODE="0666"
+	
