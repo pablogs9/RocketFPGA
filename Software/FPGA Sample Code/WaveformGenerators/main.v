@@ -25,7 +25,8 @@ module main(
     input wire RESET,
     input wire USER_BUTTON,
 
-    output wire PRE_RESET,
+    input wire PRE_RESET,
+    input wire TXD,
     input wire RXD,
 
     output wire CAPACITOR,
@@ -34,11 +35,18 @@ module main(
     input wire DIFF_IN,
 );
 
-localparam BITSIZE = 24;
+localparam BITSIZE = 16;
+localparam SAMPLING = 96;
 
 reg [15:0] tones [0:139];
 // python3 ../Utils/scale_generator.py 48000 16 > cromatic_48k_16bits.hex
-initial $readmemh("cromatic_48k_16bits.hex", tones);
+
+if (SAMPLING == 48) begin
+    initial $readmemh("cromatic_48k_16bits.hex", tones);
+end else if (SAMPLING == 96) begin
+    initial $readmemh("cromatic_96k_16bits.hex", tones);
+end
+
 
 // Clocking and reset
 reg [30:0] divider;
@@ -50,6 +58,7 @@ assign MCLK = divider[1]; //12.288 MHz
 
 configurator #(
     .BITSIZE(BITSIZE),
+    .SAMPLING(SAMPLING),
 )conf (
     .clk(divider[6]),
     .spi_mosi(MOSI), 
@@ -59,19 +68,21 @@ configurator #(
 );
 
 // Path
-wire [BITSIZE-1:0] left2;
-wire [BITSIZE-1:0] right2;
+wire [BITSIZE-1:0] out;
 
-reg [15:0] freq;
-reg [15:0] freq_counter = 0;
+localparam PHASE_SIZE = 30;
+
+reg [PHASE_SIZE-1:0] freq = 0;
+reg [PHASE_SIZE-1:0] freq_counter = 0;
 
 sinegenerator #(
     .BITSIZE(BITSIZE),
-    .PHASESIZE(16),
+    .PHASESIZE(PHASE_SIZE),
+    .TABLESIZE(12),
 ) S1 (
     .enable(1'b1),
 	.lrclk(DACLRC),
-    .out(right2),
+    .out(out),
     .freq(freq),
 );
 
@@ -81,13 +92,15 @@ i2s_tx #(
     .sclk (BCLK), 
     .lrclk (DACLRC),
     .sdata (DACDAT),
-    .left_chan (right2),
-    .right_chan (right2)
+    .left_chan (out),
+    .right_chan (out)
 );
 
-always @(posedge divider[23]) begin
-    freq <= tones[freq_counter];
-    freq_counter <= freq_counter + 1;
+always @(posedge divider[10]) begin
+    if (!USER_BUTTON) begin
+        freq <= tones[freq_counter];
+        freq_counter <= freq_counter + 1;
+    end
 end
 
 

@@ -3,7 +3,7 @@
 #----------------------------------------
 NAME = main
 PINS = ../Utils/pins.pcf
-PORT = /dev/ttyS20
+PORT = /dev/tty.usbmodem1411
 
 #-------------------------------------------------------
 #-- Objetivo por defecto: hacer simulacion y sintesis
@@ -31,7 +31,7 @@ $(NAME).bin: $(PINS) $(NAME).v
 
 
 flash: $(NAME).bin
-	fpga_upload -d $(PORT) -f $(NAME).bin 
+	python3 ../../Code\ Uploader/fpga_upload.py -d $(PORT) -f $(NAME).bin --no-verify
 
 #-- Limpiar todo
 clean:

@@ -2,6 +2,7 @@ module configurator #(
 	parameter BITSIZE = 24,
 	parameter LINE_NOMIC = 1,
 	parameter ENABLE_MICBOOST = 1,
+	parameter SAMPLING = 48,
 )(	
 	input wire clk,
 	output reg cs,
@@ -101,7 +102,7 @@ assign cmd[7] = {1'b0,BCLKINV,MS,LRSWAP,LRP,IWL,FORMAT} ;
 assign addr[8] = {7'h08} ; 
 parameter CLKODIV2 = 1'b0; 
 parameter CLKIDIV2 = 1'b0; 
-parameter SR = 4'b0000; 	// CUIDADO CON ESTO
+parameter SR = (SAMPLING == 48) ? 4'b0000 : 4'b0111; // 48 kHz or 96 kHZ
 parameter BOSR = 1'b0; 
 parameter USB = 1'b0; 
 assign cmd[8] = {1'b0,CLKODIV2,CLKIDIV2,SR,BOSR,USB} ; 
