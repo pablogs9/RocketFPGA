@@ -58,12 +58,11 @@ configurator #(
     .prereset(PRE_RESET),
 );
 
-wire signed  [BITSIZE-1:0] sineout;
 
 localparam PHASE_SIZE = 16;
-
 `define CALCULATE_PHASE_FROM_FREQ(f) $rtoi(f * $pow(2,PHASE_SIZE) / (SAMPLING * 1000.0))
 
+wire signed  [BITSIZE-1:0] sineout;
 sinegenerator #(
     .BITSIZE(BITSIZE),
     .PHASESIZE(PHASE_SIZE),
@@ -72,55 +71,31 @@ sinegenerator #(
     .enable(1'b1),
 	.lrclk(DACLRC),
     .out(sineout),
-    .freq(`CALCULATE_PHASE_FROM_FREQ(100.0)),
+    .freq((divider[24]) ? `CALCULATE_PHASE_FROM_FREQ(100.0) : `CALCULATE_PHASE_FROM_FREQ(200.0)),
 );
 
-wire quarter_output;
-
-tempo #(
-	.BPM(120),
-	.GENERATE_CLOCK(1),
-) T1 (
-    .quarter(quarter_output),
-);
-
-wire [7:0] envelope;
-
+wire signed [BITSIZE-1:0] envelope;
 envelope_generator #(
     .SAMPLE_CLK_FREQ(48000),
     .ACCUMULATOR_BITS(26),
 ) ENV1 (
     .clk(DACLRC),
-    .gate(quarter_output),
-    .a(4'b1000),
-    .d(4'b1001),
-    .s(4'b1000),
-    .r(4'b1001),
+    .gate(divider[23]),
+    .a(4'b0001),
+    .d(4'b1000),
+    .s(4'b0000),
+    .r(4'b0000),
     .amplitude(envelope),
-    .rst(1'b1)
 );
 
 wire signed [BITSIZE-1:0] out;
-reg [5:0] cola;
-assign cola = {6{envelope[0]}};
-
 multiplier #(
     .BITSIZE(BITSIZE),
 ) M1 (
-	.in1({2'b00, envelope, 6'b000000}),
+    .clk(OSC),
+	.in1({envelope}),
 	.in2(sineout),
     .out(out),
-);
-
-wire signed [BITSIZE-1:0] outfiltered;
-
-lowpassfilter #(
-  .DATA_BITS(BITSIZE),
-) LPF1 (
-  .clk(BCLK),
-  .s_alpha(2), 
-  .din(out), 
-  .dout(outfiltered),
 );
 
 i2s_tx #( 
@@ -133,6 +108,6 @@ i2s_tx #(
     .right_chan (out)
 );
 
-assign LED = quarter_output;
+// assign LED = divider[24];
 
 endmodule
