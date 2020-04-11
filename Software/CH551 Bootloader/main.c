@@ -8,6 +8,7 @@
 #include <ch554.h>
 #include <ch554_usb.h>
 #include <debug.h>
+#include <math.h>
 #include <spi.h>
 #include "rocketFPGA_config.h"
 
@@ -76,8 +77,8 @@ unsigned char  __code SerDes[]={
 
 unsigned char  __code Prod_Des[]={
 				32,0x03,
-				'M',0x00,'E',0x00,' ',0x00,'C',0x00,'A',0x00,'G',0x00, 'O', 0x00, 
-				' ',0x00,'E',0x00,'N',0x00,' ',0x00,'T',0x00,'O',0x00,'D',0x00,'O',0x00
+				'R',0x00,'o',0x00,' ',0x00,'c',0x00,'k',0x00,'e',0x00, 't', 0x00, 
+				'F',0x00,'P',0x00,'G',0x00,' ',0x00,'A',0x00,' ',0x00,' ',0x00,' ',0x00
 				};
 
 unsigned char  __code Manuf_Des[]={
@@ -607,7 +608,7 @@ uint8_t operation;
 uint32_t transactionBytes = 0;
 
 #define PAGEBUFFERLEN 256
-uint32_t memAddres = 0x00000000;
+uint32_t memAddress = 0x00000000;
 uint32_t memIndex = 0;
 
 void uart_poll(){
@@ -630,6 +631,10 @@ void uart_poll(){
 
 				enableFPGAReset();
 				MEM_releasePowerDown();
+			}else if (state == 0 && uart_data == 'M') {
+				if(debug) printf("State 0. Mode %c. \r\n",uart_data);
+				operation = uart_data;
+				state = 1;
 			}else if (state == 0 && uart_data == 'd') {
 				debug = !debug;
 				if(debug) printf("Debug enabled\r\n");
@@ -644,39 +649,50 @@ void uart_poll(){
 			}else if (state == 0 && uart_data == 'B') {
 				jump_to_bootloader();
 			}else if (state == 0 && uart_data == 'V') {
-				v_uart_puts("RocketFPGA Bootloader V0.4.5\n");
-			}else if (state == 1 || state == 2 || state == 3){
+				printf("RocketFPGA Bootloader V0.4.5\n");
+
+			// Memory offset operations state machine
+			}else if (operation == 'M' && (state == 1 || state == 2 || state == 3 || state == 4)){
+				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
+				memAddress = memAddress | (((uint32_t) uart_data) << ((state-1)*8));
+				state++;
+				if(state == 5){
+					state = 0;
+				}
+			// Read / Write operations state machine
+			}else if ((operation == 'W' || operation == 'R') && (state == 1 || state == 2 || state == 3)){
 				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
 				transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
 				state++;
-			}else if (state == 4){
-				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
+			}else if ((operation == 'W' || operation == 'R') && state == 4){
+				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n", state, uart_data);
 				transactionBytes = transactionBytes | (uart_data << 24);
-				if(debug) printf("Transaction Byte END, data: %lu \r\n",transactionBytes);
+				if(debug) printf("Transaction Byte END, data: %lu \r\n",memAddress + transactionBytes);
 
 				if (operation == 'W') {
-					if(debug) printf("Preparing memory to write\r\n");
+					if(debug) printf("Preparing memory to write at 0x%08X \r\n", memAddress);
 
-					if(debug) printf("Erasing device\r\n");
-					// MEM_chipEraseFirst64k();
-					// MEM_chipErase();
-					MEM_chipEraseFirstNBlocks( (uint8_t)(((float)transactionBytes)/65536.0) + 1 );
+					if(debug) printf("Erasing device sectors from\r\n");
+
+					MEM_chipEraseNBlocks(	(uint8_t) (((float)memAddress)/65536.0) , 
+											(uint8_t) (((float)transactionBytes)/65536.0) + 1
+										);
 
 					enableFlashSS();
 					MEM_writeEnable();
 					disableFlashSS();
 
-					memAddres = 0x00000000;
+					// memAddress = 0x00000000;
 					memIndex = 0;
 					enableFlashSS();
-					if(debug) printf("Init write at %lu\r\n",memAddres);
-					MEM_startWrite(memAddres);
+					if(debug) printf("Init write at %lu\r\n",memAddress);
+					MEM_startWrite(memAddress);
 
 					state = 5;
 				}else if (operation == 'R'){
 					if(debug) printf("Preparing memory to read\r\n");
 					enableFlashSS();
-					MEM_startRead(0x00);
+					MEM_startRead(memAddress);
 					memIndex = 0;
 					while(transactionBytes > 0){
 						uint8_t data = MEM_read();
@@ -691,7 +707,7 @@ void uart_poll(){
 					disableFlashSS();
 					state = 0;
 				}
-			}else if (state == 5){
+			}else if ((operation == 'W' || operation == 'R') && state == 5){
 				MEM_write(uart_data);
 				memIndex++;
 				transactionBytes--;
@@ -712,10 +728,10 @@ void uart_poll(){
 
 					enableFlashSS();
 					memIndex = 0;
-					memAddres = memAddres + PAGEBUFFERLEN;
-					if(debug) printf("Init write at %lu\r\n",memAddres);
+					memAddress = memAddress + PAGEBUFFERLEN;
+					if(debug) printf("Init write at %lu\r\n",memAddress);
 
-					MEM_startWrite(memAddres);
+					MEM_startWrite(memAddress);
 				}
 				
 				// virtual_uart_tx(0x01);
@@ -738,15 +754,6 @@ void uart_poll(){
 	}
 }
 
-void UART0_ISR(void) __interrupt (INT_NO_UART0) {
-	if(RI != 0){
-		RI = 0;
-		if(usb_uart_mode == 0){
-			virtual_uart_tx(SBUF);
-		}
-	}
-}
-
 // Main loop
 main(){	
 	int i = 0;
@@ -765,7 +772,8 @@ main(){
 	while(1){
 		usb_poll();
 		uart_poll();
-		if(RI != 0){
+
+		if(RI != 0){ // Check data on USB to UART brigde
 			RI = 0;
 			if(usb_uart_mode == 0){
 				virtual_uart_tx(SBUF);

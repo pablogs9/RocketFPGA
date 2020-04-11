@@ -114,7 +114,7 @@ void MEM_chipErase(){
     disableFlashSS();
 }
 
-void MEM_chipEraseBlock(uint8_t block){
+void MEM_chipErase64KBlock(uint8_t block){
     uint8_t ans;
 
     enableFlashSS();
@@ -136,10 +136,10 @@ void MEM_chipEraseBlock(uint8_t block){
     disableFlashSS();
 }
 
-void MEM_chipEraseFirstNBlocks(uint8_t n){
-    for (uint8_t i = 0; i < n; i++)
+void MEM_chipEraseNBlocks(uint8_t from, uint8_t n){
+    for (uint8_t i = from; i < (n+from); i++)
     {
-        MEM_chipEraseBlock(i);
+        MEM_chipErase64KBlock(i);
     }
 }
 

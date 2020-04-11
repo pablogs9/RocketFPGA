@@ -1,4 +1,4 @@
-﻿/********************************** (C) COPYRIGHT *******************************
+/********************************** (C) COPYRIGHT *******************************
 * File Name          : Debug.C
 * Author             : WCH
 * Version            : V1.0
@@ -14,6 +14,8 @@
 
 #include "ch554.h"
 #include "debug.h"
+
+extern void virtual_uart_tx(uint8_t tdata);
 
 /*******************************************************************************
 * Function Name  : CfgFsys( )
@@ -217,10 +219,11 @@ void CH554UART0SendByte(uint8_t SendDat)
 #if SDCC < 370
 void putchar(char c)
 {
-    while (!TI) /* assumes UART is initialized */
-    ;
-    TI = 0;
-    SBUF = c;
+    // while (!TI) /* assumes UART is initialized */
+    // ;
+    // TI = 0;
+    // SBUF = c;
+    virtual_uart_tx(c);
 }
 
 char getchar() {
@@ -231,10 +234,11 @@ char getchar() {
 #else
 int putchar(int c)
 {
-    while (!TI) /* assumes UART is initialized */
-    ;
-    TI = 0;
-    SBUF = c & 0xFF;
+    // while (!TI) /* assumes UART is initialized */
+    // ;
+    // TI = 0;
+    // SBUF = c & 0xFF;
+    virtual_uart_tx(c);
 
     return c;
 }

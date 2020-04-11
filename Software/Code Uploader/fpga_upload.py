@@ -5,8 +5,15 @@ import argparse
 import sys
 
 def writeBytes(ser, d):
+    # Writing start address
+    ser.write(bytearray([ord('M')]))
+    ser.write(int(0).to_bytes(4, byteorder='little'))
+
+    # Writing len
     ser.write(bytearray([ord('W')]))
     ser.write(len(d).to_bytes(4, byteorder='little'))
+
+    # Writing data
     for i,c in enumerate(d):
         ser.write([c])
         if i == 1:
@@ -16,12 +23,19 @@ def writeBytes(ser, d):
         # ack = ser.read()
 
 def readBytes(ser,l):
+    # Writing start address
+    ser.write(bytearray([ord('M')]))
+    ser.write(int(0).to_bytes(4, byteorder='little'))
+
+    # Writing len
     ser.write(bytearray([ord('R')]))
-    ser.write(l.to_bytes(4, byteorder='little'))
+    ser.write(int(l).to_bytes(4, byteorder='little'))
     value = []
-    for i in range(l):
-        d = ser.read()
-        value.append(d)
+    i = 0
+    while i < l:
+        d = ser.read(ser.in_waiting)
+        i = i + len(d)
+        value.extend(d)
         print("Reading: {:.2f}%".format(100*i/l),end="\r")
 
     return value
@@ -47,13 +61,16 @@ def start_flash(port, baudrate, file, no_verify):
 
     now = time.time()
     writeBytes(ser, txdata)
-    print("Writing time {:.2f} s".format(time.time()-now))
+    writting_time = time.time()-now
+    print("Writing time {:.2f}s ({:.2f} KB/s)".format(writting_time, (len(txdata)/1024)/writting_time))
 
     time.sleep(0.1)
-    now = time.time()
+    
     if not no_verify:
-        data = readBytes(ser,dlen)
-        print("Reading time {:.2f} s".format(time.time()-now))
+        now = time.time()
+        data = readBytes(ser, dlen)
+        reading_time = time.time()-now
+        print("Reading time {:.2f}s ({:.2f} KB/s)".format(reading_time, (len(txdata)/1024)/reading_time))
         print("DATA VERIFIED: " + str(all([x == ord(y) for (x,y) in zip(txdata,data)])))
     
     ser.write(bytearray([ord('A')]))
@@ -68,10 +85,14 @@ if __name__ == '__main__':
                         help='Baudrate of the serial port (default 115200)')
     parser.add_argument('-f', dest='file', type=str, required=True,
                         help='bitestream to flash')
+    parser.add_argument('--debug', dest='debug', action='store_true',
+                        help='enable debug')
     parser.add_argument('--no-verify',  action='store_true',
                     help='Use this flag to skip verification')
     if sys.version_info[0] < 3:
         raise Exception("Must be using Python 3")
     args = parser.parse_args()
-    start_flash(args.port, args.baudrate, args.file, args.no_verify)
+    
+    # start_flash(args.port, args.baudrate, args.file, args.no_verify)
+    start_flash(args.port, args.baudrate, args.file, True)
 
