@@ -644,7 +644,7 @@ void uart_poll(){
 			}else if (state == 0 && uart_data == 'B') {
 				jump_to_bootloader();
 			}else if (state == 0 && uart_data == 'V') {
-				v_uart_puts("RocketFPGA Bootloader V0.4.0\n");
+				v_uart_puts("RocketFPGA Bootloader V0.4.5\n");
 			}else if (state == 1 || state == 2 || state == 3){
 				if(debug) printf("Transaction Byte State %u, data: 0x%02X \r\n",state,uart_data);
 				transactionBytes = transactionBytes | (((uint32_t) uart_data) << ((state-1)*8));
@@ -738,8 +738,16 @@ void uart_poll(){
 	}
 }
 
-// Main loop
+void UART0_ISR(void) __interrupt (INT_NO_UART0) {
+	if(RI != 0){
+		RI = 0;
+		if(usb_uart_mode == 0){
+			virtual_uart_tx(SBUF);
+		}
+	}
+}
 
+// Main loop
 main(){	
 	int i = 0;
 	CfgFsys( );														   
@@ -756,6 +764,12 @@ main(){
 	
 	while(1){
 		usb_poll();
-		uart_poll();			
+		uart_poll();
+		if(RI != 0){
+			RI = 0;
+			if(usb_uart_mode == 0){
+				virtual_uart_tx(SBUF);
+			}
+		}		
 	}
 }

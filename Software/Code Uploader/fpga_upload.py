@@ -64,8 +64,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Flash FPGA board')
     parser.add_argument('-d', '--dev', dest='port', type=str,required=True, 
                         help='Serial port where to write to')
-    parser.add_argument('-b', dest='baudrate', type=int,  default=57600,
-                        help='Baudrate of the serial port (default 57600)')
+    parser.add_argument('-b', dest='baudrate', type=int,  default=115200,
+                        help='Baudrate of the serial port (default 115200)')
     parser.add_argument('-f', dest='file', type=str, required=True,
                         help='bitestream to flash')
     parser.add_argument('--no-verify',  action='store_true',

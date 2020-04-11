@@ -6,7 +6,7 @@
 #include <stdint.h>
 
 #ifndef  UART0_BAUD
-#define  UART0_BAUD    9600
+#define  UART0_BAUD    115200
 #endif
 
 #ifndef UART1_BAUD
