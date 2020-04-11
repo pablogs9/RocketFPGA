@@ -86,8 +86,8 @@ wire signed  [BITSIZE-1:0] out;
 // asin(F/2) = pi*Fc/Fs
 // asin(F/2)*Fs/pi = Fc
 
-`define CALCULATE_FREQUENCY(fc) $rtoi(2.0 * $sin(3.1416 * (fc/48000) / (SAMPLING*1000)) )
-`define CALCULATE_Q(q) $rtoi(1/q)
+`define CALCULATE_FREQUENCY(fc) $rtoi(   2.0 * $sin(3.1416 * fc / (SAMPLING*1000))  * 2**19 )
+`define CALCULATE_Q(q) $rtoi((1/q) * 2**18)
 
 parametericfilter #(
     .BITSIZE(BITSIZE),
@@ -96,11 +96,11 @@ parametericfilter #(
   .sample_clk(DACLRC),
   .in(sineout),
   .out_highpass(),
-  .out_lowpass(out),
+  .out_lowpass(),
   .out_bandpass(),
   .out_notch(out),
-  .F(18'b000100000000000000),  /* F1: frequency control; fixed point 1.17  ; F = 2sin(π*Fc/Fs).  At a sample rate of 250kHz, F ranges from 0.00050 (10Hz) -> ~0.55 (22kHz) */
-  .Q1(`CALCULATE_Q(0.5))  /* Q1: Q control;         fixed point 2.16  ; Q1 = 1/Q        Q1 ranges from 2 (Q=0.5) to 0 (Q = infinity). */
+  .F(`CALCULATE_FREQUENCY(1000.0)),  /* F1: frequency control; fixed point 1.17  ; F = 2sin(π*Fc/Fs).  At a sample rate of 250kHz, F ranges from 0.00050 (10Hz) -> ~0.55 (22kHz) */
+  .Q1(`CALCULATE_Q(0.6))  /* Q1: Q control;         fixed point 2.16  ; Q1 = 1/Q        Q1 ranges from 2 (Q=0.5) to 0 (Q = infinity). */
 );
 
 i2s_tx #( 

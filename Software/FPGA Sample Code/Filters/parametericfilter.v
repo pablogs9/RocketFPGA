@@ -20,7 +20,7 @@
  *
  * F = 2π*Fc/Fs
  *
- * F is a 1.21 fixed-point value, and at a sample rate of 250kHz,
+ * F is a 1.19 fixed-point value, and at a sample rate of 250kHz,
  * F ranges from approximately 0.00050 (10Hz) -> ~0.55 (22kHz).
  *
  * Q1 controls the Q (resonance) of the filter.  Q1 is equivalent to 1/Q.
@@ -28,54 +28,49 @@
  */
 
  /* multiplier module */
-module smul_18x18 (
-   input signed [17:0] a,
-   input signed [17:0] b,
-   output reg signed [35:0] o
+ module smul_18x18 (
+   input signed [19:0] a,
+   input signed [19:0] b,
+   output reg signed [39:0] o
  );
    always @(*) begin
     o = a * b;
    end
  endmodule
 
-module filter_svf_pipelined #(
-  parameter SAMPLE_BITS = 12
+module parametericfilter #(
+  parameter BITSIZE = 16
 )(
-  input  clk,
-  input  sample_clk,
-  input  signed [SAMPLE_BITS-1:0] in,
-  output reg signed [SAMPLE_BITS-1:0] out_highpass,
-  output reg signed [SAMPLE_BITS-1:0] out_lowpass,
-  output reg signed [SAMPLE_BITS-1:0] out_bandpass,
-  output reg signed [SAMPLE_BITS-1:0] out_notch,
-  input  signed [17:0] F,  /* F1: frequency control; fixed point 1.17  ; F = 2sin(π*Fc/Fs).  At a sample rate of 250kHz, F ranges from 0.00050 (10Hz) -> ~0.55 (22kHz) */
-  input  signed [17:0] Q1  /* Q1: Q control;         fixed point 2.16  ; Q1 = 1/Q        Q1 ranges from 2 (Q=0.5) to 0 (Q = infinity). */
+  input wire clk,
+  input wire sample_clk,
+  input wire signed [BITSIZE-1:0] in,
+  output reg signed [BITSIZE-1:0] out_highpass,
+  output reg signed [BITSIZE-1:0] out_lowpass,
+  output reg signed [BITSIZE-1:0] out_bandpass,
+  output reg signed [BITSIZE-1:0] out_notch,
+  input wire signed [19:0] F,  /* F1: frequency control; fixed point 1.19  ; F = 2sin(π*Fc/Fs).  At a sample rate of 250kHz, F ranges from 0.00050 (10Hz) -> ~0.55 (22kHz) */
+  input wire signed [19:0] Q1  /* Q1: Q control;         fixed point 2.16  ; Q1 = 1/Q        Q1 ranges from 2 (Q=0.5) to 0 (Q = infinity). */
 );
 
 
-  reg signed[SAMPLE_BITS+2:0] highpass;
-  reg signed[SAMPLE_BITS+2:0] lowpass;
-  reg signed[SAMPLE_BITS+2:0] bandpass;
-  reg signed[SAMPLE_BITS+2:0] notch;
-  reg signed[SAMPLE_BITS+2:0] in_sign_extended;
+  reg signed[BITSIZE+2:0] highpass;
+  reg signed[BITSIZE+2:0] lowpass;
+  reg signed[BITSIZE+2:0] bandpass;
+  reg signed[BITSIZE+2:0] notch;
+  reg signed[BITSIZE+2:0] in_sign_extended;
 
-  localparam signed [SAMPLE_BITS+2:0] MAX = (2**(SAMPLE_BITS-1))-1;
-  localparam signed [SAMPLE_BITS+2:0] MIN = -(2**(SAMPLE_BITS-1));
+  localparam signed [BITSIZE+2:0] MAX = (2**(BITSIZE-1))-1;
+  localparam signed [BITSIZE+2:0] MIN = -(2**(BITSIZE-1));
 
-  `define CLAMP(x) ((x>MAX)?MAX:((x<MIN)?MIN:x[SAMPLE_BITS-1:0]))
-
-
+  `define CLAMP(x) ((x>MAX)?MAX:((x<MIN)?MIN:x[BITSIZE-1:0]))
 
   // intermediate values from multipliers
-  reg signed [35:0] Q1_scaled_delayed_bandpass;
-  reg signed [35:0] F_scaled_delayed_bandpass;
-  reg signed [35:0] F_scaled_highpass;
+  reg signed [39:0] Q1_scaled_delayed_bandpass;
+  reg signed [39:0] F_scaled_delayed_bandpass;
+  reg signed [39:0] F_scaled_highpass;
 
-
-
-
-  reg signed [17:0] mul_a, mul_b;
-  wire signed [35:0] mul_out;
+  reg signed [19:0] mul_a, mul_b;
+  wire signed [39:0] mul_out;
 
   smul_18x18 multiplier(.a(mul_a), .b(mul_b), .o(mul_out));
 
@@ -102,7 +97,7 @@ module filter_svf_pipelined #(
       out_notch <= `CLAMP(notch);
 
       // also clock in new sample, and kick off state machine
-      in_sign_extended <= { in[SAMPLE_BITS-1], in[SAMPLE_BITS-1], in[SAMPLE_BITS-1], in};
+      in_sign_extended <= { in[BITSIZE-1], in[BITSIZE-1], in[BITSIZE-1], in};
       mul_a <= bandpass;
       mul_b <= Q1;
       state <= 3'd0;
@@ -116,32 +111,20 @@ module filter_svf_pipelined #(
               state <= 3'd1;
             end
       3'd1: begin
-              // F_scaled_delayed_bandpass = (bandpass * F) >>> 17;
-              F_scaled_delayed_bandpass = (mul_out >> 17);
-              lowpass = lowpass + F_scaled_delayed_bandpass[SAMPLE_BITS+2:0];
-              highpass = in_sign_extended - lowpass - Q1_scaled_delayed_bandpass[SAMPLE_BITS+2:0];
+              // F_scaled_delayed_bandpass = (bandpass * F) >>> 19;
+              F_scaled_delayed_bandpass = (mul_out >> 19);
+              lowpass = lowpass + F_scaled_delayed_bandpass[BITSIZE+2:0];
+              highpass = in_sign_extended - lowpass - Q1_scaled_delayed_bandpass[BITSIZE+2:0];
               mul_a <= highpass;
               state <= 3'd2;
             end
       3'd2: begin
-              F_scaled_highpass = mul_out >> 17;
-              bandpass <= F_scaled_highpass[SAMPLE_BITS+2:0] + bandpass;
+              F_scaled_highpass = mul_out >> 19;
+              bandpass <= F_scaled_highpass[BITSIZE+2:0] + bandpass;
               notch <= highpass + lowpass;
               state <= 3'd3;
             end
     endcase
-
-    // in_sign_extended = { in[SAMPLE_BITS-1], in[SAMPLE_BITS-1], in[SAMPLE_BITS-1], in};  /* sign-extend the input value to a wider precision */
-    // Q1_scaled_delayed_bandpass = (bandpass * Q1) >>> 16;
-    // F_scaled_delayed_bandpass = (bandpass * F) >>> 17;
-    // lowpass = lowpass + F_scaled_delayed_bandpass[SAMPLE_BITS+2:0];
-    // highpass = in_sign_extended - lowpass - Q1_scaled_delayed_bandpass[SAMPLE_BITS+2:0];
-    // F_scaled_highpass = (highpass * F) >>> 17;
-    // bandpass = F_scaled_highpass[SAMPLE_BITS+2:0] + bandpass;
-    // notch = highpass + lowpass;
   end
-
-endmodule
-
 
 endmodule
