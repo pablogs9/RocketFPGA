@@ -1,0 +1,59 @@
+# 12 MHz clock
+set_io OSC        37
+
+# RS232
+set_io ser_rx      19
+set_io ser_tx      18
+
+# SPI Flash
+set_io flash_clk  15
+set_io flash_csb  16
+set_io flash_io0  14
+set_io flash_io1  17
+set_io flash_io2  12
+set_io flash_io3  13
+
+# LEDs (PMOD 2)
+set_io led1       6
+set_io led2       2
+set_io led3       4
+set_io led4       23
+set_io led5       26
+
+# Onboard LEDs
+set_io ledr_n     44
+set_io ledg_n     27
+
+
+
+#set_io OSC 37
+#set_io LED 44
+#set_io RESET 40
+#
+#set_io MCLK 36
+#set_io BCLK 35
+#set_io ADCLRC 28
+#set_io DACLRC 32
+#set_io ADCDAT 31
+#set_io DACDAT 34
+#
+#set_io SCLK 15
+#set_io MOSI 14
+#set_io CS 42
+#set_io -pullup yes -pullup_resistor 10K CSMODE 38
+#
+#set_io IO7 27
+#set_io IO6 26
+#set_io IO5 25
+#set_io IO4 23
+#
+#set_io -pullup yes -pullup_resistor 10K USER_BUTTON 9
+#
+#set_io PRE_RESET 16
+#set_io TXD 19
+#set_io RXD 18
+#
+#set_io CAPACITOR 13
+#set_io POT_1 6
+#set_io POT_2 2
+#set_io DIFF_IN 4
