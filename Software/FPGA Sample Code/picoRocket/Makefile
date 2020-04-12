@@ -5,15 +5,6 @@ CFLAGS=
 icebreaker.json: icebreaker.v ice40up5k_spram.v spimemio.v simpleuart.v picosoc.v picorv32.v
 	yosys -ql icebreaker.log -p 'synth_ice40 -top icebreaker -json icebreaker.json' $^
 
-icebreaker_tb.vvp: icebreaker_tb.v icebreaker.v ice40up5k_spram.v spimemio.v simpleuart.v picosoc.v picorv32.v spiflash.v
-	iverilog -s testbench -o $@ $^ `yosys-config --datdir/ice40/cells_sim.v`
-
-icebreaker_syn_tb.vvp: icebreaker_tb.v icebreaker_syn.v spiflash.v
-	iverilog -s testbench -o $@ $^ `yosys-config --datdir/ice40/cells_sim.v`
-
-icebreaker_syn.v: icebreaker.json
-	yosys -p 'read_json icebreaker.json; write_verilog icebreaker_syn.v'
-
 icebreaker.asc: icebreaker.pcf icebreaker.json
 	nextpnr-ice40 --freq 13 --up5k --asc icebreaker.asc --pcf icebreaker.pcf --json icebreaker.json
 

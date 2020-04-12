@@ -59,6 +59,9 @@ module icebreaker (
 		reset_cnt <= reset_cnt + !resetn;
 	end
 
+	wire clk;
+	assign clk = osc_divider[1];
+
 	wire [7:0] leds;
 
 	assign led1 = leds[1];
