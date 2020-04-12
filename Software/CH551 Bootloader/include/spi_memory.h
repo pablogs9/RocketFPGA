@@ -22,7 +22,7 @@ void MEM_setStatusRegister(uint8_t st);
 void MEM_startRead(uint32_t addr);
 uint8_t MEM_read();
 uint8_t MEM_readByte(uint32_t addr);
-uint8_t MEM_readFrom(uint32_t addr, uint8_t length, uint8_t * buf);
+void MEM_readFrom(uint32_t addr, uint8_t length, uint8_t * buf);
 void MEM_startWrite(uint32_t addr);
 void MEM_write(uint8_t data);
 void MEM_writeByteAt(uint32_t addr, uint8_t data);

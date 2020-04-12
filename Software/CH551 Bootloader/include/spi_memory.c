@@ -40,8 +40,9 @@ uint8_t MEM_readByte(uint32_t addr){
     CH554SPIMasterWrite(MEM_READ);
     MEM_writeAddress(addr);
     data = CH554SPIMasterRead();
+    return data;
 }
-uint8_t MEM_readFrom(uint32_t addr, uint8_t length, uint8_t * buf){
+void MEM_readFrom(uint32_t addr, uint8_t length, uint8_t * buf){
     uint32_t i;
     CH554SPIMasterWrite(MEM_READ);
     MEM_writeAddress(addr);
@@ -137,8 +138,8 @@ void MEM_chipErase64KBlock(uint8_t block){
 }
 
 void MEM_chipEraseNBlocks(uint8_t from, uint8_t n){
-    for (uint8_t i = from; i < (n+from); i++)
-    {
+    uint16_t i;
+    for (i = from; i < (n+from); i++) {
         MEM_chipErase64KBlock(i);
     }
 }
