@@ -4,10 +4,10 @@ import time
 import argparse
 import sys
 
-def writeBytes(ser, d):
+def writeBytes(ser, d, offset):
     # Writing start address
     ser.write(bytearray([ord('M')]))
-    ser.write(int(0).to_bytes(4, byteorder='little'))
+    ser.write(int(offset).to_bytes(4, byteorder='little'))
 
     # Writing len
     ser.write(bytearray([ord('W')]))
@@ -22,10 +22,10 @@ def writeBytes(ser, d):
             print("Writing: {:.2f}%".format(100*i/len(d)), end="\r")
         # ack = ser.read()
 
-def readBytes(ser,l):
+def readBytes(ser,l, offset):
     # Writing start address
     ser.write(bytearray([ord('M')]))
-    ser.write(int(0).to_bytes(4, byteorder='little'))
+    ser.write(int(offset).to_bytes(4, byteorder='little'))
 
     # Writing len
     ser.write(bytearray([ord('R')]))
@@ -42,7 +42,7 @@ def readBytes(ser,l):
 
 
 
-def start_flash(port, baudrate, file, no_verify):
+def start_flash(port, baudrate, file, offset, no_verify):
     try:
         ser = serial.Serial(port,baudrate)
         ser.rts = 1
@@ -60,7 +60,7 @@ def start_flash(port, baudrate, file, no_verify):
     print("Loading File: {:s} -- {:0.2f} KB".format(file,len(txdata)/1024))
 
     now = time.time()
-    writeBytes(ser, txdata)
+    writeBytes(ser, txdata, offset)
     writting_time = time.time()-now
     print("Writing time {:.2f}s ({:.2f} KB/s)".format(writting_time, (len(txdata)/1024)/writting_time))
 
@@ -68,7 +68,7 @@ def start_flash(port, baudrate, file, no_verify):
     
     if not no_verify:
         now = time.time()
-        data = readBytes(ser, dlen)
+        data = readBytes(ser, dlen, offset)
         reading_time = time.time()-now
         print("Reading time {:.2f}s ({:.2f} KB/s)".format(reading_time, (len(txdata)/1024)/reading_time))
         print("DATA VERIFIED: " + str(all([x == ord(y) for (x,y) in zip(txdata,data)])))
@@ -87,6 +87,8 @@ if __name__ == '__main__':
                         help='bitestream to flash')
     parser.add_argument('--debug', dest='debug', action='store_true',
                         help='enable debug')
+    parser.add_argument('-o', dest='offset', type=int,  default=0,
+                        help='SPI memory offset (default 0)')
     parser.add_argument('--no-verify',  action='store_true',
                     help='Use this flag to skip verification')
     if sys.version_info[0] < 3:
@@ -94,5 +96,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     # start_flash(args.port, args.baudrate, args.file, args.no_verify)
-    start_flash(args.port, args.baudrate, args.file, True)
+    start_flash(args.port, args.baudrate, args.file, args.offset, True)
 
