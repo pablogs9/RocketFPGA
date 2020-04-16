@@ -21,22 +21,13 @@
 `error "icebreaker.v must be read before picosoc.v!"
 `endif
 
-`define PICOSOC_MEM ice40up5k_spram
-
 module icebreaker (
 	input OSC,
 
 	output ser_tx,
 	input ser_rx,
 
-	output led1,
-	output led2,
-	output led3,
-	output led4,
-	output led5,
-
-	output ledr_n,
-	output ledg_n,
+	output led,
 
 	output flash_csb,
 	output flash_clk,
@@ -64,17 +55,6 @@ module icebreaker (
 		reset_cnt <= reset_cnt + !resetn;
 	end
 
-	wire [7:0] leds;
-
-	assign led1 = leds[1];
-	assign led2 = leds[2];
-	assign led3 = leds[3];
-	assign led4 = leds[4];
-	assign led5 = leds[5];
-
-	assign ledr_n = !leds[6];
-	assign ledg_n = !leds[7];
-
 	wire flash_io0_oe, flash_io0_do, flash_io0_di;
 	wire flash_io1_oe, flash_io1_do, flash_io1_di;
 	wire flash_io2_oe, flash_io2_do, flash_io2_di;
@@ -98,7 +78,7 @@ module icebreaker (
 	reg  [31:0] iomem_rdata;
 
 	reg [31:0] gpio;
-	assign leds = gpio;
+	assign led = !gpio[0];
 
 	always @(posedge clk) begin
 		if (!resetn) begin

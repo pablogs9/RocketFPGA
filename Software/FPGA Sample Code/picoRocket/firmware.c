@@ -20,7 +20,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdbool.h>
-#include <stdio.h>
+// #include <stdio.h>
 
 #define MEM_TOTAL 0x10000 /* 64 KB */
 
@@ -487,15 +487,6 @@ void main()
 	print("\n");
 	print(" The Hardcore Audio Processor\n");
 	print("\n");
-
-	// float test_f = 0.1;
-	// for (size_t i = 0; i < 10; i++)
-	// {
-	// 	test_f = test_f + 0.2;
-	// }
-	
-	float a = 1.2;
-	printf("holaaaa");
 
 	print("Total memory: ");
 	print_dec(MEM_TOTAL / 1024);

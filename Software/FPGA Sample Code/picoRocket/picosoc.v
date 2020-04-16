@@ -26,7 +26,8 @@
 `endif
 
 `ifndef PICOSOC_MEM
-`define PICOSOC_MEM picosoc_mem
+// `define PICOSOC_MEM picosoc_mem
+`define PICOSOC_MEM ice40up5k_spram
 `endif
 
 // this macro can be used to check if the verilog files in your
