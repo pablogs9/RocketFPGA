@@ -45,7 +45,8 @@ module icebreaker (
 	inout  flash_io2,
 	inout  flash_io3
 );
-	parameter integer MEM_WORDS = 32768;
+	// parameter integer MEM_WORDS = 32768;  //(32768 words x 32 bits/word / 1024 B/b = 131072 B = 128 KB)
+	parameter integer MEM_WORDS = 16384;  //(16384 words x 32 bits/word / 1024 B/b = 64 KB)
 
 	wire clk;
 	SB_HFOSC #(

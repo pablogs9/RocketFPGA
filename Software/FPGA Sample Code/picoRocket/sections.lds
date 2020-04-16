@@ -1,4 +1,4 @@
-#define MEM_TOTAL 0x20000 /* 128 KB */
+#define MEM_TOTAL 0x10000 /* 64 KB */
 
 MEMORY
 {

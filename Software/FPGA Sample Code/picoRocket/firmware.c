@@ -22,7 +22,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-#define MEM_TOTAL 0x20000 /* 128 KB */
+#define MEM_TOTAL 0x10000 /* 64 KB */
 
 // a pointer to this is a null pointer, but the compiler does not
 // know that because "sram" is a linker symbol from sections.lds.
