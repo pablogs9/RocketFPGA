@@ -47,10 +47,14 @@ module icebreaker (
 );
 	parameter integer MEM_WORDS = 32768;
 
-	reg [3:0] osc_divider;
-	always @(posedge OSC) begin
-		osc_divider <= osc_divider + 1;
-	end
+	wire clk;
+	SB_HFOSC #(
+	.CLKHF_DIV ("0b10"), //Generating 12 MHz
+	) OSC12MHZ (
+		.CLKHFEN(1'b1),
+		.CLKHFPU(1'b1),
+		.CLKHF(clk)
+	);
 
 	reg [5:0] reset_cnt = 0;
 	wire resetn = &reset_cnt;
@@ -58,9 +62,6 @@ module icebreaker (
 	always @(posedge clk) begin
 		reset_cnt <= reset_cnt + !resetn;
 	end
-
-	wire clk;
-	assign clk = osc_divider[1];
 
 	wire [7:0] leds;
 
@@ -117,7 +118,8 @@ module icebreaker (
 	picosoc #(
 		.BARREL_SHIFTER(0),
 		.ENABLE_MULDIV(0),
-		.MEM_WORDS(MEM_WORDS)
+		.MEM_WORDS(MEM_WORDS),
+		.ENABLE_COUNTERS(1),
 	) soc (
 		.clk          (clk         ),
 		.resetn       (resetn      ),

@@ -139,7 +139,12 @@ module picosoc (
 		.ENABLE_MUL(ENABLE_MULDIV),
 		.ENABLE_DIV(ENABLE_MULDIV),
 		.ENABLE_IRQ(1),
-		.ENABLE_IRQ_QREGS(ENABLE_IRQ_QREGS)
+		.ENABLE_IRQ_QREGS(ENABLE_IRQ_QREGS),
+		.ENABLE_REGS_DUALPORT(1),
+		.TWO_STAGE_SHIFT(1),  // Disabling this saves 100 LUTs
+		.ENABLE_FAST_MUL(0),
+		.ENABLE_IRQ(1),
+		.ENABLE_IRQ_QREGS(1),
 	) cpu (
 		.clk         (clk        ),
 		.resetn      (resetn     ),

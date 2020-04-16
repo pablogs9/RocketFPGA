@@ -2,8 +2,8 @@
 set_io OSC        37
 
 # RS232
-set_io ser_rx      19
-set_io ser_tx      18
+set_io ser_rx      18
+set_io ser_tx      19
 
 # SPI Flash
 set_io flash_clk  15
