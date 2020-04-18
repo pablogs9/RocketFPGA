@@ -30,7 +30,7 @@ void MEM_writeAt(uint32_t addr, uint8_t length, uint8_t * buf);
 void MEM_writeAddress(uint32_t addr);
 void MEM_waitWriteCycle();
 void MEM_chipErase64KBlock(uint8_t block);
-void MEM_chipEraseNBlocks(uint8_t from, uint8_t n);
+void MEM_chipErase4KSector(uint16_t sector);
 void MEM_chipErase();
 void MEM_releasePowerDown();
 

@@ -1,2 +1,5 @@
 bin/
 build/
+**/*.o
+**/*.o
+bootloader_programmer/bootloader_programmer
