@@ -31,7 +31,8 @@ extern uint32_t sram;
 #define reg_spictrl (*(volatile uint32_t*)0x02000000)
 #define reg_uart_clkdiv (*(volatile uint32_t*)0x02000004)
 #define reg_uart_data (*(volatile uint32_t*)0x02000008)
-#define reg_leds (*(volatile uint32_t*)0x03000000)
+#define reg_led (*(volatile uint32_t*)0x03000000)
+#define osc_1 (*(volatile uint32_t*)0x04000000)
 
 // --------------------------------------------------------
 
@@ -163,7 +164,7 @@ char getchar_prompt(char *prompt)
 	uint32_t cycles_begin, cycles_now, cycles;
 	__asm__ volatile ("rdcycle %0" : "=r"(cycles_begin));
 
-	reg_leds = ~0;
+	reg_led = ~0;
 
 	if (prompt)
 		print(prompt);
@@ -175,12 +176,12 @@ char getchar_prompt(char *prompt)
 			if (prompt)
 				print(prompt);
 			cycles_begin = cycles_now;
-			reg_leds = ~reg_leds;
+			reg_led = ~reg_led;
 		}
 		c = reg_uart_data;
 	}
 
-	reg_leds = 0;
+	reg_led = 0;
 	return c;
 }
 
@@ -463,18 +464,34 @@ void cmd_echo()
 		putchar(c);
 }
 
+// int32_t power(int32_t x, int32_t y){
+// 	int32_t r = 1;
+// 	for (size_t i = 0; i < y; i++)
+// 		r = r*x;	
+// 	return r;
+// }
+
+// int32_t read_number(){
+// 	char c;
+// 	int32_t index = 0;
+// 	int32_t result = 0;
+// 	while ((c = getchar()) != '\n'){
+// 		if (c >= 48 && c <= 57){
+// 			result += (c-48) * power(10, index++);
+// 			putchar(c);
+// 		}
+// 	}
+// 	print_dec(result);
+// 	return result;
+// }
+
 // --------------------------------------------------------
 
 void main()
 {
-	reg_leds = 31;
 	reg_uart_clkdiv = 104;
 	print("Booting..\n");
 
-	reg_leds = 63;
-	// set_flash_qspi_flag();
-
-	reg_leds = 127;
 	while (getchar_prompt("Press ENTER to continue..\n") != '\n') { /* wait */ }
 
 	print("\n");
@@ -499,6 +516,8 @@ void main()
 	cmd_print_spi_state();
 	print("\n");
 
+	osc_1 = 0;
+
 	while (1)
 	{
 		print("\n");
@@ -517,6 +536,7 @@ void main()
 		print("   [M] Run Memtest\n");
 		print("   [S] Print SPI state\n");
 		print("   [e] Echo UART\n");
+		print("   [f] Set OSC_1 frequency\n");
 		print("\n");
 
 		for (int rep = 10; rep > 0; rep--)
@@ -564,6 +584,13 @@ void main()
 				break;
 			case 'e':
 				cmd_echo();
+				break;
+			case 'f':
+				osc_1 = osc_1 + 4473900;
+
+				break;
+			case 'v':
+				osc_1 = osc_1 - 4473900;
 				break;
 			default:
 				continue;

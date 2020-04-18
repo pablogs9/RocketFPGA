@@ -22,12 +22,36 @@
 `endif
 
 module icebreaker (
-	input OSC,
+    //49.152MHz MHz clock
+    input OSC,
 
-	output ser_tx,
-	input ser_rx,
+    //CODEC SPI Interface
+    // output wire CODEC_SCLK,
+    // output wire CODEC_MOSI,
+    output wire CODEC_CS,
 
-	output led,
+    //I2S Interface
+    output wire MCLK,
+    input wire BCLK,
+    input wire ADCLRC,
+    input wire DACLRC,
+    input wire ADCDAT,
+    output wire DACDAT,
+
+    output wire LED,
+    input wire USER_BUTTON,
+
+    // input wire PRE_RESET,
+    input wire TXD,
+    input wire RXD,
+
+    // output wire CAPACITOR,
+    output wire POT_1,
+    output wire POT_2,
+    input wire DIFF_IN,
+
+	output TXD,
+	input RXD,
 
 	output flash_csb,
 	output flash_clk,
@@ -36,12 +60,12 @@ module icebreaker (
 	inout  flash_io2,
 	inout  flash_io3
 );
-	// parameter integer MEM_WORDS = 32768;  //(32768 words x 32 bits/word / 1024 B/b = 131072 B = 128 KB)
 	parameter integer MEM_WORDS = 16384;  //(16384 words x 32 bits/word / 1024 B/b = 64 KB)
 
+	// Generating 12 MHz for RISCV
 	wire clk;
 	SB_HFOSC #(
-	.CLKHF_DIV ("0b10"), //Generating 12 MHz
+	.CLKHF_DIV ("0b10"),
 	) OSC12MHZ (
 		.CLKHFEN(1'b1),
 		.CLKHFPU(1'b1),
@@ -49,7 +73,7 @@ module icebreaker (
 	);
 
 	reg [5:0] reset_cnt = 0;
-	wire resetn = &reset_cnt;
+	wire resetn = &reset_cnt & codec_conf_done;
 
 	always @(posedge clk) begin
 		reset_cnt <= reset_cnt + !resetn;
@@ -78,7 +102,7 @@ module icebreaker (
 	reg  [31:0] iomem_rdata;
 
 	reg [31:0] gpio;
-	assign led = !gpio[0];
+	assign LED = !gpio[0];
 
 	always @(posedge clk) begin
 		if (!resetn) begin
@@ -93,6 +117,14 @@ module icebreaker (
 				if (iomem_wstrb[2]) gpio[23:16] <= iomem_wdata[23:16];
 				if (iomem_wstrb[3]) gpio[31:24] <= iomem_wdata[31:24];
 			end
+			if (iomem_valid && !iomem_ready && iomem_addr[31:24] == 8'h 04) begin
+				iomem_ready <= 1;
+				iomem_rdata <= freq;
+				if (iomem_wstrb[0]) freq[ 7: 0] <= iomem_wdata[ 7: 0];
+				if (iomem_wstrb[1]) freq[15: 8] <= iomem_wdata[15: 8];
+				if (iomem_wstrb[2]) freq[23:16] <= iomem_wdata[23:16];
+				if (iomem_wstrb[3]) freq[31:24] <= iomem_wdata[31:24];
+			end
 		end
 	end
 
@@ -105,11 +137,11 @@ module icebreaker (
 		.clk          (clk         ),
 		.resetn       (resetn      ),
 
-		.ser_tx       (ser_tx      ),
-		.ser_rx       (ser_rx      ),
+		.ser_tx       (TXD      ),
+		.ser_rx       (RXD      ),
 
 		.flash_csb    (flash_csb   ),
-		.flash_clk    (flash_clk   ),
+		.flash_clk    (flash_clk_rv),
 
 		.flash_io0_oe (flash_io0_oe),
 		.flash_io1_oe (flash_io1_oe),
@@ -137,4 +169,64 @@ module icebreaker (
 		.iomem_wdata  (iomem_wdata ),
 		.iomem_rdata  (iomem_rdata )
 	);
+
+	// DANGER ZONE
+	wire flash_clk_rv, flash_clk_codec;
+	assign flash_clk = (codec_conf_done) ? flash_clk_rv : flash_clk_codec;
+	wire codec_conf_done;
+
+	// Audio path
+
+	localparam BITSIZE = 16;
+	localparam SAMPLING = 96;
+
+	// Clocking and reset
+	reg [8:0] divider;
+	always @(posedge OSC) begin
+		divider <= divider + 1;
+	end
+
+	assign MCLK = divider[1]; // 12.288 MHz
+
+	configurator #(
+		.BITSIZE(BITSIZE),
+		.SAMPLING(SAMPLING),
+	)conf (
+		.clk(divider[6]),
+		.spi_mosi(flash_io0), 
+		.spi_sck(flash_clk_codec),
+		.cs(CODEC_CS),
+		.prereset(1'b1),
+		.done(codec_conf_done)
+	);
+
+	// Path
+	wire [BITSIZE-1:0] out;
+	localparam PHASE_SIZE = 32;
+	`define CALCULATE_PHASE_FROM_FREQ(f) $rtoi(f * $pow(2,PHASE_SIZE) / (SAMPLING * 1000.0))
+
+	reg [PHASE_SIZE-1:0] freq = 0;
+
+	sinegenerator #(
+		.BITSIZE(BITSIZE),
+		.PHASESIZE(PHASE_SIZE),
+		.TABLESIZE(12),
+	) S1 (
+		.enable(1'b1),
+		.lrclk(DACLRC),
+		.out(out),
+		.freq(freq),
+	);
+
+	i2s_tx #( 
+		.BITSIZE(BITSIZE),
+	) I2STX (
+		.sclk (BCLK), 
+		.lrclk (DACLRC),
+		.sdata (DACDAT),
+		.left_chan (out),
+		.right_chan (out)
+	);
+
+
 endmodule

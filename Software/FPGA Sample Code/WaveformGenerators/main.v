@@ -70,7 +70,8 @@ configurator #(
 // Path
 wire [BITSIZE-1:0] out;
 
-localparam PHASE_SIZE = 30;
+localparam PHASE_SIZE = 16;
+`define CALCULATE_PHASE_FROM_FREQ(f) $rtoi(f * $pow(2,PHASE_SIZE) / (SAMPLING * 1000.0))
 
 reg [PHASE_SIZE-1:0] freq = 0;
 reg [PHASE_SIZE-1:0] freq_counter = 0;
@@ -96,7 +97,7 @@ i2s_tx #(
     .right_chan (out)
 );
 
-always @(posedge divider[10]) begin
+always @(posedge divider[23]) begin
     if (!USER_BUTTON) begin
         freq <= tones[freq_counter];
         freq_counter <= freq_counter + 1;

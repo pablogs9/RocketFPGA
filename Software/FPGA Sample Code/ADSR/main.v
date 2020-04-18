@@ -92,7 +92,6 @@ wire signed [BITSIZE-1:0] out;
 multiplier #(
     .BITSIZE(BITSIZE),
 ) M1 (
-    .clk(OSC),
 	.in1({envelope}),
 	.in2(sineout),
     .out(out),
@@ -108,6 +107,6 @@ i2s_tx #(
     .right_chan (out)
 );
 
-// assign LED = divider[24];
+assign LED = divider[24];
 
 endmodule

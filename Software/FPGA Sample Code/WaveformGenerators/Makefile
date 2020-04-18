@@ -3,7 +3,7 @@
 #----------------------------------------
 NAME = main
 PINS = ../Utils/pins.pcf
-PORT = /dev/tty.usbmodem1411
+PORT = /dev/ttyACM1
 
 #-------------------------------------------------------
 #-- Objetivo por defecto: hacer simulacion y sintesis
