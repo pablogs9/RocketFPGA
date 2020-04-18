@@ -587,10 +587,15 @@ void main()
 				break;
 			case 'f':
 				osc_1 = osc_1 + 4473900;
-
 				break;
 			case 'v':
 				osc_1 = osc_1 - 4473900;
+				break;
+			case 'g':
+				osc_1 = osc_1 * 3;
+				break;
+			case 'b':
+				osc_1 = osc_1 / 7;
 				break;
 			default:
 				continue;

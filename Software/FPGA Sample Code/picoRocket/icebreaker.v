@@ -148,7 +148,7 @@ module icebreaker (
 		.flash_io2_oe (flash_io2_oe),
 		.flash_io3_oe (flash_io3_oe),
 
-		.flash_io0_do (flash_io0_do),
+		.flash_io0_do (flash_io0_do_rv),
 		.flash_io1_do (flash_io1_do),
 		.flash_io2_do (flash_io2_do),
 		.flash_io3_do (flash_io3_do),
@@ -172,7 +172,9 @@ module icebreaker (
 
 	// DANGER ZONE
 	wire flash_clk_rv, flash_clk_codec;
+	wire flash_io0_do_rv, flash_io0_do_codec;
 	assign flash_clk = (codec_conf_done) ? flash_clk_rv : flash_clk_codec;
+	assign flash_io0_do = (codec_conf_done) ? flash_io0_do_rv : flash_io0_do_codec;
 	wire codec_conf_done;
 
 	// Audio path
@@ -193,7 +195,7 @@ module icebreaker (
 		.SAMPLING(SAMPLING),
 	)conf (
 		.clk(divider[6]),
-		.spi_mosi(flash_io0), 
+		.spi_mosi(flash_io0_do_codec), 
 		.spi_sck(flash_clk_codec),
 		.cs(CODEC_CS),
 		.prereset(1'b1),
