@@ -3,8 +3,25 @@ import serial
 import time
 import argparse
 import sys
+import math
+
+SECTOR_SIZE = 4*1024  # 4 KB sectors
 
 def writeBytes(ser, d, offset):
+    # Erasing required sectors
+    first_sector = math.floor(offset/SECTOR_SIZE)
+    last_sector = math.floor((offset + len(d))/SECTOR_SIZE) + 1
+
+    print("Erasing memory from 0x{:06X} to 0x{:06X}".format(first_sector, last_sector))
+
+    if not (offset/SECTOR_SIZE).is_integer():
+        print("WARNING: erasing sectors previous to required offset")
+        print("Erasing starts at: {:d}".format(math.floor(offset/SECTOR_SIZE)*SECTOR_SIZE))
+
+    ser.write(bytearray([ord('S')]))
+    ser.write(int(first_sector).to_bytes(2, byteorder='little'))
+    ser.write(int(last_sector).to_bytes(2, byteorder='little'))
+
     # Writing start address
     ser.write(bytearray([ord('M')]))
     ser.write(int(offset).to_bytes(4, byteorder='little'))
@@ -16,11 +33,7 @@ def writeBytes(ser, d, offset):
     # Writing data
     for i,c in enumerate(d):
         ser.write([c])
-        if i == 1:
-            print("Erasing memory")
-        else:
-            print("Writing: {:.2f}%".format(100*i/len(d)), end="\r")
-        # ack = ser.read()
+        print("Writing: {:.2f}%".format(100*i/len(d)), end="\r")
 
 def readBytes(ser,l, offset):
     # Writing start address
@@ -45,7 +58,7 @@ def readBytes(ser,l, offset):
 def start_flash(port, baudrate, file, offset, no_verify):
     try:
         ser = serial.Serial(port,baudrate)
-        ser.rts = 1
+        ser.rts = 0
     except serial.serialutil.SerialException:
         print("The port '{}' could not be oppended at {} bauds".format(port, baudrate))
         exit()
@@ -68,10 +81,10 @@ def start_flash(port, baudrate, file, offset, no_verify):
     
     if not no_verify:
         now = time.time()
-        data = readBytes(ser, dlen, offset)
+        rxdata = readBytes(ser, dlen, offset)
         reading_time = time.time()-now
-        print("Reading time {:.2f}s ({:.2f} KB/s)".format(reading_time, (len(txdata)/1024)/reading_time))
-        print("DATA VERIFIED: " + str(all([x == ord(y) for (x,y) in zip(txdata,data)])))
+        print("Reading time {:.2f}s ({:.2f} KB/s)".format(reading_time, (len(rxdata)/1024)/reading_time))
+        print("DATA VERIFIED: " + str(all([x == y for (x,y) in zip(txdata,list(rxdata))])))
     
     ser.write(bytearray([ord('A')]))
     ser.close() 
@@ -96,5 +109,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     # start_flash(args.port, args.baudrate, args.file, args.no_verify)
-    start_flash(args.port, args.baudrate, args.file, args.offset, True)
+    start_flash(args.port, args.baudrate, args.file, args.offset, args.no_verify)
 
