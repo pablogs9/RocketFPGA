@@ -2,3 +2,4 @@
 *.elf
 *.lds
 *.rpt
+*.s

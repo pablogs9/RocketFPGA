@@ -158,7 +158,7 @@ module icebreaker (
 		.flash_io2_di (flash_io2_di),
 		.flash_io3_di (flash_io3_di),
 
-		.irq_5        (1'b0        ),
+		.irq_5        (DACLRC      ),
 		.irq_6        (1'b0        ),
 		.irq_7        (1'b0        ),
 

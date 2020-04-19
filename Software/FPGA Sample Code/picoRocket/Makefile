@@ -1,5 +1,5 @@
 
-CROSS=/opt/riscv32ic/bin/riscv32-unknown-elf-
+CROSS=/opt/riscv32i/bin/riscv32-unknown-elf-
 CFLAGS=
 DEV=/dev/ttyACM1
 
@@ -21,7 +21,7 @@ icebreaker_sections.lds: sections.lds
 	$(CROSS)cpp -P -DICEBREAKER -o $@ $^
 
 icebreaker_fw.elf: icebreaker_sections.lds start.s firmware.c
-	$(CROSS)gcc $(CFLAGS) -DICEBREAKER -march=rv32ic -mabi=ilp32 -Wl,-Bstatic,-T,icebreaker_sections.lds,--strip-debug -ffreestanding -static-libgcc -lgcc -nostdlib -o icebreaker_fw.elf start.s firmware.c /opt/riscv32ic/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+	$(CROSS)gcc $(CFLAGS) -DICEBREAKER -march=rv32i -mabi=ilp32 -Wl,-Bstatic,-T,icebreaker_sections.lds,--strip-debug -ffreestanding -static-libgcc -lgcc -nostdlib -o icebreaker_fw.elf  start.S firmware.c /opt/riscv32ic/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
 
 icebreaker_fw.hex: icebreaker_fw.elf
 	$(CROSS)objcopy -O verilog icebreaker_fw.elf icebreaker_fw.hex
@@ -32,10 +32,10 @@ icebreaker_fw.bin: icebreaker_fw.elf
 # Clean
 
 clean:
-	rm -f icebreaker_sections.lds icebreaker_fw.elf icebreaker_fw.hex icebreaker_fw.bin icebreaker.bin icebreaker.asc icebreaker.json
+	rm -f icebreaker_sections.lds icebreaker_fw.elf icebreaker_fw.hex icebreaker_fw.bin icebreaker.bin icebreaker.asc icebreaker.json start.s
 
 clean_fw:
-	rm -f icebreaker_fw.elf icebreaker_fw.hex icebreaker_fw.bin
+	rm -f icebreaker_fw.elf icebreaker_fw.hex icebreaker_fw.bin start.s
 
 clean_gw:
 	rm -f icebreaker.bin icebreaker.asc icebreaker.json

@@ -71,15 +71,14 @@ module picosoc (
 	input  flash_io3_di
 );
 	parameter [0:0] BARREL_SHIFTER = 1;
-	parameter [0:0] ENABLE_MULDIV = 1;
-	parameter [0:0] ENABLE_COMPRESSED = 1;
+	parameter [0:0] ENABLE_MULDIV = 0;
+	parameter [0:0] ENABLE_COMPRESSED = 0;
 	parameter [0:0] ENABLE_COUNTERS = 1;
-	parameter [0:0] ENABLE_IRQ_QREGS = 0;
 
 	parameter integer MEM_WORDS = 256;
 	parameter [31:0] STACKADDR = (4*MEM_WORDS);       // end of memory
 	parameter [31:0] PROGADDR_RESET = 32'h 0010_0000; // 1 MB into flash
-	parameter [31:0] PROGADDR_IRQ = 32'h 0000_0000;
+	parameter [31:0] PROGADDR_IRQ = 32'h 0010_0010;
 
 	reg [31:0] irq;
 	wire irq_stall = 0;
@@ -140,12 +139,11 @@ module picosoc (
 		.ENABLE_MUL(ENABLE_MULDIV),
 		.ENABLE_DIV(ENABLE_MULDIV),
 		.ENABLE_IRQ(1),
-		.ENABLE_IRQ_QREGS(ENABLE_IRQ_QREGS),
 		.ENABLE_REGS_DUALPORT(1),
 		.TWO_STAGE_SHIFT(1),  // Disabling this saves 100 LUTs
 		.ENABLE_FAST_MUL(0),
 		.ENABLE_IRQ(1),
-		.ENABLE_IRQ_QREGS(1),
+		.ENABLE_IRQ_QREGS(0),
 	) cpu (
 		.clk         (clk        ),
 		.resetn      (resetn     ),
