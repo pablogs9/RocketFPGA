@@ -21,7 +21,8 @@ icebreaker_sections.lds: sections.lds
 	$(CROSS)cpp -P -DICEBREAKER -o $@ $^
 
 icebreaker_fw.elf: icebreaker_sections.lds start.s firmware.c
-	$(CROSS)gcc $(CFLAGS) -DICEBREAKER -march=rv32i -mabi=ilp32 -Wl,-Bstatic,-T,icebreaker_sections.lds,--strip-debug -ffreestanding -static-libgcc -lgcc -nostdlib -o icebreaker_fw.elf  start.S firmware.c /opt/riscv32ic/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+	$(CROSS)gcc $(CFLAGS) -DICEBREAKER -march=rv32i -mabi=ilp32 -Wl,-Bstatic,-T,icebreaker_sections.lds,--strip-debug -ffreestanding -static-libgcc -lgcc -nostdlib -o icebreaker_fw.elf  start.S firmware.c /opt/riscv32i/lib/gcc/riscv32-unknown-elf/8.2.0/libgcc.a
+	$(CROSS)objdump -d icebreaker_fw.elf > icebreaker_fw.map
 
 icebreaker_fw.hex: icebreaker_fw.elf
 	$(CROSS)objcopy -O verilog icebreaker_fw.elf icebreaker_fw.hex

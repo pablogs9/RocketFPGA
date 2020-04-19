@@ -158,7 +158,7 @@ module icebreaker (
 		.flash_io2_di (flash_io2_di),
 		.flash_io3_di (flash_io3_di),
 
-		.irq_5        (DACLRC      ),
+		.irq_5        (divider[24]),
 		.irq_6        (1'b0        ),
 		.irq_7        (1'b0        ),
 
@@ -177,13 +177,18 @@ module icebreaker (
 	assign flash_io0_do = (codec_conf_done) ? flash_io0_do_rv : flash_io0_do_codec;
 	wire codec_conf_done;
 
+	reg old_DACLR;
+	always @(clk) begin
+		old_DACLR <= divider[24];
+	end
+
 	// Audio path
 
 	localparam BITSIZE = 16;
 	localparam SAMPLING = 96;
 
 	// Clocking and reset
-	reg [8:0] divider;
+	reg [26:0] divider;
 	always @(posedge OSC) begin
 		divider <= divider + 1;
 	end
