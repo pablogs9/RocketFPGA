@@ -155,7 +155,8 @@ module icebreaker (
 		.flash_io2_di (flash_io2_di),
 		.flash_io3_di (flash_io3_di),
 
-		.irq_5        (sample_irq),
+		.irq_4        (sample_irq),
+		.irq_5        (1'b0        ),
 		.irq_6        (1'b0        ),
 		.irq_7        (1'b0        ),
 
@@ -168,6 +169,7 @@ module icebreaker (
 	);
 
 	// DANGER ZONE
+	// Consider enabling MCU clock when codec_conf_done
 	wire flash_clk_rv, flash_clk_codec;
 	wire flash_io0_do_rv, flash_io0_do_codec;
 	assign flash_clk = (codec_conf_done) ? flash_clk_rv : flash_clk_codec;
@@ -183,7 +185,7 @@ module icebreaker (
 	// Audio path
 
 	localparam BITSIZE = 16;
-	localparam SAMPLING = 96;
+	localparam SAMPLING = 48;
 
 	// Clocking and reset
 	reg [26:0] divider;

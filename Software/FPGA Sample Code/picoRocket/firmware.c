@@ -34,6 +34,9 @@ extern uint32_t sram;
 #define reg_led (*(volatile uint32_t*)0x03000000)
 #define osc_1 (*(volatile uint32_t*)0x04000000)
 
+// volatile uint8_t irq_regs[32];
+// volatile uint8_t irq_regs1[128];
+// volatile uint8_t irq_stack[128];
 
 void putchar(char c)
 {
@@ -49,7 +52,7 @@ void print(const char *p)
 }
 
 
-uint32_t counter_frequency = 12000000;  /* 50 times per second */
+uint32_t counter_frequency = 12000000;;  /* 50 times per second */
 
 // IRQ Handling
 
@@ -67,6 +70,8 @@ uint32_t set_timer_counter(uint32_t val); asm (
     "ret\n"
 );
 
+uint32_t sample_counter = 0;
+
 uint32_t *irq(uint32_t *regs, uint32_t irqs){
 	/* fast IRQ (4) */
 	// if ((irqs & (1<<4)) != 0) {
@@ -74,16 +79,30 @@ uint32_t *irq(uint32_t *regs, uint32_t irqs){
 	// }
 
 	/* slow IRQ (5) */
-	if ((irqs & (1<<5)) != 0) {
-		print("[EXT-IRQ-5]\n");
+	if ((irqs & (1<<4)) != 0) {
+		sample_counter++;
+		// print("[EXT-IRQ-5]\n");
+
+		if (sample_counter > 48000)
+		{
+			sample_counter = 0;
+			print("[EXT-IRQ-5]\n");
+		}
 	}
+		
+	// 	// print("[EXT-IRQ-5]\n");
+	// }
+
 
 	/* timer IRQ */
-	if ((irqs & 1) != 0) {
-		// retrigger timer
-		set_timer_counter(counter_frequency);
-		print("[IRQ_TIMER]\n");
-	}
+	// if ((irqs & 1) != 0) {
+	// 	set_timer_counter(counter_frequency);
+	// 	// print("[IRQ_TIMER]\n");
+	// 	reg_led = ~reg_led;
+	// 	print_hex(sample_counter,8);
+	// 	print("\n");
+	// 	sample_counter = 0;
+	// }
 	return regs;
 }
 // --------------------------------------------------------
@@ -145,7 +164,7 @@ char getchar_prompt(char *prompt)
 	uint32_t cycles_begin, cycles_now, cycles;
 	__asm__ volatile ("rdcycle %0" : "=r"(cycles_begin));
 
-	reg_led = ~0;
+	// reg_led = ~0;
 
 	if (prompt)
 		print(prompt);
@@ -157,80 +176,18 @@ char getchar_prompt(char *prompt)
 			if (prompt)
 				print(prompt);
 			cycles_begin = cycles_now;
-			reg_led = ~reg_led;
+			// reg_led = ~reg_led;
 		}
 		c = reg_uart_data;
 	}
 
-	reg_led = 0;
+	// reg_led = 0;
 	return c;
 }
 
 char getchar()
 {
 	return getchar_prompt(0);
-}
-
-uint32_t xorshift32(uint32_t *state)
-{
-	/* Algorithm "xor" from p. 4 of Marsaglia, "Xorshift RNGs" */
-	uint32_t x = *state;
-	x ^= x << 13;
-	x ^= x >> 17;
-	x ^= x << 5;
-	*state = x;
-
-	return x;
-}
-
-void cmd_memtest()
-{
-	int cyc_count = 5;
-	int stride = 256;
-	uint32_t state;
-
-	volatile uint32_t *base_word = (uint32_t *) 0;
-	volatile uint8_t *base_byte = (uint8_t *) 0;
-
-	print("Running memtest ");
-
-	// Walk in stride increments, word access
-	for (int i = 1; i <= cyc_count; i++) {
-		state = i;
-
-		for (int word = 0; word < MEM_TOTAL / sizeof(int); word += stride) {
-			*(base_word + word) = xorshift32(&state);
-		}
-
-		state = i;
-
-		for (int word = 0; word < MEM_TOTAL / sizeof(int); word += stride) {
-			if (*(base_word + word) != xorshift32(&state)) {
-				print(" ***FAILED WORD*** at ");
-				print_hex(4*word, 4);
-				print("\n");
-				return;
-			}
-		}
-
-		print(".");
-	}
-
-	// Byte access
-	for (int byte = 0; byte < 128; byte++) {
-		*(base_byte + byte) = (uint8_t) byte;
-	}
-
-	for (int byte = 0; byte < 128; byte++) {
-		if (*(base_byte + byte) != (uint8_t) byte) {
-			print(" ***FAILED BYTE*** at ");
-			print_hex(byte, 4);
-			print("\n");
-			return;
-		}
-	}
-
-	print(" passed\n");
 }
 
 void cmd_echo()
@@ -267,13 +224,11 @@ void cmd_echo()
 void main()
 {
 	reg_uart_clkdiv = 104;
+
 	print("Booting..\n");
 
 	// Set SPI dual mode
 	reg_spictrl = (reg_spictrl & ~0x007f0000) | 0x00400000;
-
-	print("Enabling IRQs..\n");
-    set_irq_mask(0x00);
 
 	while (getchar_prompt("Press ENTER to continue..\n") != '\n') { /* wait */ }
 
@@ -288,14 +243,24 @@ void main()
 	print(" The Hardcore Audio Processor\n");
 	print("\n");
 
-	print("Total memory: ");
-	print_dec(MEM_TOTAL / 1024);
-	print(" KiB\n");
-	print("\n");
+	// print("Total memory: ");
+	// print_dec(MEM_TOTAL / 1024);
+	// print(" KiB\n");
+	// print("\n");
 
-	cmd_memtest();
-	print("\n");
+	// cmd_memtest();
+	// print("\n");
 
+	set_timer_counter(counter_frequency);
+	print("Enabling IRQs..\n");
+    set_irq_mask(0x00);
+
+	// while (1)
+	// {
+	// 	// print_hex(sample_counter,8);
+	// 	// print("\n");
+	// }
+	
 
 	osc_1 = 0;
 
@@ -330,17 +295,14 @@ void main()
 
 			switch (cmd)
 			{
-			case 'M':
-				cmd_memtest();
-				break;
 			case 'e':
 				cmd_echo();
 				break;
 			case 'f':
-				osc_1 = osc_1 + 4473900;
+				osc_1 = osc_1 + 1;
 				break;
 			case 'v':
-				osc_1 = osc_1 - 4473900;
+				osc_1 = osc_1 - 1;
 				break;
 			case 'g':
 				osc_1 = osc_1 * (double)0.457;

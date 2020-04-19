@@ -45,6 +45,7 @@ module picosoc (
 	output [31:0] iomem_wdata,
 	input  [31:0] iomem_rdata,
 
+	input  irq_4,
 	input  irq_5,
 	input  irq_6,
 	input  irq_7,
@@ -82,7 +83,7 @@ module picosoc (
 	always @* begin
 		irq = 0;
 		irq[3] = irq_stall;
-		irq[4] = irq_uart;
+		irq[4] = irq_4;
 		irq[5] = irq_5;
 		irq[6] = irq_6;
 		irq[7] = irq_7;
@@ -128,16 +129,17 @@ module picosoc (
 		.STACKADDR(STACKADDR),
 		.PROGADDR_RESET(PROGADDR_RESET),
 		.PROGADDR_IRQ(PROGADDR_IRQ),
-		.BARREL_SHIFTER(BARREL_SHIFTER),
-		.COMPRESSED_ISA(ENABLE_COMPRESSED),
-		.ENABLE_COUNTERS(ENABLE_COUNTERS),
-		.ENABLE_MUL(ENABLE_MULDIV),
-		.ENABLE_DIV(ENABLE_MULDIV),
+		.BARREL_SHIFTER(0),
+		.COMPRESSED_ISA(0),
+		.ENABLE_COUNTERS(1),
+		.ENABLE_MUL(0),
+		.ENABLE_DIV(0),
 		.ENABLE_IRQ(1),
 		.ENABLE_REGS_DUALPORT(1),
 		.TWO_STAGE_SHIFT(1),  // Disabling this saves 100 LUTs
 		.ENABLE_FAST_MUL(0),
 		.ENABLE_IRQ_QREGS(0),
+		.ENABLE_IRQ_TIMER(1),
 	) cpu (
 		.clk         (clk        ),
 		.resetn      (resetn     ),
